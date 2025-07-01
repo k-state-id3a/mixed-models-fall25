@@ -1,0 +1,165 @@
+```{r}
+knitr::opts_chunk$set(fig.width=8, fig.height=4) 
+```
+
+## Library  
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(agridat)
+library(tidyverse)
+library(glmmTMB)
+library(DHARMa)
+library(emmeans)
+library(multcomp)
+```
+
+```{r}
+options(contrasts = c("contr.sum", "contr.poly"))
+```
+
+## Example I  
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+dat <- omer.sorghum
+dat <- dat %>% 
+  filter(env == "E3")
+
+dat %>% 
+  ggplot(aes(gen, yield))+
+  geom_boxplot()
+
+m_rcbd <- glmmTMB(yield ~ gen + (1|rep), data = dat)
+
+simulateResiduals(m_rcbd, plot = TRUE)
+```
+
+
+```{r}
+car::Anova(m_rcbd)
+```
+
+```{r}
+marginal_means <- emmeans(m_rcbd, ~gen)
+
+cld(marginal_means, 
+    adjust = "sidak", 
+    Letters = letters)
+```
+
+```{r}
+m_rcbd_fixed <- glmmTMB(yield ~ gen + rep, data = dat)
+marginal_means_fixed <- emmeans(m_rcbd_fixed, ~gen)
+
+
+marginal_means_fixed
+
+cld(marginal_means, 
+    adjust = "sidak", 
+    Letters = letters)
+```
+
+
+## Example II  
+
+```{r}
+dat <- yates.oats
+dat$nf <- factor(dat$nitro)
+
+m_splitplot <- glmmTMB(yield ~ gen*nf + (1|block/gen), data = dat)
+
+summary(m_splitplot)
+
+simulateResiduals(m_splitplot, plot = TRUE)
+```
+
+```{r}
+car::Anova(m_splitplot)
+```
+
+```{r}
+marginal_means_splitplot <- emmeans(m_splitplot, ~nf)
+marginal_means_splitplot <- emmeans(m_splitplot, ~gen:nf)
+```
+
+
+```{r}
+cld(marginal_means_splitplot, 
+    adjust = "sidak", 
+    Letters = letters)
+```
+
+## Example III  
+
+```{r}
+options(contrasts = c("contr.treatment", "contr.poly"))
+
+dd_temp <- read.csv("../../data/temperature_2.csv")
+dd_temp$Pig <- as.factor(dd_temp$Pig)
+dd_temp$Treatment <- as.factor(dd_temp$Treatment)
+dd_temp$Pen <- as.factor(dd_temp$Pen)
+dd_temp$Time <- as.factor(dd_temp$Time)
+dd_temp$Temperature_F <- (dd_temp$Temperature_C *9/5) + 32  
+
+m_repeated <- glmmTMB(Temperature_C ~ Treatment * Time + ar1(1 + Time |Pen),
+              family = gaussian(link = "identity"),
+              data = dd_temp)
+
+m_repeated <- glmmTMB(Temperature_F ~ Treatment * Time + ar1(1 + Time |Pen) ,
+              family = gaussian(link = "identity"),
+              data = dd_temp)
+
+res_repeated <- simulateResiduals(m_repeated, plot = TRUE)
+```
+```{r}
+summary(m_repeated)
+```
+
+
+```{r}
+marginal_means_temp <- emmeans(m_repeated, ~ Treatment|Time)
+
+cld(marginal_means_temp, 
+    adjust = "sidak", 
+    Letters = letters)
+```
+
+## Example IV  
+
+```{r}
+dd_fecal <- read.csv("../data/fecal_dm.csv")
+dd_fecal$Pig <- as.factor(dd_fecal$Pig)
+dd_fecal$Trt <- as.factor(dd_fecal$Trt)
+dd_fecal$Room <- as.factor(dd_fecal$Room)
+dd_fecal$Pen <- as.factor(dd_fecal$Pen)
+dd_fecal$Day <- as.factor(dd_fecal$Day)
+```
+
+```{r}
+dd_fecal %>% 
+  ggplot(aes(Day, dry_matter_perc))+
+  geom_point()+
+  facet_wrap(~Trt)
+```
+
+```{r}
+m_subsampling_repeated <- glmmTMB(dry_matter_perc ~ Trt * Day + 
+                                    ar1(1 + Day |Pig) + (1|Room/Pen),
+                                  family = gaussian(link = "identity"),
+                                  data = dd_fecal)
+
+res <- simulateResiduals(m_subsampling_repeated, plot = TRUE)
+```
+
+```{r}
+marginal_means_feces <- emmeans(m_subsampling_repeated, ~ Trt|Day)
+
+cld(marginal_means_feces, 
+    adjust = "sidak", 
+    Letters = letters)
+```
+
+```{r}
+m <- glmmTMB(dry_matter_perc ~ Trt * Day + (1|Room),
+        data = dd_fecal)
+(getME(m, "b"))
+```
+

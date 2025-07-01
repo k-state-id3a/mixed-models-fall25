@@ -1,0 +1,46 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(glmmTMB)
+library(DHARMa)
+library(agridat)
+```
+
+```{r}
+dat <- beall.webworms
+
+dat %>% 
+  ggplot(aes(trt, y))+
+  geom_boxplot()
+
+m1 <- glmmTMB(y ~ trt + (1|block),
+              family = poisson(link = "log"),
+              data  = dat)
+res1 <- simulateResiduals(m1, plot = T)
+
+```
+
+
+```{r}
+m2 <- glmmTMB(y ~ trt + (1|block),
+              family = nbinom1(link = "log"),
+              data  = dat)
+
+res2 <- simulateResiduals(m2, plot = T)
+summary(m2)
+```
+
+```{r}
+dat <- crowder.seeds
+
+m1 <- glmmTMB(cbind(germ, n-germ) ~ extract*gen,
+              family = binomial(link = "logit"),
+              data = dat)
+
+res1 <- simulateResiduals(m1, plot = T)
+
+summary(m1)
+```
