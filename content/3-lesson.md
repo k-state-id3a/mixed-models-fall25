@@ -6,377 +6,155 @@ topics: Non-normal data; Repeated Measures; Wrap-up
 
 
 {% capture text %}
-Mixed-effects models combine fixed effects and random effects. 
-Assuming $$\mathbf{y}$$ arises from a normal distribution, 
-we can define a mixed-effects model as 
-
-$$\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon}, \\ 
-\begin{bmatrix}\mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \left(
-\begin{bmatrix}\boldsymbol{0} \\ \boldsymbol{0} \end{bmatrix}, 
-\begin{bmatrix}\mathbf{G} & \boldsymbol{0} \\
-\boldsymbol{0} & \mathbf{R} \end{bmatrix} 
-\right),$$
-
-where $$\mathbf{y}$$ is the observed response, 
-$$\mathbf{X}$$ is the matrix with the explanatory variables, 
-$$\mathbf{Z}$$ is the design matrix,
-$$\boldsymbol{\beta}$$ is the vector containing the fixed-effects parameters, 
-$$\mathbf{u}$$ is the vector containing the random effects parameters, 
-$$\boldsymbol{\varepsilon}$$ is the vector containing the residuals, 
-$$\mathbf{G}$$ is the variance-covariance matrix of the random effects, 
-and $$\mathbf{R}$$ is the variance-covariance matrix of the residuals. 
-Typically, $$\mathbf{G} = \sigma^2_u \mathbf{I}$$ and $$\mathbf{R} = \sigma^2 \mathbf{I}$$.  
-If we do the math, we get that  
-
-$$E(\mathbf{y}) = \mathbf{X}\boldsymbol{\beta},$$
-
-$$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}.$$  
-
-**Now, that will change a bit if we assume other distributions for** $$\mathbf{y}$$.  
-
-
-**Fixed effects versus random effects**  
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixed vs Random Effects Table</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-    </style>
-</head>
-
-<body>
-
-<table>
-    <tr>
-        <th> </th>
-        <th>Fixed effects</th>
-        <th>Random effects</th>
-    </tr>
-    <tr>
-        <th>Where</th>
-        <td>Expected value</td>
-        <td>Variance-covariance matrix</td>
-    </tr>
-    <tr>
-        <th>Inference</th>
-        <td>Constant for all groups in the population of study</td>
-        <td>Differ from group to group</td>
-    </tr>
-    <tr>
-        <th>Usually used to model</th>
-        <td>Carefully selected treatments or genotypes</td>
-        <td>The study design (aka structure in the data, or what is similar to what)</td>
-    </tr>
-    <tr>
-        <th>Method of estimation</th>
-        <td>Maximum likelihood, least squares</td>
-        <td>Restricted maximum likelihood (shrinkage)</td>
-    </tr>
-</table>
-</body>
-
-{% endcapture %}
-{% include card.html text=text header= "Review" color="#a9d9a9" %}
-
-## Outline for today
-
--   **Distributions beyond the normal**  
--   **Defining your generalized linear model** 
--   **Applied examples**  
--   **Workshop wrap-up**: why mixed models are more important than ever.   
-
-------
-
-## Probability distributions -- normal and beyond  
-
-Generalized linear models (GLMs) differ from the General linear model in their distribution.   
-While the the general linear model assumes a normal distribution of the data, 
-(days 1 and 2), GLMs allow for any distribution from the exponential family.  
-The exponential family is a family of distributions that share common structure, but are 
-relatively different amon themselves. Some important distributions are:  
-- **For continuous data:** Normal, t, Gamma, Beta.
-- **For discrete data:** Binomial, Poisson, Negative Binomial.
-
-
-
-<body>
-
-<table>
-    <tr>
-        <td><strong>Normal distribution</strong>  
-        $$y \sim N(\mu, \sigma^2)$$
-        $$E(y) = \mu$$
-        $$Var(y) = \sigma^2$$
-        Support (i.e., possible values for y):
-        $$y \in (-\infty, +\infty)$$</td>
-        <td><img src="../images/day3/dist1_normal.png" alt="Normal distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Student t  distribution</strong>  
-        $$y \sim t_{\nu}(\mu, \sigma^2)$$
-        $$E(y) = \mu \text{ for } \nu>1 \text{, otherwise undefined}$$
-        $$Var(y) = \frac{\nu}{\nu-2}\sigma^2 \text{ for }
-        \\ \nu>2 \text{, otherwise undefined}$$
-        Support (i.e., possible values for y):
-        $$y \in (-\infty, +\infty)$$
-        </td>
-        <td><img src="../images/day3/dist2_t.png" alt="t distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Gamma distribution</strong>  
-        $$y \sim Gamma(\alpha, \beta)$$
-        $$E(y) = \frac{\alpha}{\beta}$$
-        $$Var(y) = \frac{\alpha}{\beta^2}$$
-        Support (i.e., possible values for y):
-        $$y \in (0, +\infty)$$</td>
-        <td><img src="../images/day3/dist3_gamma.png" alt="Gamma distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Beta distribution</strong>  
-        $$y \sim Beta(\alpha, \beta)$$
-        $$E(y) = \frac{\alpha}{\alpha+\beta}$$
-        $$Var(y) = \frac{\alpha \beta }{(\alpha+\beta)^2(\alpha+\beta+1)}$$
-        Support (i.e., possible values for y):
-        $$y \in (0, 1)$$</td>
-        <td><img src="../images/day3/dist4_beta.png" alt="Beta distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Poisson distribution</strong>  
-        $$y \sim Pois(\lambda)$$
-        $$E(y) = \lambda$$
-        $$Var(y) = \lambda$$
-        Support (i.e., possible values for y):
-        $$y \in (0, 1, 2, ..., +\infty)$$</td>
-        <td><img src="../images/day3/dist5_poisson.png" alt="Poisson distribution" width="300" height="300"></td>
-    </tr>
-</table>
-</body>
-
-
-------
-
-## Defining the statistical model -- a step-by-step approach  
-
-1. Identify the probability distribution of $$y$$.  
-2. State the linear predictor $$\eta$$ (random effects just like we did 
-for normally distributed data).   
-3. Identify a link function that connects $$E(y)$$ to $$\eta$$.   
-
-### Example I: 
-
-The data were generated by a designed experiment studying the effect of 
-different herbicide treatments on grain yield in an RCBD with 3 repetitions. 
-
-**1. Identify the probability distribution of $$y$$.**  
-
-Usually we can safely assume $$y_{ij} \sim N(\mu_{ij}, \sigma^2)$$.
-
-**2. State the linear predictor $$\eta$$ (random effects just like we did for normally distributed data).**
-
-Just like we were doing before:
-
-$$\eta_{ij} = \eta_0 + \tau_i + u_{j},$$
-
-where $$\eta_{ij}$$ is the linear predictor, 
-$$\eta_0$$ is the overall mean for the linear predictor, 
-$$\tau_i$$ is the (fixed) effect of the $$i$$th treatment on the linear predictor, 
-and $$u_{j}$$ is the (fixed/random) effect of the $$j$$th block on the linear predictor.
-
-**3. Identify a link function that connects $$E(y)$$ to $$\eta$$.**   
-
-Because we assume a normal distribution for the data, where one of the parameters (i.e., $$\mu$$)
-is actually the mean, we can use the identity link function = 
-
-$$\mu = \eta.$$
-
-### Example II: 
-
-The data were generated by a designed experiment studying the effect of 
-different herbicide treatments on weed damage (in %) in an RCBD with 3 repetitions. 
-
-**1. Identify the probability distribution of $$y$$.**  
-
-Because we are dealing with a proportion, we could assume 
-$$y_{ij} \sim Beta(\mu_{ij}, \psi_{ij})$$.
-
-**2. State the linear predictor $$\eta$$ (random effects just like we did for normally distributed data).**
-
-Just like we were doing before:
-
-$$\eta_{ij} = \eta_0 + \tau_i + u_{j},$$
-
-where $$\eta_{ij}$$ is the linear predictor, 
-$$\eta_0$$ is the overall mean for the linear predictor, 
-$$\tau_i$$ is the (fixed) effect of the $$i$$th treatment on the linear predictor, 
-and $$u_{j}$$ is the (fixed/random) effect of the $$j$$th block on the linear predictor.
-
-**3. Identify a link function that connects $$E(y)$$ to $$\eta$$.**   
-
-Because we assume a normal distribution for the data, where one of the parameters (i.e., $$\mu$$)
-is actually the mean, we can use the identity link function = 
-
-$$\text{logit}(\mu) = \eta.$$
-
-### Log-transformations  
-
-- Changes in the structure of the residuals: from normal to log-normal.  
-- What is the target variable we aim to study?  
-- *If the data are not Gaussian, we must make them “act Gaussian”, essentially amounts to the modeling version of the “when you have a hammer, try to make every problem look like a nail”* [(Stroup et al., 2024)](https://www.routledge.com/Generalized-Linear-Mixed-Models-Modern-Concepts-Methods-and-Applications/Stroup-Ptukhina-Garai/p/book/9781498755566?srsltid=AfmBOop80SBSwTFMCIzkiTtYe-5uir_Xnw2KVZxa1oXb4LJWrLRx0Wwq)
-- No one-size-fits-all recommendation.   
-
-------
-
-## Applied examples
-
-## Applied example I - counts  
-
-The following data come from an experiment designed to study 
-the effect of different treatments on the population of webworms 
-[(Beall, 1940)](https://doi.org/10.2307/1930285). 
-The experiment was an RCBD with 4 treatments and 13 repetitions.  
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <style>
-        pre {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            overflow-x: auto; /* Enables horizontal scrolling if the code is too wide */
-        }
-    </style>
-</head>
-<body>
-    <pre>
-<code>
-library(tidyverse)
-library(glmmTMB)
-library(DHARMa)
-library(agridat)
-</code>
-    </pre>
-</body>
-</html>
-
-
-
-{% highlight r %}
-dat <- beall.webworms
-
-m1 <- glmmTMB(y ~ trt + (1|block),
-              family = poisson(link = "log"),
-              data  = dat)
-
-res1 <- simulateResiduals(m1, plot = T)
-{% endhighlight %}
-
-{% include figure.html img="day3/DHARMa_example1a.png" alt="" caption="" width="80%" %}
-
-{% highlight r %}
-m2 <- glmmTMB(y ~ trt + (1|block),
-              family = nbinom1(link = "log"),
-              data  = dat)
-
-res2 <- simulateResiduals(m2, plot = T)
-summary(m2)
-{% endhighlight %}
-
-{% include figure.html img="day3/DHARMa_example1b.png" alt="" caption="" width="80%" %}
-
-
-{% highlight text %}
-##  Family: nbinom1  ( log )
-## Formula:          y ~ trt + (1 | block)
-## Data: dat
-## 
-##      AIC      BIC   logLik deviance df.resid 
-##   3012.4   3043.4  -1500.2   3000.4     1294 
-## 
-## Random effects:
-## 
-## Conditional model:
-##  Groups Name        Variance Std.Dev.
-##  block  (Intercept) 0.1034   0.3216  
-## Number of obs: 1300, groups:  block, 13
-## 
-## Dispersion parameter for nbinom1 family (): 0.308 
-## 
-## Conditional model:
-##             Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)  0.27106    0.10482   2.586  0.00971 ** 
-## trtT2       -0.97814    0.10155  -9.632  < 2e-16 ***
-## trtT3       -0.47650    0.08642  -5.514 3.51e-08 ***
-## trtT4       -1.20051    0.11028 -10.886  < 2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-{% endhighlight %}
-
-
-
-## Applied example II - successes  
-
-The following data arise from an experiment studying germination of 
-Orobanche seeds [(Crowder, 1978)](https://www.jstor.org/stable/2346223?origin=crossref&seq=1).  
-The data indicate the total number of seeds (`n`) and the number of germinated seeds (`germ`). 
-
-
-{% highlight r %}
-dat <- crowder.seeds
-
-m1 <- glmmTMB(cbind(germ, n-germ) ~ extract*gen,
-              family = binomial(link = "logit"),
-              data = dat)
-
-res1 <- simulateResiduals(m1, plot = T)
-{% endhighlight %}
-
-{% include figure.html img="day3/DHARMa_binomial.png" alt="" caption="" width="80%" %}
-
-{% highlight r %}
-summary(m1)
-{% endhighlight %}
-
-{% highlight text %}
-##  Family: binomial  ( logit )
-## Formula:          cbind(germ, n - germ) ~ extract * gen
-## Data: dat
-## 
-##      AIC      BIC   logLik deviance df.resid 
-##    117.9    122.1    -54.9    109.9       17 
-## 
-## 
-## Conditional model:
-##                        Estimate Std. Error z value Pr(>|z|)  
-## (Intercept)             -0.4122     0.1842  -2.238   0.0252 *
-## extractcucumber          0.5401     0.2498   2.162   0.0306 *
-## genO75                  -0.1459     0.2232  -0.654   0.5132  
-## extractcucumber:genO75   0.7781     0.3064   2.539   0.0111 *
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-{% endhighlight %}
 
+
+# Day 3: Generalized Linear Mixed Models - GLMMs
+
+Learning objectives:
+
+-   What are GLMMs
+
+-   What is a distributional assumption
+
+-   How to fit a GLMM
+
+$$
+\\[0.2in]
+$$
+
+## What are GLMMs
+
+-   Generalized Linear Models are models in which we can assume different distributions for our data beyond the Normal distribution.
+
+-   Similar to general linear models, GLMs can also have random effects, thus, Generalized Linear Mixed Models - GLMMs.
+
+$$
+\\[0.2in]
+$$
+
+### The structure of a GLMMs
+
+Remember that for a **LMMs**, assuming $\mathbf{y}$ arises from a normal distribution, we have:
+
+$$
+\mathbf{y = X\beta + Zu + \epsilon} \\ \mathbf{\begin{bmatrix} u \\ \epsilon \end{bmatrix} \sim \begin{pmatrix}  \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} G \; 0 \\ 0 \; R \end{bmatrix} \end{pmatrix}}
+$$
+
+In which:
+
+-   $\mathbf{X\beta}$ represents our fixed effects, where $\mathbf{X}$ is a matrix containing our explanatory variables and $\mathbf{\beta}$ a vector containing the fixed-effects parameters.
+
+-   $\mathbf{Zu}$ represents our random effects, where $\mathbf{Z}$ is a design matrix and $\mathbf{u}$ is the vector containing the random effects parameters.
+
+-   $\mathbf{\epsilon}$ is the vector containing the residuals.
+
+-   From $\mathbf{Zu + \epsilon}$ we have: $\mathbf{G}$ is the variance-covariance matrix of the random effects, and $\mathbf{R}$ is the variance-covariance matrix of the residuals.
+
+    -   $\mathbf{G = \sigma^2_uI}$ and $\mathbf{R = \sigma^2I}$, in which $\mathbf{I}$ is the identity matrix.
+
+Which is similar to:
+
+$$
+\mathbf{u} \sim N(0, I\sigma^2_u) \\
+\mathbf{\epsilon} \sim N(0, I\sigma^2)
+$$
+
+In this case:
+
+$$
+E(\mathbf{y}) = \mathbf{X\beta}, \\
+Var(\mathbf{y}) = \mathbf{ZGZ' + R}
+$$
+
+We can also write this model as:
+
+$$
+\mathbf{y} \sim N(\mathbf{X\beta}, \; \mathbf{ZGZ' + R})
+$$
+
+or:
+
+$$
+\mathbf{y} \sim N(\mathbf{X\beta}, \; \mathbf{\Sigma}) \\
+\mathbf{\Sigma} = \mathbf{ZGZ' + R}
+$$
+
+For **GLMMs** the structure changes based on the distribution we will assume for $\mathbf{y}$, but is very similar to the last notation presented. A generic definition would be:
+
+$$
+\mathbf{y|u} \sim P(\mu, \; \phi)
+$$
+
+In which:
+
+-   Linear predictor: $g(\mu) = \eta = \mathbf{X\beta + Zu}$
+
+    -   $g(\mu) = \eta$ is the link function applied to the expected value.
+
+    -   $E(\mathbf{y|u}) = \mu$.
+
+$$
+\\[0.2in]
+$$
+
+### Components of GLMMs
+
+#### Link Functions
+
+Our linear predictor $\mathbf{X\beta}$ can produce all possible values in the y-axis of a plot, from $- \; \infty$ to $+ \; \infty$ depending on the value of the predictor variable. A link function links the linear predictor and the distribution assumed for the data $\mathbf{y}$.
+
+In the **link scale**, the mean of $\mathbf{y}$ respect linearity of the linear predictor. In the **response scale**, the mean $\mathbf{\mu}$ is back transformed by the inverse link and respects the support of the distribution.
+
+The link function is applied to the expected value ($E(\mathbf{y})$), and not to the observations. Transformation of the observations also effect the error, while link functions only affect the parameters controlling the expected value.
+
+Example of link functions:
+
+| Link Function | Equation | Use | Why |
+|:----------------:|:----------------:|:----------------:|:----------------:|
+| **Identity Link** | $g(\mu) = \mu$ | Normal dist. | $E(\mathbf{y})$ can take any real value ($-\infty, \; +\infty$) |
+| **Logit Link** | $g(\mathbf{\mu}) = log(\frac{\mu}{1-\mu})$ | Logistic, Beta, Binomial dist. | $E(\mathbf{y})$ can take any values between 0 and 1. Maps $(0, \; 1) \rightarrow (-\infty, \; +\infty)$ |
+| **Log Link** | $g(\mu) = log(\mu)$ | Poisson, Gamma dist. | $E(\mathbf{y})$ can take any positive values ($\mu > 0$) |
+
+$$
+\\[0.2in]
+$$
+
+#### Distributional assumption for the data
+
+GLMMs support different distributions from the exponential family. Distributions from the exponential family share common structure, but are relatively different among themselves.
+
+-   **Assumption**: Something you take as true about your data or about the process that generated it!
+
+Important distributions to know are:
+
+-   **For continuous data**: Normal, t, Gamma, Beta.
+
+-   **For discrete data**: Binomial, Poisson, Negative Binomial.
+
+$$
+\\[0.2in]
+$$
+
+<center>
+
+#### **Normal distribution**
+
+</center>
+
+$$
+y \sim N(\mu, \; \sigma^2)
+$$
+
+$$
+E(y) = \mu \\
+Var(y) = \sigma^2
+$$
+
+**Support:**
+
+$$
+y \in (-\infty, \; +\infty)
+$$
 
 ## Wrap-up - Why hierarchical models are more important than ever  
 
