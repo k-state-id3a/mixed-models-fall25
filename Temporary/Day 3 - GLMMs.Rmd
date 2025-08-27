@@ -12,7 +12,7 @@ Learning objectives:
 
 -   What is a distributional assumption
 
--   How to fit a GLMM
+-   Working with GLMMs
 
 $$
 \\[0.2in]
@@ -51,8 +51,8 @@ In which:
 Which is similar to:
 
 $$
-\mathbf{u} \sim N(0, I\sigma^2_u) \\
-\mathbf{\epsilon} \sim N(0, I\sigma^2)
+\mathbf{u} \sim N(0, \mathbf{I}\sigma^2_u) \\
+\mathbf{\epsilon} \sim N(0, \mathbf{I}\sigma^2)
 $$
 
 In this case:
@@ -65,7 +65,7 @@ $$
 We can also write this model as:
 
 $$
-\mathbf{y} \sim N(\mathbf{X\beta}, \; \mathbf{ZGZ' + R})
+\mathbf{y} \sim N(\mathbf{X\boldsymbol{\beta}}, \; \mathbf{ZGZ' + R})
 $$
 
 or:
@@ -131,11 +131,7 @@ $$
 \\[0.2in]
 $$
 
-<center>
-
 #### **Normal distribution**
-
-</center>
 
 $$
 y \sim N(\mu, \; \sigma^2)
@@ -160,11 +156,11 @@ lines(x, dnorm(x, 2, 1), lty = 3)
 legend("topright", legend = c("x ~ Normal(0,1)", "x ~ Normal(0,16)", "x ~ Normal(2, 1)"), lty = c(1,2,3), bty = "n")
 ```
 
-<center>
+$$
+\\[0.05 in]
+$$
 
 #### **Student t distribution**
-
-</center>
 
 $$
 y\sim t_v(\mu, \; \sigma^2)
@@ -192,11 +188,11 @@ lines(x, dt(x, 2, 2), lty = 3)
 legend("topright", legend = c("x ~ t(2)", "x ~ t(100)", "x ~ t(2, 2)"), lty = c(1,2,3), bty = "n")
 ```
 
-<center>
+$$
+\\[0.05 in]
+$$
 
 #### **Gamma distribution**
-
-</center>
 
 $$
 y \sim Gamma(\alpha, \; \beta)
@@ -221,11 +217,11 @@ lines(x, dgamma(x, 3, 5), lty = 3)
 legend("topright", legend = c("x ~ Gamma(2, 2)", "x ~ Gamma(10, 2)", "x ~ Gamma(3, 5)"), lty = c(1,2,3), bty = "n")
 ```
 
-<center>
+$$
+\\[0.05 in]
+$$
 
 #### **Beta distribution**
-
-</center>
 
 $$
 y \sim Beta(\alpha, \; \beta)
@@ -250,11 +246,11 @@ lines(x, dbeta(x, 4, 2), lty = 3)
 legend("top", legend = c("x ~ Beta(0.5, 0.5)", "x ~ Beta(1, 1)", "x ~ Beta(4, 2)"), lty = c(1,2,3), bty = "n")
 ```
 
-<center>
+$$
+\\[0.05 in]
+$$
 
 #### **Poisson distribution**
-
-</center>
 
 $$
 y \sim Poisson(\lambda)
@@ -271,6 +267,8 @@ $$
 y \in (0, 1, 2, ..., +\infty)
 $$
 
+-   Model the number of events occurring in a fixed interval of time/space given a rate of occurrence ($\lambda$).
+
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 x <- seq(0, 17, 1)
 off.set <- 0.2
@@ -278,6 +276,40 @@ plot(x, dpois(x, 2), type = "h", lwd = 6, ylab = "[x]", xlab = "x", ylim = c(0, 
 lines(x + off.set, dpois(x, 6), type = "h", lwd = 6, col = adjustcolor("#757575", alpha.f = 1)) 
 lines(x + 2*off.set, dpois(x, 10), type = "h", lwd = 6, col = adjustcolor("#1E1E1E", alpha.f = 1))  
 legend("topright", legend = c("x ~ Pois(2)", "x ~ Pois(6)", "x ~ Pois(10)"), lty = c(1, 1, 1), lwd = 6, col = c("#C3C3C3", "#757575", "#1E1E1E"), bty = "n")
+```
+
+$$
+\\[0.05 in]
+$$
+
+#### Binomial distribution
+
+$$
+y \sim Binomial(n, p)
+$$
+
+$$
+E(y) = np \\
+Var(y) = np(1-p)
+$$
+
+**Support**:
+
+$$
+y \in (0, 1, ..., n) \\
+n \in (1, 2, ..., +\infty) \\
+p \in (0, 1)
+$$
+
+-   Model the number of successes in a fixed number of independent trials ($n$) with a given probability of success ($p$).
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+x <- seq(0, 11, 1)
+off.set <- 0.2
+plot(x, dbinom(x, 10, 0.2), type = "h", lwd = 6, ylab = "[x]", xlab = "x", ylim = c(0, 0.5), col = adjustcolor("#C3C3C3", alpha.f = 1)) 
+lines(x + off.set, dbinom(x, 10, 0.5), type = "h", lwd = 6, col = adjustcolor("#757575", alpha.f = 1)) 
+lines(x + 2*off.set,  dbinom(x, 10, 0.8), type = "h", lwd = 6, col = adjustcolor("#1E1E1E", alpha.f = 1))  
+legend("topright", legend = c("x ~ Binom(10, 0.2)", "x ~ Binom(10, 0.5)", "x ~ Binom(10, 0.8)"), lty = c(1, 1, 1), lwd = 6, col = c("#C3C3C3", "#757575", "#1E1E1E"), bty = "n")
 ```
 
 $$
@@ -294,153 +326,55 @@ $$
 \\[0.2 in]
 $$
 
-## Example I
+## Packages
 
-In this example we will evaluate two different responses, yield and disease severity. The data was generated from a designed experiment on fungicide efficacy to manage the disease know and yellow rust on wheat. The experimental design was a Randomized Complete Block Design (RCBD).
-
-### Yield
-
-1.  Define a distribution that matches $y$.
-
-$$
-y \sim N(\mu, \; \sigma^2)
-$$
-
--   Why?
-
-    -   Yields cannot be negative, but usually follow the normal bell-shaped pattern.
-
-2.  Define a linear predictor $\eta$
-
-$$
-\eta_{ij} = \mu_0 + t_i + u_j
-$$
-
--   Where:
-
-    -   $\mu_0$ represents the overall/gran mean.
-    -   $t_i$ is the parameter for the effect of treatment, in this case, fungicides - **Fixed effect.**
-    -   $u_j$ is the parameter for the effect of block - **Random effect.**
-
-3.  Define the link function that connects $E(y)$ of the assume distribution and the linear predictor $\eta$.
-
-<center>**Identity link**</center>
-
-$$
-g(\mu) = \eta = \mu
-$$
-
--   Why?
-
-    -   The linear predictor can produce values in the y-axis that range from $-\infty$ to $+\infty$, which matches the support of the assumed normal distribution, not requiring adjustments.
-
-    -   Remember the support of the normal distribution:
-
-$$
-y \in (-\infty, \; +\infty)
-$$
-
-#### **Analysis of yield**
-
-**Model**
-
-$$
-y_{ij}|u_j \sim N(\mu_{ij}, \; \sigma^2) \\ \mu_{ij} = \eta_{ij} = \mu_0 + t_i + u_j \\ u_j \sim N(0, \; \sigma^2_u)
-$$
-
-**Data**
+```{r, message=FALSE, warning=FALSE}
+library(emmeans)
+library(multcomp)
+library(car)
+library(DHARMa)
+library(glmmTMB)
+library(agridat)
+```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 library(readxl)
-library(ggplot2)
-library(emmeans)
+library(tidyverse)
 df <- read_excel("C:/Users/cdiasda/OneDrive - Kansas State University/Desktop/Doutorado/Laboratory and research/Workshops/Mixed Models Workshop/USA041.xlsx")
 df$trt <- as.factor(df$trt)
 df$rep <- as.factor(df$rep)
 
-d1 <- df[,c(1, 2, 34)]
-colnames(d1) <- c("fungicide", "block", "yield")
+# Severity data - Example 1
+d1 <- df[,c(1, 2, 18)]
+colnames(d1) <- c("fungicide", "block", "severity_o")
+d1$severity <- d1$severity_o/100
+
+# Germination data - Example 2
+d2 <- crowder.seeds
+d2$gen <- as.factor(d2$gen)
+d2$extract <- as.factor(d2$extract)
+
+# Count data - Example 3
+d3.1 <- read.csv("C:/Users/cdiasda/OneDrive - Kansas State University/Desktop/Doutorado/Laboratory and research/Workshops/Mixed Models Workshop/AartsmaHerbivoreAbundanceOikos.csv")
+d3.1 <- as.data.frame(d3.1)
+d3.1$Period <- as.factor(d3.1$Period)
+d3.1 <- filter(d3.1, Period == "2")
+d3 <- d3.1[,c(3, 4, 5, 10)]
+d3$Accession <- as.factor(d3$Accession)
+d3$Size <- as.factor(d3$Size)
+d3$Border <- as.factor(d3$Border)
+colnames(d3) <- c("variety", "plot_size", "border", "count")
 ```
+
+## Example I - Disease Severity
+
+In this example we will evaluate disease severity. The data was generated from a designed experiment on fungicide efficacy to manage the disease know as yellow rust on wheat. The experimental design was a Randomized Complete Block Design (RCBD). Severity refers to how much an specific plant organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
+
+**Data**
 
 ```{r, warning=FALSE, message=FALSE}
 print(d1)
 ```
-
-**Fitting the model**
-
-```{r, warning=FALSE, message=FALSE}
-library(glmmTMB)
-m1 <- glmmTMB(yield ~ fungicide + (1|block), data = d1)
-summary(m1)
-```
-
-**Checking the model - Residuals**
-
-```{r, warning=FALSE, message=FALSE}
-res <- residuals(m1, type = "pearson")
-fit_link <- predict(m1, type = "link")
-
-## QQ Plot
-qqnorm(res)
-qqline(res, col="red", lwd=2)
-
-## Residual vs Predicted
-plot(fit_link, res, ylab = "Residuals", xlab = "Predicted")
-```
-
-**What are we checking here?**
-
-Residuals: "The footprint of the fitted model" - How much model predictions deviate from observations.
-
-$$
-\epsilon_i = y_i - \hat{y}_i
-$$
-
-Pearson residuals that we used here: Difference divided by the standard deviation.
-
-$$
-\epsilon_i = \frac{y_i - \hat{y}_i}{sd(y_i)}
-$$
-
-What is the idea behind the QQ-Plot and the residual scatter plot?
-
--   QQ-Plot: Compare the quantiles[^1] of two distributions, if they are similar, we expect a straight diagonal line. In this case, in the y-axis we have the quantiles of our residuals and in the x-axis the quantiles of a standard normal distribution.
-
--   Residual vs Predict plot: Show whether we have homocedasticity of the variances (constant variance across predicted values) or not. Usually, if higher or lower predicted values have higher or lower variance, the plot will present a "funnel" shape. Ideally the plot is a random scatter of points.
-
--   Reminder: Here, assuming Normal distribution, we are checking the same assumption of a common linear regression:
-
-[^1]: Quantiles divide a dataset into equal-sized subsets, helping to understand more about the distribution of the data.
-
-$$
-\epsilon_i \sim i.i.d.N(0, \sigma^2)
-$$
-
-**Important note:** Here we are looking at conditional residuals (within block cluster), which includes the random effects. We compare each observation to its expected value given both fixed and random effects ($\overline{y}_{i.}|u_j \sim N(\mu_0 + t_i + u_j, \; \sigma^2)$).
-
-**ANOVA**
-
-```{r, warning=FALSE, message=FALSE}
-library(car)
-Anova(m1)
-```
-
-**Post-hoc test - Mean comparisons**
-
-```{r, warning=FALSE, message=FALSE}
-library(emmeans)
-library(multcomp)
-means <- emmeans(m1, ~ fungicide)
-cld(means, Letters = letters)
-```
-
-$$
-\\[0.2 in]
-$$
-
-### Severity
-
-Severity refers to how much an specific plant organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
 
 1.  Define a distribution that matches $y$.
 
@@ -486,51 +420,32 @@ $$
 y_{ij}|u_j \sim Beta(logit(\mu_{ij}), \; \phi) \\ logit(\mu_{ij}) = \eta_{ij} = \mu_0 + t_i + u_j \\ u_j \sim N(0, \sigma^2_u)
 $$
 
-**Data**
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-d2 <- df[,c(1, 2, 18)]
-colnames(d2) <- c("fungicide", "block", "severity_o")
-d2$severity <- d2$severity_o/100
-```
-
-```{r, warning=FALSE, message=FALSE}
-print(d2)
-```
-
 **Fitting the model**
 
 ```{r, warning=FALSE, message=FALSE}
-m2 <- glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), data = d2)
-summary(m2)
+m1 <- glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), data = d1)
+summary(m1)
 ```
 
 **Checking the model - Residuals**
 
-```{r, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE}
-res2 <- residuals(m2, type = "pearson")
-fit_link2 <- predict(m2, type = "link")
-
-## QQ Plot
-qqnorm(res2)
-qqline(res2, col="red", lwd=2)
-
-## Heterogeneity
-plot(fit_link2, res2, ylab = "Residuals", xlab = "Predicted")
-```
-
 ```{r, warning=FALSE, message=FALSE}
-library(DHARMa)
-res_sim2 <- simulateResiduals(m2, plot = TRUE)
+res_sim1 <- simulateResiduals(m1, plot = TRUE)
 ```
 
 **What are we checking here?**
 
-For linear mixed models our residuals are assumed to be normally distributed and with constant variance ($i.i.d. Normal$). In models with different distributional assumptions, residuals do not follow a known distribution, which makes it tricky to check models in a similar way we did before, it does not make much sense to test normality and homocedasticity here.
+Residuals: "The footprint of the fitted model" - How much model predictions deviate from observations.
+
+$$ \epsilon_i = y_i - \hat{y}_i $$
+
+For linear mixed models our residuals are assumed to be normally distributed and with constant variance ($\epsilon \sim i.i.d. N(0, \; \sigma^2_\epsilon)$). In models with different distributional assumptions, residuals do not follow a known distribution, which makes it tricky to check models in a similar way we did before.
 
 **What is each test doing?**
 
 -   QQ-Plot
+
+    -   Compare the quantiles[^1] of two distributions, if they are similar, we expect a straight diagonal line. In this case, in the y-axis we have the quantiles of our residuals and in the x-axis the quantiles of a standard normal distribution.
 
     -   Kolmogorov-Smirnov test: Test for uniformity against a uniform distribution - $Uniform(0, \; 1)$.
 
@@ -540,72 +455,213 @@ For linear mixed models our residuals are assumed to be normally distributed and
 
 -   Residual vs Predicted
 
-    -   Similar to before, we expect to see scatter points across predictions, with no trend.
+    -   Show whether we have homocedasticity of the variances (constant variance across predicted values) or not. Usually, if higher or lower predicted values have higher or lower variance, the plot will present a "funnel" shape. Ideally the plot is a random scatter of points.
 
     -   Fit smoothed splines in three points of the quantile residuals, 0.25, 0.50, and 0.75. Test whether these lines are flat or have trends. For a random scatter, we do not expect to see trends at any of these points, this would indicate heterocedasticity.
 
     -   It also indicated when outliers are detected by producing a red asterisk.
 
-**We can use simulated residuals - DHARMa (Residual Diagnostics for HierArchical Regression Models) package**
-
-What is DHARMa doing?
-
-1.   Simulate "new observations" (predictions) using fitted values ($\hat{\mu}$ and $\hat{\phi}$) as the model distribution parameters (simulate many "fake" data):
-
-$$
-y_i \sim Beta(\hat{\mu}_i, \; \hat{\phi})
-$$
-
-2.  Calculate the quantile for the cumulative distribution function (CDF)[^2]:
-
-[^2]: Cumulative distribution function (CDF) tells the probability that a random variable takes a value less than or equal $y$. How much of the mass lies bellow that point for a given distribution with defined parameters.
-
-$$
-r_{i, q} \sim CDF(y_i; \; \hat{\mu}, \; \hat{\phi})
-$$
-
--   The quantiles are our residuals here.
-
-3.  We check the residuals for correct model specification, we expect to see values between 0 and 1:
-
--   0 every simulated value is larger than $y_i$.
-
--   1 every simulated value is smaller or equal $y_i$.
-
--   0.5 $y_i$ is right in the middle of the simulated values.
-
-We expect that our residuals will look like an Uniform distribution: $r_{i,q} \sim Uniform(0, 1)$.
-
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-x <- seq(0, 1, by = 0.1)
-hist(dunif(x, 0, 1), ylab = "[x]", xlab = "x", main = "Uniform(0, 1)", freq = FALSE)
-```
-
-```{r, warning=FALSE, message=FALSE}
-hist(res_sim2$scaledResiduals, freq = FALSE, ylab = "[Residuals]", xlab = "Scaled Residuals", main = NULL)
-```
+[^1]: Quantiles divide a dataset into equal-sized subsets, helping to understand more about the distribution of the data.
 
 **ANOVA**
 
 ```{r, warning=FALSE, message=FALSE}
-Anova(m2)
+Anova(m1)
 ```
 
 **Post-hoc test - Mean comparisons**
 
 ```{r, warning=FALSE, message=FALSE}
-means2 <- emmeans(m2, ~fungicide, type = "response")
-cld(means2, Letters = letters)
+means1 <- emmeans(m1, ~fungicide, type = "response")
+cld(means1, Letters = letters)
 ```
 
 ### What if we made the wrong assumption for severity?
 
 ```{r, warning=FALSE, message=FALSE}
-m3 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log"), data = d2)
-res_sim3 <- simulateResiduals(m3, plot = TRUE)
+m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log"), data = d1)
+res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
+means1_2 <- emmeans(m1_2, ~fungicide, type = "response")
+cld(means1_2, Letters = letters)
 ```
 
-## Example 3 - Discrete response - ?
+## Example 2 - Seed germination
+
+The following data arise from an experiment studying germination of Orobanche seeds [(Crowder, 1978)](https://www.jstor.org/stable/2346223?origin=crossref&seq=1).\
+The data indicate the total number of seeds ($n$) and the number of germinated seeds ($germ$). The experiment was conducted as a completely randomized design with a 2 x 2 factorial treatment structure for type of extract (bean or cucumber) and extract concentration (o75 and o73).
+
+**Data**
+
+```{r, warning=FALSE, message=FALSE}
+print(d2)
+```
+
+1.  Define a distribution that matches $y$.
+
+$$ y \sim Binomial(n, \; p) $$
+
+-   Why?
+
+    -   We have the number of trials $n$
+
+    -   For each trial we have the number of successes $germ$
+
+    -   Remember the support for the Binomial distribution:
+
+$$ y \in (1, 2, ..., n) $$
+
+2.  Define a linear predictor $\eta$.
+
+$$ \eta_{ij} = \mu_0 + ex_i + gen_j + (ex*gen)_{ij}$$
+
+-   Where:
+
+    -   $\mu_0$ represents the overall/gran mean.
+    -   $ex_i$ is the parameter for the effect of extract - **Fixed effect.**
+    -   $gen_j$ is the parameter for the effect of dilution - **Fixed effect.**
+    -   $(ex*gen)_{ij}$ is the parameter for the effect of the interaction between the extract and the dilution.
+
+3.  Define the link function that connects $E(y)$ of the assume distribution and the linear predictor $\eta$.
+
+<center>**Logit link**</center>
+
+$$ g(p) = \eta = logit(p)$$
+
+-   Why?
+
+    -   Logit links $(-\infty, \; +\infty)$ to $(0, \; 1)$, that is our desired scale.
+
+**Fitting the model**
+
+```{r, warning=FALSE, message=FALSE}
+m2 <- glmmTMB(cbind(germ, n-germ) ~ extract*gen, family = binomial(link = "logit"), data = d2)
+summary(m2)
+```
+
+-   Different ways to fit the model with Binomial distribution - Depends on what you have.
+
+    -   **Important point:** Remember what we are modeling - Probability of success: $p$.
+
+    -   For **Binomial distribution:**
+
+        -   **Case 1:** $y$ = Counts of success with know trials - Success and Failures = (success, trials - success).
+
+        -   **Case 2:** $y$ = Counts of successes with weights - success/trials and weights = trials.
+
+            -   Only if proportions come from counts!
+
+        -   **Case 3:** A special case: $y$ = Binary outcomes (0/1 per observation) - Binomial with n = 1 - **Logistic regression**.
+
+    -   For **Beta distribution**:
+
+        -   **Case 4:** $y$ = Proportions not from counts (between 0 and 1) - No trial number, proportion only
+
+            -   Do not use Binomial distribution here!
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+# Case 1
+glmmTMB(cbind(germ, n-germ) ~ extract*gen, family = binomial(link = "logit"), data = data)
+
+# Case 2
+glmmTMB(germ/n ~ extract*gen, family = binomial(link = "logit"), weights = n, data = data)
+
+# Case 3 - If germinated = yes (1) / no (0)
+glmmTMB(germinated ~ extract*gen, family = binomial(link = "logit"), data = data)
+
+# Case 4 - From example 1 - Severity: Proportion of area damaged by disease
+glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), data = data)
+```
+
+For the logistic regression:
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+x <- c(0, 1)
+plot(x, dbinom(x, 1, 0.6), main = "x ~ Binom(1, 0.6)", type = "h", lwd = 6, ylab = "[x]", xlab = "x", ylim = c(0, 1), col = adjustcolor("#1E1E1E"))
+```
+
+**Checking the model**
+
+```{r, warning=FALSE, message=FALSE}
+res_sim2 <- simulateResiduals(m2, plot = TRUE)
+```
+
+**ANOVA**
+
+```{r, message=FALSE, warning=FALSE}
+Anova(m2)
+```
+
+**Marginal means**
+
+```{r, warning=FALSE, message=FALSE}
+emmeans(m2, ~extract*gen, type = "response")
+```
+
+## ?? Example 3 - Population count
+
+The following data comes from an experiment conducted to monitor population of two species of pest caterpillars (*Pieris brassica* and *Pieris rapae*) in cabbage (*Brassica oleraceae*). The trials was conducted as a completely randomized with a three way factorial treatment structure 2x2x2, for size of plot (small or large), with or without border (*Brassica nigra*), and variety (less attractive = Badger shipper or more attractice = "Christmas drumhead") ([Aartsma et al. 2020](https://doi.org/10.1111/oik.07484)).
+
+**Data**
+
+```{r, message=FALSE, warning=FALSE}
+print(d3)
+```
+
+1.  Define a distribution that matches $y$.
+
+$$ y \sim Poisson(\lambda) $$
+
+-   Why?
+
+    -   We have counts of events - Number of caterpillars per plot.
+
+    -   Remember the support for the Binomial distribution:
+
+$$ y \in (1, 2, ..., +\infty) $$
+
+2.  Define a linear predictor $\eta$.
+
+$$ \eta_{ij} = \mu_0 + $$
+
+-   Where:
+
+    -   $\mu_0$ represents the overall/gran mean.
+
+3.  Define the link function that connects $E(y)$ of the assume distribution and the linear predictor $\eta$.
+
+<center>**Log link**</center>
+
+$$ g(\lambda) = \eta = log(\lambda)$$
+
+-   Why?
+
+    -   Log ensures that the expected value will be positive.
+    -   Remember:
+
+$$
+\lambda \in \mathbb{R}^+
+$$
+
+**Fitting the model**
+
+```{r, message=FALSE, warning=FALSE}
+m3 <- glmmTMB(count ~ plot_size*border*variety, family = poisson(link = "log"), data = d3)
+summary(m3)
+```
+
+-   Always check for over dispersion! In Poisson, variance increases with the mean, once they are both controlled by $\lambda$. If this is not true, Negative Binomial distribution might be an alternative option.
+
+**Checking the model**
+
+```{r, message=FALSE, warning=FALSE}
+sim_res3 <- simulateResiduals(m3, plot = TRUE)
+```
+
+**Marginal means**
+
+```{r, message=FALSE, warning=FALSE}
+emmeans(m3, ~plot_size*border*variety, type = "response")
+```
 
 ## Hierarchical models
 
