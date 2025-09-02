@@ -1,6 +1,6 @@
 ---
 title: Fundamentals of linear mixed models 
-nav: Day 1
+nav: Part 1
 topics: Linear models review; Fixed effects vs. random effects
 ---
 
@@ -32,7 +32,7 @@ topics: Linear models review; Fixed effects vs. random effects
 
 ## Welcome!
 
-- [About me](https://jlacasa.github.io/).
+- About us:[Josefina](https://jlacasa.github.io/) and [Claudio](https://www.linkedin.com/in/claudio-dias-da-silva-jr-906432b9/).
 - About you.
   - Frequent responses to the registration survey.   
   - Some knowledge of the *existence* of mixed effects models.  
