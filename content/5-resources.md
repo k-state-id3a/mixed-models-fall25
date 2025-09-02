@@ -22,10 +22,11 @@ nav: Resources
 
 - [WTF: What They Forgot to teach you about R](https://rstats.wtf/)
 - [This blog post on troubleshooting `lme4`](https://rstudio-pubs-static.s3.amazonaws.com/33653_57fc7b8e5d484c909b615d8633c01d51.html)    
+- [This FAQ blog post on GLMMs](https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html)
 
 ### Credits  
 
-I am thankful for the following resources that were very useful to build this website:  
+We are thankful for the following resources that were very useful to build this website:  
 - [Wiki TOC generator](https://ecotrust-canada.github.io/markdown-toc/)
 - [evanwill's workshop template](https://github.com/evanwill/workshop-template-b)
 
