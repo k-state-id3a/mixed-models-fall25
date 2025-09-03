@@ -1,7 +1,7 @@
 ---
 title: Generalized linear mixed models
 nav: Part 3
-topics: Non-normal data; Repeated Measures; Wrap-up
+topics: Non-normal data; Wrap-up
 ---
 
 
