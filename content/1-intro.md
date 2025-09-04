@@ -616,13 +616,6 @@ where $$u$$ and $$\varepsilon$$ are independent.
             overflow-x: auto; /* Enables horizontal scrolling if the code is too wide */
         }
     </style>
-</head>
-<body>
-    <pre>
-<code>
-</code>
-    </pre>
-</body>
 </html>
 
 {% highlight r %}
