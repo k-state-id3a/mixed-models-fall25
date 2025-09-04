@@ -616,7 +616,6 @@ where $$u$$ and $$\varepsilon$$ are independent.
             overflow-x: auto; /* Enables horizontal scrolling if the code is too wide */
         }
     </style>
-</html>
 
 {% highlight r %}
 library(lme4)
