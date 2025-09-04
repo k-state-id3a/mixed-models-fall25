@@ -620,6 +620,12 @@ where $$u$$ and $$\varepsilon$$ are independent.
 <body>
     <pre>
 <code>
+</code>
+    </pre>
+</body>
+</html>
+
+{% highlight r %}
 library(lme4)
 library(tidyverse)
 library(emmeans)
@@ -632,10 +638,7 @@ m_fixed <- lm(yield ~ K2O_lbac + rep, data = df)
 m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 
 (mg_means_fixed <- emmeans(m_fixed, ~K2O_lbac, contr = list(c(1, 0, 0, 0, -1))))
-</code>
-    </pre>
-</body>
-</html>
+{% endhighlight %}
 
 {% highlight text %}
 ## $emmeans
