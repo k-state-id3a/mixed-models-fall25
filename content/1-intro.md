@@ -38,7 +38,7 @@ topics: Linear models review; Fixed effects vs. random effects
   - Some knowledge of the *existence* of mixed effects models.  
   - Mostly life sciences - often heteroscedasticity and dependent observations!  
 
-{% include figure.html img="day1/attendees.jpg" alt="Attendees counts" caption="Figure 1. Distribution of Departments attending this worksop" width="75%" id = "attendees" %}
+{% include figure.html img="day1/attendees.jpg" alt="Attendees counts" caption="Figure 1. Distribution of Departments attending this worksop" width="100%" id = "attendees" %}
 
 ## Housekeeping  
 
@@ -152,7 +152,7 @@ $$\beta_0$$ is the expected value for A,
 $$x_i = 0$$ if the $$i$$th observation belongs to A, and $$x_i = 1$$ if the $$i$$th observation belongs to B, 
 $$\beta_1$$ is the difference between A and B. 
 
-- What happens if the categorical predictor have more than two levels? 
+- What happens if the categorical predictor has more than two levels? 
 
 ## Variance-covariance matrices  
 
@@ -424,7 +424,7 @@ $$\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbo
 \begin{bmatrix}\mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \left(
 \begin{bmatrix}\boldsymbol{0} \\ \boldsymbol{0} \end{bmatrix}, 
 \begin{bmatrix}\mathbf{G} & \boldsymbol{0} \\
-\boldsymbol{0} & \mathbf{V} \end{bmatrix} 
+\boldsymbol{0} & \mathbf{R} \end{bmatrix} 
 \right),$$
 
 where $$\mathbf{y}$$ is the observed response, 
@@ -589,7 +589,7 @@ Some good references:
 -   Randomized Complete Block Design with 3 repetitions (design structure).  
 
 
-{% include figure.html img="day1/applied_example_rcbd.jpg" alt="" caption="Figure 5. Designed experiment. Colors indicate different genotypes." width="50%" id = "applied_ex" %}
+{% include figure.html img="day1/emmeans_blocks.jpg" alt="" caption="Figure 5. Designed experiment. Colors indicate different genotypes." width="50%" id = "applied_ex" %}
 
 ### Building the model  
 
@@ -620,137 +620,66 @@ where $$u$$ and $$\varepsilon$$ are independent.
 <body>
     <pre>
 <code>
-library(glmmTMB)
-library(agridat)
+library(lme4)
+library(tidyverse)
+library(emmeans)
+library(latex2exp)
 
-data(gilmour.serpentine)
-dd <- gilmour.serpentine
+df <- read.csv("cochrancox_kfert.csv")
+df$rep <- as.factor(df$rep)
+df$K2O_lbac <- as.factor(df$K2O_lbac)
+m_fixed <- lm(yield ~ K2O_lbac + rep, data = df)
+m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 
-m1 <- glmmTMB(yield ~ 1 + gen + rep, data = dd)
-m2 <- glmmTMB(yield ~ 1 + gen + (1|rep), data = dd)
-
-m1
-
+(mg_means_fixed <- emmeans(m_fixed, ~K2O_lbac, contr = list(c(1, 0, 0, 0, -1))))
 </code>
     </pre>
 </body>
 </html>
 
 {% highlight text %}
-## Formula:          yield ~ 1 + gen + rep
-## Data: dd
-##       AIC       BIC    logLik  df.resid 
-##  4159.176  4577.076 -1969.588       220 
+## $emmeans
+##  K2O_lbac emmean    SE df lower.CL upper.CL
+##  36         7.92 0.121  8     7.64     8.19
+##  54         8.12 0.121  8     7.84     8.40
+##  72         7.81 0.121  8     7.53     8.09
+##  108        7.58 0.121  8     7.30     7.86
+##  144        7.52 0.121  8     7.24     7.79
 ## 
-## Number of obs: 330
+## Results are averaged over the levels of: rep 
+## Confidence level used: 0.95 
 ## 
-## Dispersion estimate for gaussian family (sigma^2): 8.95e+03 
+## $contrasts
+##  contrast          estimate    SE df t.ratio p.value
+##  c(1, 0, 0, 0, -1)      0.4 0.171  8   2.344  0.0471
 ## 
-## Fixed Effects:
-## 
-## Conditional model:
-##     (Intercept)  gen(WqKPWmH*3Ag         genAMERY         genANGAS        genAROONA       genBATAVIA  
-##        720.2473          24.3341         -93.3320        -132.6651        -153.6650        -175.3316  
-##        genBD231        genBEULAH         genBLADE  genBT_SCHOMBURG        genCADOUX        genCONDOR  
-##        -70.3321        -173.6649        -269.9978         -48.9988        -223.3313        -124.3318  
-##     genCORRIGIN    genCUNNINGHAM  genDGR/MNX-9-9e    genDOLLARBIRD     genEXCALIBUR        genGOROKE  
-##       -217.6647        -254.6645         -47.6655        -200.6648         -54.9988        -141.6651  
-##      genHALBERD       genHOUTMAN          genJANZ      genK2011-5*       genKATUNGA         genKIATA  
-##        -53.3322        -209.3314        -214.6647         -87.3320        -110.3319        -165.6649  
-##         genKITE         genKULIN          genLARK         genLOWAN         genM4997         genM5075  
-##       -179.9982         -90.9986        -336.3308        -152.3317        -145.9984        -194.6648  
-##        genM5097       genMACHETE       genMEERING      genMOLINEUX        genOSPREY         genOUYEN  
-##       -102.6653        -231.3313        -247.6646        -165.6649        -161.9983        -136.6651  
-##        genOXLEY       genPELSART       genPEROUSE        genRAC655     genRAC655'S'        genRAC696  
-##       -221.6647        -200.3314        -283.6644        -112.6652        -113.6652          -3.6657  
-##       genRAC710        genRAC750        genRAC759        genRAC772        genRAC777        genRAC779  
-##        -50.9988         -77.3320         -41.9989           5.0009        -172.3316           3.6676  
-##       genRAC787        genRAC791        genRAC792        genRAC798        genRAC804        genRAC805  
-##       -117.9985         -72.6654        -102.3319          -1.6657         -44.9989         -42.9989  
-##       genRAC806        genRAC807        genRAC808        genRAC809        genRAC810        genRAC811  
-##        -35.3322         -91.3320         -53.9988         -43.3322        -131.6651          42.3340  
-##       genRAC812        genRAC813        genRAC814        genRAC815        genRAC816        genRAC817  
-##        -93.9986         -83.3320         -72.3321        -110.9985         -66.3321         -99.9986  
-##       genRAC818        genRAC819        genRAC820        genRAC821       genROSELLA    genSCHOMBURGK  
-##       -106.9986        -121.3318          -0.9991         -98.3319        -184.3315        -132.3318  
-##       genSHRIKE         genSPEAR      genSTILETTO        genSUNBRI      genSUNFIELD       genSUNLAND  
-##       -127.9985        -254.6645        -156.9983        -218.3314        -206.6647        -182.6649  
-##        genSWIFT        genTASMAN       genTATIARA     genTINCURRIN       genTRIDENT         genVF299  
-##       -196.9981        -160.9983         -64.3321         -18.9984        -132.6651         -66.3321  
-##        genVF300         genVF302         genVF508         genVF519         genVF655         genVF664  
-##       -111.6652        -108.3319          11.6675          -0.9991        -160.1644        -106.6652  
-##        genVG127         genVG503         genVG506         genVG701         genVG714         genVG878  
-##       -109.6652         -42.9989        -108.6652         -19.3323        -108.3319          52.3340  
-##      genWARBLER         genWI216         genWI221         genWI231         genWI232      genWILGOYNE  
-##       -216.9980           4.0009         -17.3323        -218.3314         -56.3321        -130.9984  
-##       genWW1402        genWW1477        genWW1831         genWYUNA    genYARRALINKA            repR2  
-##       -117.3318        -185.6643         -86.6653        -176.6649        -244.9979          96.0996  
-##           repR3  
-##       -129.8458
+## Results are averaged over the levels of: rep
 {% endhighlight %}
 
 
 {% highlight r %}
-m2
+(mg_means_random <- emmeans(m_random, ~K2O_lbac, contr = list(c(1, 0, 0, 0, -1))))
 {% endhighlight %}
 
 
 
 {% highlight text %}
-## Formula:          yield ~ 1 + gen + (1 | rep)
-## Data: dd
-##       AIC       BIC    logLik  df.resid 
-##  4174.135  4588.237 -1978.068       221 
-## Random-effects (co)variances:
+## $emmeans
+##  K2O_lbac emmean    SE   df lower.CL upper.CL
+##  36         7.92 0.162 5.57     7.51     8.32
+##  54         8.12 0.162 5.57     7.72     8.52
+##  72         7.81 0.162 5.57     7.41     8.21
+##  108        7.58 0.162 5.57     7.18     7.98
+##  144        7.52 0.162 5.57     7.11     7.92
 ## 
-## Conditional model:
-##  Groups   Name        Std.Dev.
-##  rep      (Intercept) 92.14   
-##  Residual             95.02   
+## Degrees-of-freedom method: kenward-roger 
+## Confidence level used: 0.95 
 ## 
-## Number of obs: 330 / Conditional model: rep, 3
+## $contrasts
+##  contrast          estimate    SE df t.ratio p.value
+##  c(1, 0, 0, 0, -1)      0.4 0.171  8   2.344  0.0471
 ## 
-## Dispersion estimate for gaussian family (sigma^2): 9.03e+03 
-## 
-## Fixed Effects:
-## 
-## Conditional model:
-##     (Intercept)  gen(WqKPWmH*3Ag         genAMERY         genANGAS        genAROONA       genBATAVIA  
-##         709.000           24.333          -93.333         -132.667         -153.667         -175.333  
-##        genBD231        genBEULAH         genBLADE  genBT_SCHOMBURG        genCADOUX        genCONDOR  
-##         -70.333         -173.667         -270.000          -49.000         -223.333         -124.333  
-##     genCORRIGIN    genCUNNINGHAM  genDGR/MNX-9-9e    genDOLLARBIRD     genEXCALIBUR        genGOROKE  
-##        -217.667         -254.667          -47.667         -200.667          -55.000         -141.667  
-##      genHALBERD       genHOUTMAN          genJANZ      genK2011-5*       genKATUNGA         genKIATA  
-##         -53.333         -209.333         -214.667          -87.333         -110.333         -165.667  
-##         genKITE         genKULIN          genLARK         genLOWAN         genM4997         genM5075  
-##        -180.000          -91.000         -336.333         -152.333         -146.000         -194.667  
-##        genM5097       genMACHETE       genMEERING      genMOLINEUX        genOSPREY         genOUYEN  
-##        -102.667         -231.333         -247.667         -165.667         -162.000         -136.667  
-##        genOXLEY       genPELSART       genPEROUSE        genRAC655     genRAC655'S'        genRAC696  
-##        -221.667         -200.333         -283.667         -112.667         -113.667           -3.667  
-##       genRAC710        genRAC750        genRAC759        genRAC772        genRAC777        genRAC779  
-##         -51.000          -77.333          -42.000            5.000         -172.333            3.667  
-##       genRAC787        genRAC791        genRAC792        genRAC798        genRAC804        genRAC805  
-##        -118.000          -72.667         -102.333           -1.667          -45.000          -43.000  
-##       genRAC806        genRAC807        genRAC808        genRAC809        genRAC810        genRAC811  
-##         -35.333          -91.333          -54.000          -43.333         -131.667           42.333  
-##       genRAC812        genRAC813        genRAC814        genRAC815        genRAC816        genRAC817  
-##         -94.000          -83.333          -72.333         -111.000          -66.333         -100.000  
-##       genRAC818        genRAC819        genRAC820        genRAC821       genROSELLA    genSCHOMBURGK  
-##        -107.000         -121.333           -1.000          -98.333         -184.333         -132.333  
-##       genSHRIKE         genSPEAR      genSTILETTO        genSUNBRI      genSUNFIELD       genSUNLAND  
-##        -128.000         -254.667         -157.000         -218.333         -206.667         -182.667  
-##        genSWIFT        genTASMAN       genTATIARA     genTINCURRIN       genTRIDENT         genVF299  
-##        -197.000         -161.000          -64.333          -19.000         -132.667          -66.333  
-##        genVF300         genVF302         genVF508         genVF519         genVF655         genVF664  
-##        -111.667         -108.333           11.667           -1.000         -160.167         -106.667  
-##        genVG127         genVG503         genVG506         genVG701         genVG714         genVG878  
-##        -109.667          -43.000         -108.667          -19.333         -108.333           52.333  
-##      genWARBLER         genWI216         genWI221         genWI231         genWI232      genWILGOYNE  
-##        -217.000            4.000          -17.333         -218.333          -56.333         -131.000  
-##       genWW1402        genWW1477        genWW1831         genWYUNA    genYARRALINKA  
-##        -117.333         -185.667          -86.667         -176.667         -245.000
+## Degrees-of-freedom method: kenward-roger
 {% endhighlight %}
 
 ------
