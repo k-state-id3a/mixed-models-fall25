@@ -445,7 +445,7 @@ summary(m1)
 
 **Checking the model - Residuals**
 
-```{r, warning=FALSE, message=FALSE, fig.width=16, fig.height=8}
+```{r, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
 res_sim1 <- simulateResiduals(m1, plot = TRUE)
 ```
 
@@ -495,12 +495,12 @@ emmeans(m1, ~fungicide, type = "response")
 
 Let's check Gamma!
 
-```{r, warning=FALSE, message=FALSE, fig.width=16, fig.height=8}
+```{r, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
 m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log"), data = d1)
 res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=16, fig.height=8}
+```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
 means1 <- emmeans(m1, ~fungicide, type = "response")
 means2 <- emmeans(m1_2, ~fungicide, type = "response")
 g1 <- cld(means1, Letters = letters)
@@ -647,7 +647,7 @@ plot(x, dbinom(x, 1, 0.6), main = "x ~ Binom(1, 0.6)", type = "h", lwd = 6, ylab
 
 **Checking the model**
 
-```{r, warning=FALSE, message=FALSE, fig.width=16, fig.height=8}
+```{r, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
 res_sim2 <- simulateResiduals(m2, plot = TRUE)
 ```
 
@@ -718,11 +718,7 @@ Where:
 
 -   The subplot level is nested with residuals, which is parametrized by $\sigma^2$.
 
-<center>
-
-![](images/hierarchical2.jpg)
-
-</center>
+<center>![](images/hierarchical2.jpg)</center>
 
 ```{r, echo=FALSE, eval=FALSE, warning=FALSE, message=FALSE}
 # Convert rmd to md
