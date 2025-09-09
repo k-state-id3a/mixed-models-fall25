@@ -17,13 +17,12 @@ topics: Non-normal data; Wrap-up
 
 ## What are GLMMs
 
--   Generalized Linear Models are models in which we can assume different distributions for our data beyond the Normal distribution.
-
+-   Generalized Linear Models are models in which we can assume different distributions for our data beyond the Normal distribution. 
 -   Similar to general linear models, GLMs can also have random effects, thus, Generalized Linear Mixed Models - GLMMs.
 
 ### The structure of a GLMM
 
-Remember that for a **LMMs**, assuming $\mathbf{y}$ arises from a normal distribution, we have:
+Remember that for a **LMMs**, assuming $$\mathbf{y}$$ arises from a normal distribution, we have:
 
 $$
 \mathbf{y} ={X}\boldsymbol{\beta} + Zu + \boldsymbol{\varepsilon} \\ \mathbf{\begin{bmatrix} \mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \begin{pmatrix}  \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} \mathbf{G} \; 0 \\ 0 \; \mathbf{R} \end{bmatrix} \end{pmatrix}}
@@ -31,15 +30,11 @@ $$
 
 In which:
 
--   $\mathbf{X}\boldsymbol{\beta}$ represents our fixed part of the equation, where $\mathbf{X}$ is a matrix informing the levels of our treatments and $\boldsymbol{\beta}$ a vector containing the fixed-effects parameters.
-
--   $\mathbf{Zu}$ represents our random part, where $\mathbf{Z}$ is a matrix informing the levels of the random effects and $\mathbf{u}$ is the vector containing the random effects parameters.
-
--   $\boldsymbol{\varepsilon}$ is the vector containing the residuals.
-
--   From $\mathbf{Zu} + \boldsymbol{\varepsilon}$ we have: $\mathbf{G}$ is the variance-covariance matrix of the random effects, and $\mathbf{R}$ is the variance-covariance matrix of the residuals.
-
-    -   $\mathbf{G} = \boldsymbol{\sigma^2_u}\mathbf{I}$ and $\mathbf{R} = \boldsymbol{\sigma^2}\mathbf{I}$, in which $\mathbf{I}$ is the identity matrix.
+-   $$\mathbf{X}\boldsymbol{\beta}$$ represents our fixed part of the equation, where $\mathbf{X}$ is a matrix informing the levels of our treatments and $\boldsymbol{\beta}$ a vector containing the fixed-effects parameters. 
+-   $$\mathbf{Zu}$$ represents our random part, where $\mathbf{Z}$ is a matrix informing the levels of the random effects and $\mathbf{u}$ is the vector containing the random effects parameters. 
+-   $$\boldsymbol{\varepsilon}$$ is the vector containing the residuals. 
+-   From $$\mathbf{Zu} + \boldsymbol{\varepsilon}$$ we have: $$\mathbf{G}$$ is the variance-covariance matrix of the random effects, and $\mathbf{R}$ is the variance-covariance matrix of the residuals. 
+    -   $$\mathbf{G} = \boldsymbol{\sigma^2_u}\mathbf{I}$$ and $$\mathbf{R} = \boldsymbol{\sigma^2}\mathbf{I}$$, in which $$\mathbf{I}$$ is the identity matrix.
 
 Which is similar to:
 
