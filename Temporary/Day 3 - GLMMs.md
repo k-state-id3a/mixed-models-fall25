@@ -547,7 +547,7 @@ disp1_2 <- testDispersion(m1_2)
 
 ![](figure/unnamed-chunk-17-1.png){width="14cm"}
 
-Signs of undersdispersion
+Signs of underdispersion
 
 **Dispersion:** How spread out the data are around their mean - Relationship between the variance and the mean assumed by the distribution in the GLMM.
 
