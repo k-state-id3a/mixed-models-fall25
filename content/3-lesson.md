@@ -5,97 +5,6 @@ topics: Non-normal data; Wrap-up
 ---
 
 
-{% capture text %}
-Mixed-effects models combine fixed effects and random effects. 
-Assuming $$\mathbf{y}$$ arises from a normal distribution, 
-we can define a mixed-effects model as 
-
-$$\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon}, \\ 
-\begin{bmatrix}\mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \left(
-\begin{bmatrix}\boldsymbol{0} \\ \boldsymbol{0} \end{bmatrix}, 
-\begin{bmatrix}\mathbf{G} & \boldsymbol{0} \\
-\boldsymbol{0} & \mathbf{R} \end{bmatrix} 
-\right),$$
-
-where $$\mathbf{y}$$ is the observed response, 
-$$\mathbf{X}$$ is the matrix with the explanatory variables, 
-$$\mathbf{Z}$$ is the design matrix,
-$$\boldsymbol{\beta}$$ is the vector containing the fixed-effects parameters, 
-$$\mathbf{u}$$ is the vector containing the random effects parameters, 
-$$\boldsymbol{\varepsilon}$$ is the vector containing the residuals, 
-$$\mathbf{G}$$ is the variance-covariance matrix of the random effects, 
-and $$\mathbf{R}$$ is the variance-covariance matrix of the residuals. 
-Typically, $$\mathbf{G} = \sigma^2_u \mathbf{I}$$ and $$\mathbf{R} = \sigma^2 \mathbf{I}$$.  
-If we do the math, we get that  
-
-$$E(\mathbf{y}) = \mathbf{X}\boldsymbol{\beta},$$
-
-$$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}.$$  
-
-**Now, that will change a bit if we assume other distributions for** $$\mathbf{y}$$.  
-
-
-**Fixed effects versus random effects**  
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fixed vs Random Effects Table</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
-            font-weight: bold;
-        }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-    </style>
-</head>
-
-<body>
-
-<table>
-    <tr>
-        <th> </th>
-        <th>Fixed effects</th>
-        <th>Random effects</th>
-    </tr>
-    <tr>
-        <th>Where</th>
-        <td>Expected value</td>
-        <td>Variance-covariance matrix</td>
-    </tr>
-    <tr>
-        <th>Inference</th>
-        <td>Constant for all groups in the population of study</td>
-        <td>Differ from group to group</td>
-    </tr>
-    <tr>
-        <th>Usually used to model</th>
-        <td>Carefully selected treatments or genotypes</td>
-        <td>The study design (aka structure in the data, or what is similar to what)</td>
-    </tr>
-    <tr>
-        <th>Method of estimation</th>
-        <td>Maximum likelihood, least squares</td>
-        <td>Restricted maximum likelihood (shrinkage)</td>
-    </tr>
-</table>
-</body>
-
-{% endcapture %}
-{% include card.html text=text header= "Review" color="#a9d9a9" %}
-
 ## Outline for today
 
 -   **Distributions beyond the normal**  
@@ -103,18 +12,111 @@ $$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}.$$
 -   **Applied examples**  
 -   **Workshop wrap-up**: why mixed models are more important than ever.   
 
+
 ------
 
-## Probability distributions -- normal and beyond  
+## What are GLMMs
 
-Generalized linear models (GLMs) differ from the General linear model in their distribution.   
-While the the general linear model assumes a normal distribution of the data, 
-(days 1 and 2), GLMs allow for any distribution from the exponential family.  
-The exponential family is a family of distributions that share common structure, but are 
-relatively different amon themselves. Some important distributions are:  
-- **For continuous data:** Normal, t, Gamma, Beta.
-- **For discrete data:** Binomial, Poisson, Negative Binomial.
+-   Generalized Linear Models are models in which we can assume different distributions for our data beyond the Normal distribution.
 
+-   Similar to general linear models, GLMs can also have random effects, thus, Generalized Linear Mixed Models - GLMMs.
+
+### The structure of a GLMM
+
+Remember that for a **LMMs**, assuming $\mathbf{y}$ arises from a normal distribution, we have:
+
+$$
+\mathbf{y} ={X}\boldsymbol{\beta} + Zu + \boldsymbol{\varepsilon} \\ \mathbf{\begin{bmatrix} \mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \begin{pmatrix}  \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} \mathbf{G} \; 0 \\ 0 \; \mathbf{R} \end{bmatrix} \end{pmatrix}}
+$$
+
+In which:
+
+-   $\mathbf{X}\boldsymbol{\beta}$ represents our fixed part of the equation, where $\mathbf{X}$ is a matrix informing the levels of our treatments and $\boldsymbol{\beta}$ a vector containing the fixed-effects parameters.
+
+-   $\mathbf{Zu}$ represents our random part, where $\mathbf{Z}$ is a matrix informing the levels of the random effects and $\mathbf{u}$ is the vector containing the random effects parameters.
+
+-   $\boldsymbol{\varepsilon}$ is the vector containing the residuals.
+
+-   From $\mathbf{Zu} + \boldsymbol{\varepsilon}$ we have: $\mathbf{G}$ is the variance-covariance matrix of the random effects, and $\mathbf{R}$ is the variance-covariance matrix of the residuals.
+
+    -   $\mathbf{G} = \boldsymbol{\sigma^2_u}\mathbf{I}$ and $\mathbf{R} = \boldsymbol{\sigma^2}\mathbf{I}$, in which $\mathbf{I}$ is the identity matrix.
+
+Which is similar to:
+
+$$
+\mathbf{u} \sim N(0, \mathbf{I}\sigma^2_u) \\
+\boldsymbol{\varepsilon} \sim N(0, \mathbf{I}\sigma^2)
+$$
+
+In this case:
+
+$$
+E(\mathbf{y}) = \mathbf{X}\boldsymbol{\beta}, \\
+Var(\mathbf{y}) = \mathbf{ZGZ' + R}
+$$
+
+We can also write this model as:
+
+$$
+\mathbf{y} \sim N(\mathbf{X}\boldsymbol{\beta}, \; \mathbf{ZGZ' + R})
+$$
+
+or:
+
+$$
+\mathbf{y} \sim N(\mathbf{X}\boldsymbol{\beta}, \; \boldsymbol{\Sigma}) \\
+\boldsymbol{\Sigma} = \mathbf{ZGZ' + R}
+$$
+
+For **GLMMs** the structure changes based on the distribution we will assume for $\mathbf{y}$, but is very similar to the last notation presented. A generic definition would be:
+
+$$
+\mathbf{y|u} \sim P(\mu, \; \phi)
+$$
+
+In which:
+
+-   Linear predictor: $g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$
+
+    -   $g(\mu) = \eta$ is the link function applied to the expected value.
+
+    -   $E(\mathbf{y|u}) = \mu$.
+
+### Components of GLMMs
+
+#### Link Functions
+
+Our linear predictor $\mathbf{X}\boldsymbol{\beta}$ can produce all possible values in the y-axis of a plot, from $- \; \infty$ to $+ \; \infty$ depending on the value of the predictor variable. A link function links the linear predictor and the distribution assumed for the data $\mathbf{y}$.
+
+In the **link scale**, the mean of $\mathbf{y}$ respect linearity of the linear predictor. In the **response scale**, the mean $\mu$ is back transformed by the inverse link and respects the support of the distribution.
+
+The link function is applied to the expected value ($E(\mathbf{y})$), and not to the observations. Transformation of the observations also effect the error, while link functions only affect the parameters controlling the expected value.
+
+Example of link functions:
+
++-------------------+-----------------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------+
+| Link Function     | Equation                          | Use                            | Why                                                                                                     |
++:=================:+:=================================:+:==============================:+:=======================================================================================================:+
+| **Identity Link** | $g(\mu) = \mu$                    | Normal dist.                   | $E(\mathbf{y})$ can take any real value ($-\infty, \; +\infty$)                                         |
++-------------------+-----------------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------+
+| **Logit Link**    | $g(\mu) = log(\frac{\mu}{1-\mu})$ | Logistic, Beta, Binomial dist. | $E(\mathbf{y})$ can take any values between 0 and 1. Maps $(0, \; 1) \rightarrow (-\infty, \; +\infty)$ |
++-------------------+-----------------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------+
+| **Log Link**      | $g(\mu) = log(\mu)$               | Poisson, Gamma dist.           | $E(\mathbf{y})$ can take any positive values ($\mu > 0$)                                                |
+|                   |                                   |                                |                                                                                                         |
+|                   |                                   |                                | Multiplicative effects                                                                                  |
++-------------------+-----------------------------------+--------------------------------+---------------------------------------------------------------------------------------------------------+
+
+#### Distributional assumption for the data
+
+GLMMs support different distributions from the exponential family. Distributions from the exponential family share common structure, but are relatively different among themselves.
+
+-   **What is an assumption?**: Something you take as true about your data or about the process that generated it!
+
+Important distributions to know are:
+
+-   **For continuous data**: Normal, t, Gamma, Beta.
+
+-   **For discrete data**: Binomial, Poisson, Negative Binomial.
 
 
 <body>
