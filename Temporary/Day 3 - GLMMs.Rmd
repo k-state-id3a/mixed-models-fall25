@@ -517,7 +517,7 @@ ggplot(comp, aes(fungicide, response)) +
   geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL)) +
   facet_wrap(~id, scales = "free_y") +
   geom_text(aes(y = asymp.LCL, label = .group), vjust = 1) +
-  theme_bw(base_size = 12) +
+  theme_bw(base_size = 18) +
   labs(y = "Response", x = "Fungicide")
 ```
 
