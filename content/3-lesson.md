@@ -116,7 +116,7 @@ Example of link functions:
       <td>\(g(\mu) = \log(\mu)\)</td>
       <td>Poisson, Gamma dist.</td>
       <td>
-        \(E(\mathbf{y})\) can take any positive values \((\mu > 0)\)<br><br>
+        \(E(\mathbf{y})\) can take any positive values \((\mu > 0)\)<br>
         Multiplicative effects
       </td>
     </tr>
@@ -258,7 +258,7 @@ $$\text{logit}(\mu) = \eta.$$
 
 - Changes in the structure of the residuals: from normal to log-normal.  
 - What is the target variable we aim to study?  
-- *If the data are not Gaussian, we must make them “act Gaussian”, essentially amounts to the modeling version of the “when you have a hammer, try to make every problem look like a nail”* [(Stroup et al., 2024)](https://www.routledge.com/Generalized-Linear-Mixed-Models-Modern-Concepts-Methods-and-Applications/Stroup-Ptukhina-Garai/p/book/9781498755566?srsltid=AfmBOop80SBSwTFMCIzkiTtYe-5uir_Xnw2KVZxa1oXb4LJWrLRx0Wwq)
+- *If the data are not Gaussian, we must make them “act Gaussian”, essentially amounts to the modeling version of the “when you have a hammer, try to make every problem look like a nail”* ([Stroup et al., 2024](https://www.routledge.com/Generalized-Linear-Mixed-Models-Modern-Concepts-Methods-and-Applications/Stroup-Ptukhina-Garai/p/book/9781498755566?srsltid=AfmBOop80SBSwTFMCIzkiTtYe-5uir_Xnw2KVZxa1oXb4LJWrLRx0Wwq), page 8).
 - No one-size-fits-all recommendation.   
 
 ------
