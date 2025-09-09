@@ -101,22 +101,22 @@ Example of link functions:
   <tbody>
     <tr>
       <td><strong>Identity Link</strong></td>
-      <td>$$g(\mu) = \mu$$</td>
+      <td>\(g(\mu) = \mu\)</td>
       <td>Normal dist.</td>
-      <td>$$E(\mathbf{y})$$ can take any real value ($$-\infty, \; +\infty$$)</td>
+      <td>\(E(\mathbf{y})\) can take any real value \((-\infty, \; +\infty)\)</td>
     </tr>
     <tr>
       <td><strong>Logit Link</strong></td>
-      <td>$$g(\mu) = \log\left(\frac{\mu}{1-\mu}\right)$$</td>
+      <td>\(g(\mu) = \log\left(\frac{\mu}{1-\mu}\right)\)</td>
       <td>Logistic, Beta, Binomial dist.</td>
-      <td>$$E(\mathbf{y})$$ can take any values between 0 and 1. Maps $(0, \; 1) \rightarrow (-\infty, \; +\infty)$</td>
+      <td>\(E(\mathbf{y})\) can take any values between 0 and 1. Maps \((0, \; 1) \rightarrow (-\infty, \; +\infty)\)</td>
     </tr>
     <tr>
       <td><strong>Log Link</strong></td>
-      <td>$$g(\mu) = \log(\mu)$$</td>
+      <td>\(g(\mu) = \log(\mu)\)</td>
       <td>Poisson, Gamma dist.</td>
       <td>
-        $$E(\mathbf{y})$$ can take any positive values ($\mu > 0$)<br><br>
+        \(E(\mathbf{y})\) can take any positive values \((\mu > 0)\)<br><br>
         Multiplicative effects
       </td>
     </tr>
