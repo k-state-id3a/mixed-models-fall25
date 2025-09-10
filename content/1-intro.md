@@ -168,12 +168,12 @@ $$x_{2i} = \begin{cases}
     1, & \text{if } \text{Treatment C} \\
     0, & \text{if } \text{else}
 \end{cases}, $$
-$$...\\
+$$\dots$$
 
-x_{ji} = \begin{cases}
+$$x_{ji} = \begin{cases}
     1, & \text{if } \text{Treatment J} \\
     1, & \text{if } \text{else}
-\end{cases}, $$
+\end{cases}. $$
 
 That way, all $$\beta$$s are the differences between the treatment and the control. 
 
