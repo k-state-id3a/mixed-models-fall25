@@ -377,19 +377,19 @@ $$ \eta_{ij} = \mu_0 + t_i + u_j $$
 
 -   Where:
 
-    -   $\mu_0$ represents the overall/gran mean.
-    -   $t_i$ is the parameter for the effect of treatment, in this case, fungicides - **Fixed effect.**
-    -   $u_j$ is the parameter for the effect of block - **Random effect.**
+    -   $$\mu_0$$ represents the overall/gran mean.
+    -   $$t_i$$ is the parameter for the effect of treatment, in this case, fungicides - **Fixed effect.**
+    -   $$u_j$$ is the parameter for the effect of block - **Random effect.**
 
 3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
 
-<center>**Logit link**</center>
+**Logit link**
 
 $$ g(\mu) = \eta = logit(\mu)$$
 
 -   Why?
 
-    -   Logit links $(-\infty, \; +\infty)$ to $(0, \; 1)$, that is our desired scale.
+    -   Logit links $$(-\infty, \; +\infty)$$ to $$(0, \; 1)$$, that is our desired scale.
 
 **Model**
 
@@ -461,7 +461,7 @@ For general linear mixed models our residuals are assumed to be normally distrib
 
     -   Compare the quantiles[^1] of two distributions, if they are similar, we expect them to fall on a one to one diagonal line. In this case, in the y-axis we have the quantiles of the simulated residuals and in the x-axis the quantiles of a standard uniform distribution.
 
-    -   Kolmogorov-Smirnov test: Test for uniformity against a uniform distribution - $Uniform(0, \; 1)$.
+    -   Kolmogorov-Smirnov test: Test for uniformity against a uniform distribution - $$Uniform(0, \; 1)$$.
 
     -   Dispersion test: Variance in the observations vs. Variance on the simulations.
 
