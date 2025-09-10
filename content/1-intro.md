@@ -179,11 +179,6 @@ That way, all $$\beta$$s are the differences between the treatment and the contr
 
 {% capture text %}
 
-
-{% endcapture %}
-{% include card.html text=text header="What are variance-covariance matrices anyways" title="Before we keep on talking about independent observations and residual variance, let's review what that actually means."  %}
-
- 
 ### What does variance mean?  
 
 Random variables are usually described with their properties like the expected value and variance. 
@@ -258,6 +253,9 @@ Discuss the assumptions:
 - Constant variance  
 - **Independence**  
 - Normality  
+
+{% endcapture %}
+{% include card.html text=text header="What are variance-covariance matrices anyways" title="Before we keep on talking about independent observations and residual variance, let's review what that actually means."  %}
 
 
 ### Non-independent observations  
