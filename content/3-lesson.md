@@ -121,6 +121,13 @@ Example of link functions:
   </tbody>
 </table>
 
+**Log-transformations**  
+
+- Changes in the structure of the residuals: from normal to log-normal.  
+- What is the target variable we aim to study?  
+- *If the data are not Gaussian, we must make them “act Gaussian”, essentially amounts to the modeling version of the “when you have a hammer, try to make every problem look like a nail”* ([Stroup et al., 2024](https://www.routledge.com/Generalized-Linear-Mixed-Models-Modern-Concepts-Methods-and-Applications/Stroup-Ptukhina-Garai/p/book/9781498755566?srsltid=AfmBOop80SBSwTFMCIzkiTtYe-5uir_Xnw2KVZxa1oXb4LJWrLRx0Wwq), page 8).
+- No one-size-fits-all recommendation.   
+
 #### Distributional assumption for the data
 
 GLMMs support different distributions from the exponential family. Distributions from the exponential family share common structure, but are relatively different among themselves.
@@ -160,7 +167,7 @@ Mean: $$\mu$$
 
 Var: $$\sigma^2$$
 
-![](figure/unnamed-chunk-1-1.png){width="14cm"}
+{% include figure.html img="section3/Rust.jpg" alt="" caption="" width="80%" %}
 
 #### **Student t distribution**
 
@@ -337,7 +344,7 @@ library(DHARMa) # Model check
 
 In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much an specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
 
-<center>![](images/Rust.jpg){width="14cm"}</center>
+{% include figure.html img="section3/Rust.jpg" alt="" caption="" width="80%" %}
 
 **Data**
 
@@ -728,7 +735,60 @@ emmeans(m2, ~extract*gen, type = "response")
 ## Intervals are back-transformed from the logit scale
 ```
 
+# Hierarchical models
 
+**Why are mixed models sometimes called 'hierarchical' or 'multilevel' models?**
+
+What is an hierarchical model?
+
+$$ y_{ij}|u_j \sim N(\mu_{ij}, \; \sigma^2) \\ \mu_{ij} = \eta_{ij} = \mu_0 + t_i + u_j \\ u_j \sim N(0, \sigma^2_u) $$
+
+**Data model:** The conditional distribution we are assuming for $$y$$.
+
+$$
+y_{ij}|u_j \sim N(\mu_{ij}, \; \sigma^2)
+$$
+
+**Process model:** The functions that shapes the expected value/mean $$\mu$$, and the link function connecting it to the boundaries of the assumed distribution - Processes generating the data.
+
+$$
+\mu_{ij} = \eta_{ij} = \mu_0 + t_i + u_j
+$$
+
+**Parameter model:** The random effects structure, the distribution of the random effects that capture the variation among groups.
+
+$$
+u_j \sim N(0, \; \sigma_u^2)
+$$
+
+**But what else is in here?**
+
+Let's consider a split-plot design example: Stratification of random effects - Different levels structured
+
+**The model:**
+
+$$
+y_{ijkl}|u_k, \; w_l \sim N(\mu_{ijkl}, \; \sigma^2) \\
+\mu_{ijkl} = \eta_{ijkl} = \mu_0 + f_i + v_j + u_k + w_l \\
+u_k \sim N(0, \; \sigma_u^2) \\
+w_l \sim N(0, \; \sigma_w^2)
+$$
+
+Where:
+
+-   $$\mu_0$$ is the overall mean.
+
+-   $$f_i$$ is the fixed effect of fungicide applied to the whole plot.
+
+-   $$v_j$$ is the fixed effect of variety applied to the subplot level.
+
+-   $$u_k$$ is the random effect of the block.
+
+-   $$w_l$$ is the random effect of the whole plot level, that comes from $$u_k*f_i$$.
+
+-   The subplot level is nested with residuals, which is parametrized by $$\sigma^2$$.
+
+<center>![](images/hierarchical2.jpg)</center>
 
 
 
