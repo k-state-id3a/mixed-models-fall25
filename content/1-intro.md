@@ -179,7 +179,9 @@ That way, all $$\beta$$s are the differences between the treatment and the contr
 
 {% capture text %}
 
-### What does variance mean?  
+Before we keep on talking about independent observations and residual variance, let's review what that actually means.
+
+**What does variance mean?**  
 
 Random variables are usually described with their properties like the expected value and variance. 
 The expected value and variance are the first and second central moments of a distribution, respectively. 
@@ -194,7 +196,7 @@ The variance measures the dispersion of $$Y$$, i.e. how far the possible outcome
 -   Variance  
 -   Covariance?
 
-### On the covariance of two random variables $$y_1$$ and $$y_2$$    
+**On the covariance of two random variables $$y_1$$ and $$y_2$$**    
 
 Covariance between two random variables means how the two random variables behave relative to each other. 
 Essentially, it quantifies the relationship between their joint variability. 
@@ -215,14 +217,15 @@ $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1)
 -   Variance  
 -   Covariance 
 
+
+{% endcapture %}
+{% include card.html text=text header="Review" title="What are variance-covariance matrices anyways?"  %}
+
 ## Adding a random effect to the model   
 
-### Independent observations  
+### The assumption behind independent observations  
 
-Back to the example in [Figure 2](#intercept_slope_fig1). Let's assume we have $$n$$ observations of apple diameter. 
-Remember, the apples were **randomly selected from random trees from a field**. 
-
-If we used the default model in most software, we would assume  
+If we used the default model in most software written above, we would be assuming  
 
 $$\mathbf{y} \sim N(\boldsymbol{\mu}, \Sigma),\\
 \begin{bmatrix}y_1 \\ y_2 \\ y_3 \\ y_4 \\ \vdots \\ y_n \end{bmatrix} \sim N
@@ -248,20 +251,21 @@ $$\begin{bmatrix}y_1 \\ y_2 \\ y_3 \\ y_4 \\ \vdots \\ y_n \end{bmatrix} \sim N
 0 & 0 & 0 & 0 & \dots & \sigma^2 \end{bmatrix}
 \right).$$
 
+
 Discuss the assumptions:
 - Linearity  
 - Constant variance  
 - **Independence**  
 - Normality  
 
-{% endcapture %}
-{% include card.html text=text header="What are variance-covariance matrices anyways" title="Before we keep on talking about independent observations and residual variance, let's review what that actually means."  %}
+{% include figure.html img="day1/covmatrix_crd.jpg" alt="Multivariate Normal distribution" caption="Figure 6. Visual representation of the variance-covariance matrix assuming independent observations." width="75%" id = "multivariate_normal" %}
 
 
 ### Non-independent observations  
 
-Now, imagine that the observations are actually diameters from random apples, but they were taken from 5 different fields. 
-These observations are no longer independent, because apples from the same field are more similar to each other than apples from different fields.
+So, the assumption of independence was kind of a stretch. 
+The yield data come from 5 different fields, and  
+This means that the observations are no longer independent, because apples from the same field are more similar to each other than apples from different fields.
 This is when mixed-effects models enter the story - they allow us to indicate *what is similar to what* via random effects. 
 In this case, we expect the growth rate to be similar among fields, but the baseline (a.k.a., the intercept) to be field-specific. Then,   
 
@@ -441,7 +445,9 @@ including residual variance and random-effects variance. Note that this formula 
 the same point estimate for $$\boldsymbol{\beta}$$, but with a different confidence interval.  
 
 
-## Generalities -- what are mixed models anyways?
+{% include figure.html img="day1/covmatrix_rcbd.jpg" alt="V" caption="Figure 7. Visual representation of the variance-covariance matrix assuming the dependence pattern between observations." width="75%" id = "multivariate_normal" %}
+
+## Generalities on mixed models 
 
 Mixed models combine fixed effects and random effects. 
 Generally speaking, we can write out a mixed-effects model using the model equation form, as   
