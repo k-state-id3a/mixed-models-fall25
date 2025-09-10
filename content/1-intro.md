@@ -736,7 +736,7 @@ m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 ## Degrees-of-freedom method: kenward-roger
 {% endhighlight %}
 
-<html/>
+<head/>
 
 
 --------
@@ -751,9 +751,15 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
 - Field-specific consensus 
 - Enough to be reproducible  
 
-{% include figure.html img="day1/paper1.jpg" alt="" caption="Figure 6. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper1" %}
+Example 1:  
+[[link](https://doi.org/10.1093/jxb/erv430)]
 
-{% include figure.html img="day1/paper2.jpg" alt="" caption="Figure 7. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
+{% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 9. Section from Materials and Methods section from a peer-reviewed publication (Reyes et al., 2015)." width="100%" id = "paper1" %}
+
+Example 2:  
+[[link](#)]
+
+{% include figure.html img="day1/paper2.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
 
 
 <head>
