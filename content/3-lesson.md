@@ -160,7 +160,7 @@ Mean: $$\mu$$
 
 Var: $$\sigma^2$$
 
-<center>![](figure/unnamed-chunk-1-1.png){width="14cm"}\center
+![](figure/unnamed-chunk-1-1.png){width="14cm"}
 
 #### **Student t distribution**
 
@@ -168,13 +168,9 @@ $$
 y\sim t_v(\mu, \; \sigma^2)
 $$
 
-<center>
+$$E(y) = \mu for v > 1, otherwise undefined$$
 
-$$E(y) = \mu$$ for $$v > 1$$, otherwise undefined
-
-$$Var(y) = \frac{v}{v-2} \sigma^2$$, otherwise undefined
-
-</center>
+$$Var(y) = \frac{v}{v-2} \sigma^2, otherwise undefined$$
 
 **Support:**
 
@@ -192,7 +188,7 @@ Mean: $$\mu$$
 
 Var: $$\sigma^2$$
 
-<center>![](figure/unnamed-chunk-2-1.png){width="14cm"}\center
+![](figure/unnamed-chunk-2-1.png){width="14cm"}
 
 #### **Gamma distribution**
 
@@ -221,7 +217,7 @@ Mean: $$\mu$$
 
 Var: $$\phi\mu^2$$
 
-<center>![](figure/unnamed-chunk-3-1.png){width="14cm"}\center
+![](figure/unnamed-chunk-3-1.png){width="14cm"}
 
 #### **Beta distribution**
 
@@ -250,7 +246,7 @@ Mean: $$\mu$$
 
 Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
 
-<center>![](figure/unnamed-chunk-4-1.png){width="14cm"}\center
+![](figure/unnamed-chunk-4-1.png){width="14cm"}
 
 #### **Poisson distribution**
 
@@ -281,7 +277,7 @@ Mean: $$\lambda$$
 
 Var: $$\lambda$$
 
-<center>![](figure/unnamed-chunk-5-1.png){width="14cm"}\center
+![](figure/unnamed-chunk-5-1.png){width="14cm"}
 
 #### **Binomial distribution**
 
@@ -314,7 +310,7 @@ Mean: $$\pi = \frac{\mu}{N}$$
 
 Var: $$N\pi(1-\pi)$$
 
-<center>![](figure/unnamed-chunk-6-1.png){width="14cm"}\center
+![](figure/unnamed-chunk-6-1.png){width="14cm"}
 
 ## Checkpoint:
 -   **Distributions beyond the normal**  
