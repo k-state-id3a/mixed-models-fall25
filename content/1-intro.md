@@ -602,13 +602,15 @@ Take your time to digest the variance-covariance matrix above. What type of data
 
 - By definition, random effects are regression coefficients that arise from a random distribution. 
 - Typically, a random effect $$u \sim N(0, \sigma^2_u)$$.   
+- Note that this model for the parameter may result in shrinkage. 
 - We estimate the variance $$\sigma^2_u$$.  
 - Calculating degrees of freedom can get much more complex than in all-fixed effects models (e.g., with unbalanced data, spatio-temporally correlated data, or non-normal data).  
 - In the context of designed experiments, random effects are assumed to be independent to each other and independent to the residual.  
 
 
-**Estimation**  
+### Estimation of parameters   
 
+"Estimation" is a term held mostly exclusive to fixed effects and variance components. 
 Restricted maximum likelihood estimation (REML) is the default in most mixed effects models because, for small data (aka most experimental data), maximum likelihood (ML) provides variance estimates that are downward biased.
 - In REML, the likelihood is maximized after accounting for the model’s fixed effects.  
 
@@ -737,6 +739,7 @@ m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 {% endhighlight %}
 
 <head/>
+<html/>
 
 
 --------
