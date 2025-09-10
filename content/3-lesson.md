@@ -4,14 +4,12 @@ nav: Part 3
 topics: Non-normal data; Wrap-up
 ---
 
-
 ## Outline for today
 
 -   **Distributions beyond the normal**  
 -   **Defining your generalized linear model** 
 -   **Applied examples**  
 -   **Workshop wrap-up**: why mixed models are more important than ever.   
-
 
 ------
 
@@ -30,10 +28,10 @@ $$
 
 In which:
 
--   $$\mathbf{X}\boldsymbol{\beta}$$ represents our fixed part of the equation, where $\mathbf{X}$ is a matrix informing the levels of our treatments and $\boldsymbol{\beta}$ a vector containing the fixed-effects parameters. 
--   $$\mathbf{Zu}$$ represents our random part, where $\mathbf{Z}$ is a matrix informing the levels of the random effects and $\mathbf{u}$ is the vector containing the random effects parameters. 
+-   $$\mathbf{X}\boldsymbol{\beta}$$ represents our fixed part of the equation, where $$\mathbf{X}$$ is a matrix informing the levels of our treatments and $$\boldsymbol{\beta}$$ a vector containing the fixed-effects parameters. 
+-   $$\mathbf{Zu}$$ represents our random part, where $$\mathbf{Z}$$ is a matrix informing the levels of the random effects and $$\mathbf{u}$$ is the vector containing the random effects parameters. 
 -   $$\boldsymbol{\varepsilon}$$ is the vector containing the residuals. 
--   From $$\mathbf{Zu} + \boldsymbol{\varepsilon}$$ we have: $$\mathbf{G}$$ is the variance-covariance matrix of the random effects, and $\mathbf{R}$ is the variance-covariance matrix of the residuals. 
+-   From $$\mathbf{Zu} + \boldsymbol{\varepsilon}$$ we have: $$\mathbf{G}$$ is the variance-covariance matrix of the random effects, and $$\mathbf{R}$$ is the variance-covariance matrix of the residuals. 
     -   $$\mathbf{G} = \boldsymbol{\sigma^2_u}\mathbf{I}$$ and $$\mathbf{R} = \boldsymbol{\sigma^2}\mathbf{I}$$, in which $$\mathbf{I}$$ is the identity matrix.
 
 Which is similar to:
@@ -63,7 +61,7 @@ $$
 \boldsymbol{\Sigma} = \mathbf{ZGZ' + R}
 $$
 
-For **GLMMs** the structure changes based on the distribution we will assume for $\mathbf{y}$, but is very similar to the last notation presented. A generic definition would be:
+For **GLMMs** the structure changes based on the distribution we will assume for $$\mathbf{y}$$, but is very similar to the last notation presented. A generic definition would be:
 
 $$
 \mathbf{y|u} \sim P(\mu, \; \phi)
@@ -71,7 +69,7 @@ $$
 
 In which:
 
--   Linear predictor: $g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$
+-   Linear predictor: $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$
 
     -   $g(\mu) = \eta$ is the link function applied to the expected value.
 
@@ -81,11 +79,11 @@ In which:
 
 #### Link Functions
 
-Our linear predictor $\mathbf{X}\boldsymbol{\beta}$ can produce all possible values in the y-axis of a plot, from $- \; \infty$ to $+ \; \infty$ depending on the value of the predictor variable. A link function links the linear predictor and the distribution assumed for the data $\mathbf{y}$.
+Our linear predictor $$\mathbf{X}\boldsymbol{\beta}$$ can produce all possible values in the y-axis of a plot, from $$- \; \infty$$ to $$+ \; \infty$$ depending on the value of the predictor variable. A link function links the linear predictor and the distribution assumed for the data $$\mathbf{y}$$.
 
-In the **link scale**, the mean of $\mathbf{y}$ respect linearity of the linear predictor. In the **response scale**, the mean $\mu$ is back transformed by the inverse link and respects the support of the distribution.
+In the **link scale**, the mean of $$\mathbf{y}$$ respect linearity of the linear predictor. In the **response scale**, the mean $$\mu$$ is back transformed by the inverse link and respects the support of the distribution.
 
-The link function is applied to the expected value ($E(\mathbf{y})$), and not to the observations. Transformation of the observations also effect the error, while link functions only affect the parameters controlling the expected value.
+The link function is applied to the expected value ($$E(\mathbf{y})$$), and not to the observations. Transformation of the observations also effect the error, while link functions only affect the parameters controlling the expected value.
 
 Example of link functions:
 
@@ -134,6 +132,89 @@ Important distributions to know are:
 -   **For continuous data**: Normal, t, Gamma, Beta.
 
 -   **For discrete data**: Binomial, Poisson, Negative Binomial.
+
+<table>
+  <thead>
+    <tr style="background-color: #f2f2f2;">
+      <th>Distribution</th>
+      <th>Support</th>
+      <th>Typical Link</th>
+      <th>Mean / Variance</th>
+      <th>Use</th>
+      <th>Why (Link rationale)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Normal -->
+    <tr>
+      <td><strong>Normal</strong></td>
+      <td>\(y \in (-\infty, +\infty)\)</td>
+      <td><strong>Identity</strong><br>\(g(\mu)=\mu\)</td>
+      <td>\(E(y)=\mu\)<br>\(\mathrm{Var}(y)=\sigma^2\)</td>
+      <td>Continuous outcomes with constant variance</td>
+      <td>\(\mu\) can be any real number; no transformation needed</td>
+    </tr>
+
+    <!-- Student t -->
+    <tr>
+      <td><strong>Student t</strong> (df \(v\))</td>
+      <td>\(y \in (-\infty, +\infty)\)</td>
+      <td><strong>Identity</strong><br>\(g(\mu)=\mu\)</td>
+      <td>\(E(y)=\mu \; (v>1)\)<br>\(\mathrm{Var}(y)=\frac{v}{v-2}\sigma^2 \; (v>2)\)</td>
+      <td>Continuous data, heavy tails (robust to outliers)</td>
+      <td>\(\mu\) unrestricted; identity link keeps interpretation simple</td>
+    </tr>
+
+    <!-- Gamma -->
+    <tr>
+      <td><strong>Gamma</strong></td>
+      <td>\(y \in (0, +\infty)\)</td>
+      <td><strong>Log</strong> or <strong>Inverse</strong><br>\(g(\mu)=\log(\mu)\) or \(g(\mu)=1/\mu\)</td>
+      <td>\(E(y)=\mu=\alpha/\beta\)<br>\(\mathrm{Var}(y)=\phi\,\mu^2\) (GLM)</td>
+      <td>Positive, right-skewed continuous data (e.g., times, rates)</td>
+      <td>Ensures \(\mu>0\); log link handles multiplicative effects & heteroscedasticity</td>
+    </tr>
+
+    <!-- Beta -->
+    <tr>
+      <td><strong>Beta</strong></td>
+      <td>\(y \in (0,1)\)</td>
+      <td><strong>Logit</strong> (common)<br>\(g(\mu)=\log\!\big(\frac{\mu}{1-\mu}\big)\)</td>
+      <td>\(E(y)=\mu=\frac{\alpha}{\alpha+\beta}\)<br>\(\mathrm{Var}(y)=\frac{\mu(1-\mu)}{1+\phi}\) (GLM)</td>
+      <td>Proportions/fractions (excluding 0 and 1)</td>
+      <td>Maps \((0,1)\rightarrow(-\infty,+\infty)\); stabilizes modeling on the mean scale</td>
+    </tr>
+
+    <!-- Poisson -->
+    <tr>
+      <td><strong>Poisson</strong></td>
+      <td>\(y \in \{0,1,2,\dots\}\)</td>
+      <td><strong>Log</strong><br>\(g(\mu)=\log(\mu)\)</td>
+      <td>\(E(y)=\lambda\)<br>\(\mathrm{Var}(y)=\lambda\)</td>
+      <td>Counts (events in time/space)</td>
+      <td>Ensures \(\mu>0\); multiplicative effects and rate interpretation</td>
+    </tr>
+
+    <!-- Binomial -->
+    <tr>
+      <td><strong>Binomial</strong></td>
+      <td>\(y \in \{0,1,\dots,n\}\), \(p\in(0,1)\)</td>
+      <td><strong>Logit</strong> (common) or <strong>Probit</strong><br>\(g(\pi)=\log\!\big(\frac{\pi}{1-\pi}\big)\) or \(g(\pi)=\Phi^{-1}(\pi)\)</td>
+      <td>\(E(y)=n\pi\)<br>\(\mathrm{Var}(y)=n\pi(1-\pi)\)</td>
+      <td>Number of successes in \(n\) trials</td>
+      <td>Maps \((0,1)\rightarrow\mathbb{R}\); natural for probabilities and odds ratios</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
 
 
 <body>
