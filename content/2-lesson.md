@@ -115,7 +115,7 @@ $$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}$$
 
 ------
 
-## Outline for today
+## Outline for this afternoon
 
 -   **Review on designed experiments.** 
 -   **Should blocks be fixed or random?**  
@@ -131,9 +131,9 @@ $$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}$$
 - Local control  
 
 **Experimental unit versus observational unit**  
-- Experimental unit (EU): smallest unit to which a treatment is independently assigned.  
-- Observational unit (OU): smallest unit on which observations are made. 
-- If OU $$>$$ EU, then not all observations are independent. 
+- Experimental unit (EU): smallest entity to which a treatment is independently assigned.  
+- Observational unit (OU): entity on which observations are made. 
+- If OU $$>$$ EU, not all observations are independent. 
 - The variance estimated from pseudoreplications (subsamples) is usually smaller than the variance estimated from true replications (experimental units). 
 
 ### Common types of designed experiments  
@@ -541,7 +541,7 @@ because it is unidirectional!
 The independence assumption does not hold and should be included in the model. 
 
 
-$$y_{ijk} = \mu + \tau_i + \alpha_j + (\tau \alpha)_{ij} + u_{k} + v_{ik} + \varepsilon_{ijk},\\
+$$y_{ijk} = \mu + \tau_i + \alpha_j + (\tau \alpha)_{ij} + u_{k} + v_{ijk} + \varepsilon_{ijk},\\
 u_{k} \sim N(0, \sigma^2_u),$$
 
 where $$y_{ijk}$$ is the observation for the $$i$$th treatment, $$j$$th time, in the $$k$$th block, 
@@ -550,10 +550,10 @@ $$\tau_i$$ is the main effect of the $$i$$th level of treatment factor 1 (treatm
 $$\alpha_j$$ is the main effect of the $$j$$th level of treatment factor 2 (time), 
 $$(\tau \alpha)_{ij}$$ is their interaction, 
 $$u_k$$ is the random effect of the $$k$$th block, 
-$$v_{i j}$$ is the random effect of the $$i$$th "miniblock" (whole plot) in the $$k$$th block,
-and $$\varepsilon_{ij}$$ is the residual. 
+$$v_{ijk}$$ is the random effect of the $$i$$th "miniblock" (whole plot) at the $j$th time, in the $$k$$th block,
+and $$\varepsilon_{ijk}$$ is the residual. 
 
-This time, unlike split-plots, $$v_{ij} \nsim N(0, \sigma^2_v)$$ because 
+This time, unlike split-plots, $$v_{ijk} \nsim N(0, \sigma^2_v)$$ because 
 the treatment levels are not randomly assigned! Time is unidirectional and cannot be randomized. 
 We can describe how different observations of a treatment $$i$$ in block $$k$$ are correlated, by looking at
 the distribution of $$\mathbf{v}_{ik}$$:
@@ -564,10 +564,19 @@ $$\mathbf{v}_{ik} \sim N(\boldsymbol{0}, \Sigma_{v, ik}), \\
 \rho^2 & \rho & 1\end{bmatrix}.$$
 
 This example shows a first order autoregressive covariance structure. 
+Other covariance functions include the compound symmetry covariance function, 
+$$\mathbf{v}_{ik} \sim N(\boldsymbol{0}, \Sigma_{v, ik}), \\
+\Sigma_{v, ik} = \sigma^2_v \begin{bmatrix} 1 & \rho & \rho \\
+\rho & 1 & \rho \\
+\rho & \rho & 1\end{bmatrix}.$$ and
+the unstructured covariance function, $$\mathbf{v}_{ik} \sim N(\boldsymbol{0}, \Sigma_{v, ik}), \\
+\Sigma_{v, ik} = \sigma^2_v \begin{bmatrix} 1 & \sigma^2_{12} & \sigma^2_{13} \\
+\sigma^2_{21} & 1 & \sigma^2_{23} \\
+\sigma^2_{31} & \sigma^2_{32} & 1\end{bmatrix}.$$
 
-Note that we are still affecting the $$\mathbf{G}$$ matrix, not the $$\mathbf{R}$$ matrix. 
-This difference may affect inference in non-normal responses (not the case yet). 
-If the response is normally distributed, the interpretations are equivalent.  
+Note that we are still affecting the $$\mathbf{G}$$ matrix, not the $$\mathbf{R}$$ matrix -- the residuals $\varepsilon_{ijk}$ are still iid normal. 
+This difference may affect inference in non-normal responses (not the case yet), 
+and is typically a modeling decision that should be carefully considered by the scientist. 
 For other types of correlation functions and a discussion of the implications of 
 G-side versus R-side correlations see [Johnson and Milliken (2009)](https://doi.org/10.1201/EBK1584883340), 
 [Stroup et al. (2024)](https://www.routledge.com/Generalized-Linear-Mixed-Models-Modern-Concepts-Methods-and-Applications/Stroup-Ptukhina-Garai/p/book/9781498755566?srsltid=AfmBOop80SBSwTFMCIzkiTtYe-5uir_Xnw2KVZxa1oXb4LJWrLRx0Wwq), 

@@ -263,8 +263,8 @@ Discuss the assumptions:
 
 ### Non-independent observations  
 
-The yield data come from 5 different fields.   
-Which means that the assumption of independence was kind of a stretch. 
+The yield data come from 5 different fields that were approximately homogeneous. 
+Which means that the assumption of independence we made before was kind of a stretch. 
 In reality, all observations from the same field have *something* in common. 
 It's not reasonable to assume that the observations are independent, because observations from the same field have more in common than observations from different fields. 
 They share the soil and environments and, with that, a baseline fertility and yield potential. 
@@ -645,7 +645,7 @@ How should they model the experiment?
 
 ## Applied example  
 
--   Field experiment at Colby, KS.  
+-   Field experiment studying the effect of potassium on corn yield.   
 -   One treatment factor: Potassium fertilizer (one-way treatment structure).  
 -   Randomized Complete Block Design with 4 repetitions (design structure).  
 
@@ -659,8 +659,8 @@ How should they model the experiment?
 
 We can easily come up with two models:
 
-1.  Blocks fixed $$y_{ijk} = \mu + \tau_i + \rho_j + \varepsilon_{ijk}; \ \ \varepsilon \sim N(0, \sigma^2)$$.  
-2.  Blocks random $$y_{ijk} = \mu + \tau_i + u_j + \varepsilon_{ijk}; \ \ u_j \sim N(0, \sigma^2_u); \ \ \varepsilon \sim N(0, \sigma^2)$$, 
+1.  Blocks fixed $$y_{ijk} = \mu + \tau_i + \rho_j + \varepsilon_{ijk}; \ \ \varepsilon_{ijk} \sim N(0, \sigma^2)$$.  
+2.  Blocks random $$y_{ijk} = \mu + \tau_i + u_j + \varepsilon_{ijk}; \ \ u_j \sim N(0, \sigma^2_u); \ \ \varepsilon_{ijk} \sim N(0, \sigma^2)$$, 
 where $$u$$ and $$\varepsilon$$ are independent.
 
 <html lang="en">
@@ -756,7 +756,7 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
 
 **Example 1:** A study to find out if water capture increased as the result of selection for yield in SX hybrids in the US corn-belt (Reyes et al., 2015). [[link](https://doi.org/10.1093/jxb/erv430)]
 
-{% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
+{% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 9. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
 
 **Example 2:** A study to find out if developmental telomere attrition is a measure of state in birds, and hence should predict state-dependent decisions such as the relative value assigned to immediate versus delayed food rewards (Bateson et al., 2014). [[link](#)]
 
