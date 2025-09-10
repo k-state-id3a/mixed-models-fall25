@@ -133,101 +133,238 @@ Important distributions to know are:
 
 -   **For discrete data**: Binomial, Poisson, Negative Binomial.
 
-<body>
-<table>
-    <tr>
-        <td><strong>Normal distribution</strong><br>
-        $$y \sim N(\mu, \sigma^2)$$
-        $$E(y) = \mu \quad Var(y) = \sigma^2$$
-        Support:<br>
-        $$y \in (-\infty, +\infty)$$
-        <br><br>
-        <em>GLMM characteristics</em><br>
-        • Type: Continuous<br>
-        • Link: Identity — $$\eta = \mu$$<br>
-        • Mean: $$\mu$$<br>
-        • Var: $$\sigma^2$$
-        </td>
-        <td><img src="../images/day3/dist1_normal.png" alt="Normal distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Student t distribution</strong><br>
-        $$y \sim t_{\nu}(\mu, \sigma^2)$$
-        $$E(y) = \mu \;\; (\nu>1), \;\; \text{otherwise undefined}$$<br>
-        $$Var(y) = \tfrac{\nu}{\nu-2}\sigma^2 \;\; (\nu>2), \;\; \text{otherwise undefined}$$
-        Support:<br>
-        $$y \in (-\infty, +\infty)$$
-        <br><br>
-        <em>GLMM characteristics</em><br>
-        • Type: Continuous<br>
-        • Link: Identity — $$\eta = \mu$$<br>
-        • Mean: $$\mu$$<br>
-        • Var: $$\sigma^2$$
-        </td>
-        <td><img src="../images/day3/dist2_t.png" alt="Student t distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Gamma distribution</strong><br>
-        $$y \sim \text{Gamma}(\alpha, \beta)$$
-        $$E(y) = \tfrac{\alpha}{\beta} \quad Var(y) = \tfrac{\alpha}{\beta^2}$$
-        Support:<br>
-        $$y \in (0, +\infty)$$
-        <br><br>
-        <em>GLMM characteristics</em><br>
-        • Type: Continuous<br>
-        • Link: Log or Inverse — $$\eta = \log(\mu)$$ or $$\eta = \tfrac{1}{\mu}$$<br>
-        • Mean: $$\mu$$<br>
-        • Var: $$\phi\mu^2$$
-        </td>
-        <td><img src="../images/day3/dist3_gamma.png" alt="Gamma distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Beta distribution</strong><br>
-        $$y \sim \text{Beta}(\alpha, \beta)$$
-        $$E(y) = \tfrac{\alpha}{\alpha+\beta} \quad Var(y) = \tfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
-        Support:<br>
-        $$y \in (0, 1)$$
-        <br><br>
-        <em>GLMM characteristics</em><br>
-        • Type: Proportion<br>
-        • Link: Logit — $$\eta = \log\!\left(\tfrac{\mu}{1-\mu}\right)$$<br>
-        • Mean: $$\mu$$<br>
-        • Var: $$\tfrac{\mu(1-\mu)}{1+\phi}$$
-        </td>
-        <td><img src="../images/day3/dist4_beta.png" alt="Beta distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Poisson distribution</strong><br>
-        $$y \sim \text{Pois}(\lambda)$$
-        $$E(y) = \lambda \quad Var(y) = \lambda$$
-        Support:<br>
-        $$y \in \{0, 1, 2, \dots\}$$
-        <br><br>
-        <em>GLMM characteristics</em><br>
-        • Type: Discrete count<br>
-        • Link: Log — $$\eta = \log(\lambda)$$<br>
-        • Mean: $$\lambda$$<br>
-        • Var: $$\lambda$$
-        </td>
-        <td><img src="../images/day3/dist5_poisson.png" alt="Poisson distribution" width="300" height="300"></td>
-    </tr>
-    <tr>
-        <td><strong>Binomial distribution</strong><br>
-        $$y \sim \text{Binomial}(n, p)$$
-        $$E(y) = np \quad Var(y) = np(1-p)$$
-        Support:<br>
-        $$y \in \{0,1,\dots,n\},\; n \geq 1,\; p \in (0,1)$$
-        <br><br>
-        <em>GLMM characteristics</em><br>
-        • Type: Discrete proportion<br>
-        • Link: Logit or Probit — $$\eta = \log\!\left(\tfrac{\pi}{1-\pi}\right)$$ or $$\eta = \Phi^{-1}(\pi)$$<br>
-        • Mean: $$\pi = \tfrac{\mu}{N}$$<br>
-        • Var: $$N\pi(1-\pi)$$
-        </td>
-        <td><img src="../images/day3/dist6_binomial.png" alt="Binomial distribution" width="300" height="300"></td>
-    </tr>
-</table>
-</body>
+#### **Normal distribution**
+
+$$
+y \sim N(\mu, \; \sigma^2)
+$$
+
+$$
+E(y) = \mu \\
+Var(y) = \sigma^2
+$$
+
+**Support:**
+
+$$
+y \in (-\infty, \; +\infty)
+$$
+
+**GLMM characteristics**
+
+Type of variable: Continuous
+
+Link: Identity - $$\eta = \mu$$
+
+Mean: $$\mu$$
+
+Var: $$\sigma^2$$
+
+<center>![](figure/unnamed-chunk-1-1.png){width="14cm"}\center
+
+#### **Student t distribution**
+
+$$
+y\sim t_v(\mu, \; \sigma^2)
+$$
+
+<center>
+
+$$E(y) = \mu$$ for $$v > 1$$, otherwise undefined
+
+$$Var(y) = \frac{v}{v-2} \sigma^2$$, otherwise undefined
+
+</center>
+
+**Support:**
+
+$$
+y \in (-\infty, \; +\infty)
+$$
+
+**GLMM characteristics**
+
+Type of variable: Continuous
+
+Link: Identity - $$\eta = \mu$$
+
+Mean: $$\mu$$
+
+Var: $$\sigma^2$$
+
+<center>![](figure/unnamed-chunk-2-1.png){width="14cm"}\center
+
+#### **Gamma distribution**
+
+$$
+y \sim Gamma(\alpha, \; \beta)
+$$
+
+$$
+E(y) = \frac{\alpha}{\beta} \\
+Var(y) = \frac{\alpha}{\beta^2}
+$$
+
+**Support:**
+
+$$
+y \in (0, \; +\infty)
+$$
+
+**GLMM characteristics**
+
+Type of variable: Continuous
+
+Link: Log or Inverse - $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
+
+Mean: $$\mu$$
+
+Var: $$\phi\mu^2$$
+
+<center>![](figure/unnamed-chunk-3-1.png){width="14cm"}\center
+
+#### **Beta distribution**
+
+$$
+y \sim Beta(\alpha, \; \beta)
+$$
+
+$$
+E(y) = \frac{\alpha}{\alpha + \beta} \\
+Var(y) = \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}
+$$
+
+**Support**:
+
+$$
+y \in (0, \; 1)
+$$
+
+**GLMM characteristics**
+
+Type of variable: Proportion
+
+Link: Logit - $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
+
+Mean: $$\mu$$
+
+Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
+
+<center>![](figure/unnamed-chunk-4-1.png){width="14cm"}\center
+
+#### **Poisson distribution**
+
+$$
+y \sim Poisson(\lambda)
+$$
+
+$$
+E(y) = \lambda \\
+Var(y) = \lambda
+$$
+
+**Support:**
+
+$$
+y \in (0, 1, 2, ..., +\infty)
+$$
+
+-   Model the number of events occurring in a fixed interval of time/space given a rate of occurrence ($$\lambda$$).
+
+**GLMM characteristics**
+
+Type of variable: Discrete count
+
+Link: Log - $$\eta = log(\lambda)$$
+
+Mean: $$\lambda$$
+
+Var: $$\lambda$$
+
+<center>![](figure/unnamed-chunk-5-1.png){width="14cm"}\center
+
+#### **Binomial distribution**
+
+$$
+y \sim Binomial(n, p)
+$$
+
+$$
+E(y) = np \\
+Var(y) = np(1-p)
+$$
+
+**Support**:
+
+$$
+y \in (0, 1, ..., n) \\
+n \in (1, 2, ..., +\infty) \\
+p \in (0, 1)
+$$
+
+-   Model the number of successes in a fixed number of independent trials ($$n$$) with a given probability of success ($$p$$).
+
+**GLMM characteristics**
+
+Type of variable: Discrete proportion
+
+Link: Logit or probit - $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
+
+Mean: $$\pi = \frac{\mu}{N}$$
+
+Var: $$N\pi(1-\pi)$$
+
+<center>![](figure/unnamed-chunk-6-1.png){width="14cm"}\center
+
+## Checkpoint:
+-   **Distributions beyond the normal**  
+-   **Defining your generalized linear model** 
+
+## Working with GLMMs
+
+1.  Define a distribution that matches $$y$$.
+2.  Define the linear predictor (fixed and random effects) $$\eta$$.
+3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
+
+## Packages and what are we using them for
+
+``` r
+library(agridat) # Agricultural datasets
+library(glmmTMB) # Package to fit GLMMs
+library(car) # Anova for mixed models
+library(emmeans) # Extract marginal means
+library(multcomp) # Mean multiple comparisons
+library(DHARMa) # Model check
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ------
 
