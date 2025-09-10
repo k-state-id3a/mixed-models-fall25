@@ -344,7 +344,7 @@ library(DHARMa) # Model check
 
 In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much an specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
 
-{% include figure.html img="section3/Rust.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="section3/Rust.png" alt="" caption="" width="80%" %}
 
 **Data**
 
