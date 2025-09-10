@@ -654,7 +654,7 @@ How should they model the experiment?
 
 ### Building a statistical model  
 
-1. What is the *experiment blueprint*? (aka design structure)  
+1. What is the *experiment blueprint*? (aka design structure or structure in the data)  
 2. What are the treatments?  
 
 We can easily come up with two models:
@@ -754,15 +754,13 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
 - Field-specific consensus 
 - Enough to be reproducible  
 
-Example 1:  
-[[link](https://doi.org/10.1093/jxb/erv430)]
+**Example 1:** A study to find out if water capture increased as the result of selection for yield in SX hybrids in the US corn-belt (Reyes et al., 2015). [[link](https://doi.org/10.1093/jxb/erv430)]
 
 {% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 9. Section from Materials and Methods section from a peer-reviewed publication (Reyes et al., 2015)." width="100%" id = "paper1" %}
 
-Example 2:  
-[[link](#)]
+**Example 2:** A study to find out if  developmental telomere attrition is a measure of state in birds, and hence should predict state-dependent decisions such as the relative value assigned to immediate versus delayed food rewards (Bateson et al., 2014). [[link](#)]
 
-{% include figure.html img="day1/paper2.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
+{% include figure.html img="day1/paper2_bateson.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
 
 
 <head>
