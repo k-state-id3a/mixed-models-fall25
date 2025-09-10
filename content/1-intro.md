@@ -435,6 +435,16 @@ $$\hat{\boldsymbol{\beta}}_{ML} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\math
 
 which yields the minimum variance unbiased estimate of $$\boldsymbol{\beta}$$. 
 
+We still have $$\boldsymbol{\Sigma} = 
+\begin{bmatrix} \sigma_{\varepsilon}^2 & 0 & 0 & 0 & \dots & 0 \\ 
+0 & \sigma_{\varepsilon}^2 & 0 & 0 & \dots & 0 \\
+0 & 0 & \sigma_{\varepsilon}^2 & 0 & \dots & 0 \\
+0 & 0 & 0 & \sigma_{\varepsilon}^2 & \dots & 0 \\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\  
+0 & 0 & 0 & 0 & \dots & \sigma_{\varepsilon}^2 \end{bmatrix}$$. 
+
+{% include figure.html img="day1/covmatrix_crd.jpg" alt="" caption="Figure 6. Visual representation of the variance-covariance matrix assuming independent observations. Each tile is an element of the variance-covariance matrix. Tile color indicates said covariance." width="75%" id = "multivariate_normal" %}
+
 #### Random effects  
 
 We could also assume that the effects of the $$j$$th field (i.e., $$u_j$$) arise from a random distribution. 
@@ -452,8 +462,12 @@ where $$\mathbf{V} = Var(\mathbf{y})$$ is the variance-covariance matrix of $$\m
 including residual variance and random-effects variance. Note that this formula yields 
 the same point estimate for $$\boldsymbol{\beta}$$, but with a different confidence interval.  
 
+Now, the variance-covariance matrix $$\boldsymbol{\Sigma}$$ of the marginal distribution has changed (Figure 7). 
+See next section for more details on how it's changed.  
 
 {% include figure.html img="day1/covmatrix_rcbd.jpg" alt="V" caption="Figure 7. Visual representation of the variance-covariance matrix assuming the dependence pattern between observations." width="75%" id = "multivariate_normal" %}
+
+
 
 ## Generalities on mixed models 
 
@@ -482,43 +496,44 @@ $$\mathbf{Z}\mathbf{u}$$ is the random effects part of the model.
 
 {% include modal.html button="Example for <strong>X</strong> and <strong>Z</strong>" color="success" 
 title="Example for <strong>X</strong> and <strong>Z</strong>" 
-text="<strong>Example A.</strong> Let's focus on the first 10 observations of apple diameter. 
-Said first 10 observations of apple diameters include days 3 and 6 (which you can find in <strong>X</strong>), and one observation per field for each day (which you can find in <strong>Z</strong>). $$\mathbf{X} = \begin{array}{cc}  
+text="<strong>Example A.</strong> Let's focus on the first 10 observations of yield. 
+Said first 10 observations of yield include 0 N rates (which you can find in <strong>X</strong>), and observations from fields A, B, and C (which you can find in <strong>Z</strong>). $$\mathbf{X} = \begin{array}{cc}  
 \text{Int} \phantom{-} \text{day} \\ 
 \begin{bmatrix} 
-1 & 3 \\
-1 & 6 \\
-1 & 3 \\
-1 & 6 \\
-1 & 3 \\
-1 & 6 \\
-1 & 3 \\
-1 & 6 \\
-1 & 3 \\
-1 & 6 
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 
 \end{bmatrix} 
 \end{array}$$, $$\mathbf{Z} = \begin{array}{cc}
 \text{f}1 \phantom{-} \text{f}2 \phantom{-} \text{f}3 \phantom{-} \text{f}4 \phantom{-} \text{f}5 \\ 
-\begin{bmatrix} 1 & 0 & 0 & 0 & 0 \\
+\begin{bmatrix} 
+1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 \\
 1 & 0 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
 0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 0 & 1 \\
-0 & 0 & 0 & 0 & 1 \end{bmatrix}
+0 & 0 & 1 & 0 & 0 \end{bmatrix}
 \end{array}$$
 
 ------
 
-<strong>Example B.</strong> Let's focus on the first 10 observations of apple diameter. 
-In this case, we aim to predict <strong>final</strong> diameter based on the apple variety: Red delicious (RD), Gala (G) or Fuji (F).
+<strong>Example B.</strong> Let's focus on the first 10 observations of yield of another experiment. 
+In this case, the experiment wanted to study yield for different hybrids: A, B, and C.
 You can still find this information in <strong>X</strong>, . The <strong>Z</strong> matrix remains the same. 
 
 $$\begin{array}{ccc}  
-& \text{RD} \phantom{-} \text{G} \phantom{-} \text{F} \\ 
+& \text{A} \phantom{-} \text{B} \phantom{-} \text{C} \\ 
 \mathbf{X} = &
 \begin{bmatrix} 
 1 & 0 & 0 \\
@@ -537,15 +552,15 @@ $$\mathbf{Z} = \begin{array}{cc}
 \text{f}1 \phantom{-} \text{f}2 \phantom{-} \text{f}3 \phantom{-} \text{f}4 \phantom{-} \text{f}5 \\ 
 \begin{bmatrix} 
 1 & 0 & 0 & 0 & 0 \\
-0 & 1 & 0 & 0 & 0 \\
-0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 \\
 1 & 0 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
 0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 0 & 1 \end{bmatrix}
+0 & 0 & 1 & 0 & 0 \end{bmatrix}
 \end{array}$$
 " %}
 
@@ -553,16 +568,16 @@ Using the probability distribution form, we can then say that $$E(\mathbf{y}) = 
 and $$Var(\mathbf{y}) = \mathbf{V} = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}$$. 
 Usually, we assume $$\mathbf{G} = \sigma^2_u 
 \begin{bmatrix} 1 & 0 & 0 & \dots 0 \\
-0 & 1 & 0 & \dots 0 \\
-0 & 0 & 1 & \dots 0 \\
+0 & 1 & 0 & \dots & 0 \\
+0 & 0 & 1 & \dots & 0 \\
 \vdots & \vdots & \vdots & \ddots & \vdots \\
-0 & 0 & 0 & \dots 1
+0 & 0 & 0 & \dots & 1
 \end{bmatrix} $$ and  $$\mathbf{R} = \sigma^2 
-\begin{bmatrix} 1 & 0 & 0 & \dots 0 \\
-0 & 1 & 0 & \dots 0 \\
-0 & 0 & 1 & \dots 0 \\
+\begin{bmatrix} 1 & 0 & 0 & \dots & 0 \\
+0 & 1 & 0 & \dots & 0 \\
+0 & 0 & 1 & \dots & 0 \\
 \vdots & \vdots & \vdots & \ddots & \vdots \\
-0 & 0 & 0 & \dots 1
+0 & 0 & 0 & \dots & 1
 \end{bmatrix} $$. 
 
 Then,   
@@ -578,7 +593,7 @@ $$\Sigma = \begin{bmatrix} \sigma^2 + \sigma^2_u & \sigma^2_u & 0 & 0 & 0 & 0 &\
 
 
 \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\ 
-0 & 0 & 0 & 0 & 0 & \dots & \sigma^2 + \sigma^2_u
+0 & 0 & 0 & 0 & 0 & 0 & \dots & \sigma^2 + \sigma^2_u
 \end{bmatrix}.$$
 
 Take your time to digest the variance-covariance matrix above. What type of data do you think generated it? 
@@ -609,8 +624,7 @@ where $$p = rank(\mathbf{X})$$, $$\mathbf{r} = \mathbf{y}-\mathbf{X}\hat{\boldsy
 
 ### Fixed effects versus random effects  
 
-**Group discussion:** what determines if an effect should be random of fixed? 
-Consider the assumptions:  
+What is behind a random effect:  
 
 - $$\hat{\boldsymbol{\beta}} \sim N \left( \boldsymbol{\beta}, (\mathbf{X}^T \mathbf{V}^{-1} \mathbf{X})^{-1} \right) $$ 
 - $$u_j \sim N(0, \sigma^2_u)$$ 
@@ -618,18 +632,23 @@ Consider the assumptions:
 - How were the levels selected? (randomly, carefully selected)  
 - How many levels does the factor have, vs. how many did we observe?   
 
-Some good references:  
-- Page 20 in Gelman (2005). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)]
+Read more in in Gelman (2005, page 20). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)]
 
+**Group discussion:** what determines if an effect should be random of fixed? 
+
+**Case:** scientists have decided they wanted to have 3 different environments (SE Kansas, NW Kansas, Central Kansas) for their experiments. 
+They design a randomized complete block design at each location.  
+However, they are not interested in studying the environments themselves. 
+How should they model the experiment?
 
 ## Applied example  
 
 -   Field experiment at Colby, KS.  
--   One treatment factor: genotype (one-way treatment structure).  
--   Randomized Complete Block Design with 3 repetitions (design structure).  
+-   One treatment factor: Potassium fertilizer (one-way treatment structure).  
+-   Randomized Complete Block Design with 4 repetitions (design structure).  
 
 
-{% include figure.html img="day1/emmeans_blocks.jpg" alt="" caption="Figure 5. Results from a designed experiment. Colors indicate different model assumptions." width="100%" id = "applied_ex" %}
+{% include figure.html img="day1/emmeans_blocks.jpg" alt="" caption="Figure 8. Results from a designed experiment. Colors indicate different model assumptions." width="100%" id = "applied_ex" %}
 
 ### Building a statistical model  
 
