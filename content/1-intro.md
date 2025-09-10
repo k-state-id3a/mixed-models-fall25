@@ -738,8 +738,8 @@ m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 ## Degrees-of-freedom method: kenward-roger
 {% endhighlight %}
 
-<head/>
-<html/>
+</head>
+</html>
 
 
 --------
