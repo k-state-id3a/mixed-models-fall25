@@ -70,32 +70,31 @@ Part 3. Generalized linear mixed models (aka non-normal response) applied to des
 
 ## Linear models review  
 
-### The famous intercept-and-slope linear model
+### The quadratic regression is a linear model, too 
 
-{% include figure.html img="day1/linear_regression_1.jpg" alt="" caption="Figure 2. A good example for the intercept-and-slope model: apple diameter versus time." width="75%" id = "intercept_slope_fig1" %}
+{% include figure.html img="day1/google.jpg" alt="" caption="Figure 2. Google last Tuesday!" width="75%" id = "google" %}
 
-One of the most popular models is the intercept-and-slope model. 
-It's so simple and interpretable! 
+{% include figure.html img="day1/linearmodel1.jpg" alt="" caption="Figure 3. Yield response to nitrogen fertilizer." width="75%" id = "quad.reg" %}
+
+One of the most popular models is the intercept-and-slope model, which is sometimes also called linear regression. 
+A quadratic model is also a linear model.
+
 Most of us learned a way of writing out the statistical model called "model equation form". 
 For a quantitative predictor $$x$$, the model equation form is    
 
-$$y_{i} = \beta_0 + x_{i} \beta_1 + \varepsilon_{i}, \\ \varepsilon_i \sim N(0, \sigma^2),$$  
+$$y_{i} = \beta_0 + x_{i} \beta_1 + x_{i}^2 \beta_2 + \varepsilon_{i}, \\ \varepsilon_i \sim N(0, \sigma^2),$$  
 
 where $$y_{i}$$ is the observed value for the $$i$$th observation, 
 $$\beta_0$$ is the intercept (i.e., the expected value of $$y$$ when $$x=0$$), 
-$$\beta_1$$ is the slope parameter (i.e., the expected increase in $$y_i$$ with a unity increase in $$x$$), 
+$$\beta_1$$ is the linear component (i.e., the expected change in $$y_i$$ with a unity increase in $$x$$), 
+$$\beta_2$$ is the quadratic component (i.e., the expected change in $$y_i$$ with a unity increase in $$x^2$$), 
 $$x_i$$ is the predictor for the $$i$$th observation, 
 and $$\varepsilon_{i}$$ is the difference between the observed value $$y$$ 
-and the expected value $$E(y_i) = \beta_0+x_i\beta_1$$ - that's why we often call it "residual". 
-Typically, $$\boldsymbol{\beta} \equiv \begin{bmatrix} \beta_0 \\ \beta_1 \end{bmatrix}$$ 
+and the expected value $$E(y_i) = \beta_0+x_i\beta_1+ x_{i}^2 \beta_2$$ - that's why we often call it "residual". 
+Typically, $$\boldsymbol{\beta} \equiv \begin{bmatrix} \beta_0 \\ \beta_1 \\ \beta_2 \end{bmatrix}$$ 
 is estimated via maximum likelihood estimation. Also, when we assume a Normal distribution, 
 maximum likelihood estimation yields the same point estimates as least squares estimation. 
 
-
-Look at the plot above ([Figure 2](#intercept_slope_fig1)). 
-The data are measurements of the diameter of apples that were **randomly selected from randomly selected trees** at different points in time.  
-
-Can we fit the intercept-and-slope model to that data? 
 Let's review the assumptions we make in this model (which is the default model in most software).   
 - Linearity  
 - Constant variance  
@@ -103,15 +102,15 @@ Let's review the assumptions we make in this model (which is the default model i
 - Normality  
 
 
-### Let's fit the same statistical model using distribution notation and matrix notation
+### Let's review that simple model using distribution notation and matrix notation
 
 There are other ways of writing out the statistical model above besides the model equation form. 
 Instead of focusing on the distribution of the residuals, we can focus on the distribution of the data $$y$$:  
 
-$$y_{i} \sim N(\mu_i, \sigma^2), \\ \mu_i = \beta_0 + x_{i} \beta_1.$$
+$$y_{i} \sim N(\mu_i, \sigma^2), \\ \mu_i = \beta_0 + x_{i} \beta_1 + x_{i}^2 \beta_2.$$
 
 This type of notation is called "probability distribution form". 
-The probability distribution form makes it easier to switch to other distributions beyond the Normal ([Day 3](3-lesson) of this workshop). 
+The probability distribution form makes it easier to switch to other distributions beyond the Normal ([Part e](3-lesson) of this workshop). 
 We can further express this equation using vectors and matrices:  
 
 $$\mathbf{y} \sim N(\boldsymbol{\mu}, \Sigma), \\ \boldsymbol{\mu} = \boldsymbol{1} \boldsymbol{\beta_0} + \mathbf{x} \boldsymbol{\beta_1} = \mathbf{X}\boldsymbol{\beta},$$
@@ -124,7 +123,7 @@ $$\mathbf{X}$$ is an $$n \times p$$ matrix containing the predictors,
 $$\Sigma$$ is an $$n \times n$$ matrix called variance-covariance matrix. 
 *Note: This type of notation is also convenient to think about how to prepare the data in your spreadsheet. One row per observation (rows in $$\mathbf{X}$$), one variable per column (columns in $$\mathbf{X}$$).*
 
-Let's expand these expressions: 
+These expressions can be expanded into: 
 
 $$\begin{bmatrix}y_1 \\ y_2 \\ \vdots \\ y_n \end{bmatrix} \sim  N \left( \begin{bmatrix}\mu_1 \\ \mu_2 \\ \vdots \\ \mu_n \end{bmatrix}, 
 \begin{bmatrix} Cov(y_1, y_1) & Cov(y_1, y_2) & \dots & Cov(y_1, y_n) \\
@@ -140,23 +139,52 @@ Cov(y_2, y_1) & Var(y_2) & \dots & Cov(y_2, y_n)\\
 \vdots & \vdots & \ddots & \vdots \\ 
 Cov(y_n, y_1) & Cov(y_n, y_2) & \dots & Var(y_n) \end{bmatrix} \right).$$
 
-### Whiteboard example - qualitative predictor  
+
+### Linear model with a qualitative predictor  
 
 Instead of a quantitative predictor, we could have a qualitative (or categorical) predictor. 
-If we have two possible levels, A and B, we could use the same model as before,  
+Let the qualitative predictor have two possible levels, A and B. 
+We could use the same model as before,  
 
 $$y_{i} \sim N(\mu_i, \sigma^2), \\ \mu_i = \beta_0 + x_i \beta_1,$$
 
 and say that $$y_{i}$$ is the observed value for the $$i$$th observation, 
 $$\beta_0$$ is the expected value for A, 
-$$x_i = 0$$ if the $$i$$th observation belongs to A, and $$x_i = 1$$ if the $$i$$th observation belongs to B, 
-$$\beta_1$$ is the difference between A and B. 
+$$x_i = 0$$ if the $$i$$th observation belongs to A, and $$x_i = 1$$ if the $$i$$th observation belongs to B.
+That way, $$\beta_1$$ is the difference between A and B. 
 
-- What happens if the categorical predictor has more than two levels? 
+If the categorical predictor has more than two levels, 
 
-## Variance-covariance matrices  
+$$y_{i} \sim N(\mu_i, \sigma^2), \\ \mu_i = \beta_0 + x_{1i} \beta_1 + x_{2i} \beta_2+ ... + x_{ji} \beta_j,$$
 
-### What does variance even mean?  
+$$y_{i}$$ is still the observed value for the $$i$$th observation, 
+$$\beta_0$$ is the expected value for A (sometimes in designed experiments this level is a control), 
+
+$$x_{1i} = \begin{cases}
+    1, & \text{if } \text{Treatment B} \\
+    0, & \text{if } \text{else}
+\end{cases}, $$
+$$x_{2i} = \begin{cases}
+    1, & \text{if } \text{Treatment C} \\
+    0, & \text{if } \text{else}
+\end{cases}, $$
+$$...\\
+
+x_{ji} = \begin{cases}
+    1, & \text{if } \text{Treatment J} \\
+    1, & \text{if } \text{else}
+\end{cases}, $$
+
+That way, all $$\beta$$s are the differences between the treatment and the control. 
+
+{% capture text %}
+
+
+{% endcapture %}
+{% include card.html text=text header="What are variance-covariance matrices anyways" title="Before we keep on talking about independent observations and residual variance, let's review what that actually means."  %}
+
+ 
+### What does variance mean?  
 
 Random variables are usually described with their properties like the expected value and variance. 
 The expected value and variance are the first and second central moments of a distribution, respectively. 
@@ -164,7 +192,7 @@ Regardless of the distribution of a random variable $$Y$$, we could calculate it
 The expected value measures the average outcome of $$Y$$. 
 The variance measures the dispersion of $$Y$$, i.e. how far the possible outcomes are spread out from their average. 
 
-{% include figure.html img="day1/normal_univariate.png" alt="Univariate Normal distributions" caption="Figure 3. Normal distributions" width="75%" id = "univariate_normal" %}
+{% include figure.html img="day1/normal_univariate.png" alt="Univariate Normal distributions" caption="Figure 4. Normal distributions" width="75%" id = "univariate_normal" %}
 
 **Discuss in the plot above:**  
 -   Expected value  
@@ -185,7 +213,7 @@ where the means of $$y_1$$ and $$y_2$$ are 10 and 8, respectively, and their cov
 
 $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1) \\ E(y_2) \end{bmatrix} , \begin{bmatrix} Var(y_1) & Cov(y_1, y_2) \\ Cov(y_2,y_2) & Var(y_2) \end{bmatrix} \right).$$
 
-{% include figure.html img="day1/normal_multivariate.jpg" alt="Multivariate Normal distribution" caption="Figure 4. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
+{% include figure.html img="day1/normal_multivariate.jpg" alt="Multivariate Normal distribution" caption="Figure 5. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
 
 **Discuss in the plot above:**  
 -   Expected value  
