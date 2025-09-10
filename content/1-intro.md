@@ -258,19 +258,22 @@ Discuss the assumptions:
 - **Independence**  
 - Normality  
 
-{% include figure.html img="day1/covmatrix_crd.jpg" alt="Multivariate Normal distribution" caption="Figure 6. Visual representation of the variance-covariance matrix assuming independent observations." width="75%" id = "multivariate_normal" %}
+{% include figure.html img="day1/covmatrix_crd.jpg" alt="Multivariate Normal distribution" caption="Figure 6. Visual representation of the variance-covariance matrix assuming independent observations. Each tile is an element of the variance-covariance matrix. Tile color indicates said covariance." width="75%" id = "multivariate_normal" %}
 
 
 ### Non-independent observations  
 
-So, the assumption of independence was kind of a stretch. 
-The yield data come from 5 different fields, and  
-This means that the observations are no longer independent, because apples from the same field are more similar to each other than apples from different fields.
-This is when mixed-effects models enter the story - they allow us to indicate *what is similar to what* via random effects. 
-In this case, we expect the growth rate to be similar among fields, but the baseline (a.k.a., the intercept) to be field-specific. Then,   
+The yield data come from 5 different fields.   
+Which means that the assumption of independence was kind of a stretch. 
+In reality, all observations from the same field have *something* in common. 
+It's not reasonable to assume that the observations are independent, because observations from the same field have more in common than observations from different fields. 
+They share the soil and environments and, with that, a baseline fertility and yield potential. 
+
+Basically, we expect the yield response to N fertilizer is similar among fields, but the baseline (a.k.a., the intercept) to be field-specific. Then,   
 
 $$y_{ij} = \beta_{0j} + x_{ij} \beta_1 + \varepsilon_{ij}, \\ \varepsilon_{ij} \sim N(0, \sigma^2),$$  
 
+Now, there are different ways to model that field-specific intercept. 
 
 {% include modal.html button="Example data" color="success" title="Example data" 
 text='<head>
@@ -301,59 +304,59 @@ text='<head>
 <body>
     <table>
         <tr>
-            <th>day</th>
-            <th>diameter_cm</th>
+            <th>Nfert_lbac</th>
+            <th>yield_kgha</th>
             <th>field</th>
         </tr>
         <tr>
-            <td>3</td>
-            <td>2.9</td>
+            <td>0</td>
+            <td>5324</td>
             <td>A</td>
         </tr>
         <tr>
-            <td>3</td>
-            <td>2.8</td>
-            <td>B</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>2.9</td>
-            <td>C</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>2.7</td>
-            <td>D</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>3.0</td>
-            <td>E</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>3.6</td>
+            <td>0</td>
+            <td>6328</td>
             <td>A</td>
         </tr>
         <tr>
-            <td>6</td>
-            <td>3.9</td>
+            <td>0</td>
+            <td>4021</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>7569</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>8359</td>
             <td>B</td>
         </tr>
         <tr>
-            <td>6</td>
-            <td>3.7</td>
+            <td>0</td>
+            <td>7447</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>5897</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>6796</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>6566</td>
             <td>C</td>
         </tr>
         <tr>
-            <td>6</td>
-            <td>3.8</td>
-            <td>D</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>3.7</td>
-            <td>E</td>
+            <td>0</td>
+            <td>7164</td>
+            <td>C</td>
         </tr>
     </table>
 </body>
@@ -361,63 +364,68 @@ text='<head>
 These data would mean  
 
 $$\mathbf{y} = \begin{bmatrix} 
-2.9 \\
-2.8 \\
-2.9 \\
-2.7 \\
-3.0 \\
-3.6 \\
-3.9 \\
-3.7 \\
-3.8 \\
-3.7 \end{bmatrix}$$.
+5324 \\
+6328 \\
+4021 \\
+7569 \\
+8359 \\
+7447 \\
+5897 \\
+6796 \\
+6566 \\
+7164 \end{bmatrix}$$.
 
 For the all-fixed model, 
 $$\mathbf{X} = \begin{bmatrix} 
-1 & 3 & 1 & 0 & 0 & 0 & 0 \\
-1 & 3 & 0 & 1 & 0 & 0 & 0 \\
-1 & 3 & 0 & 0 & 1 & 0 & 0 \\
-1 & 3 & 0 & 0 & 0 & 1 & 0 \\
-1 & 3 & 0 & 0 & 0 & 0 & 1 \\
-1 & 6 & 1 & 0 & 0 & 0 & 0 \\
-1 & 6 & 0 & 1 & 0 & 0 & 0 \\
-1 & 6 & 0 & 0 & 1 & 0 & 0 \\
-1 & 6 & 0 & 0 & 0 & 1 & 0 \\
-1 & 6 & 0 & 0 & 0 & 0 & 1 \end{bmatrix}.$$
+1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 & 1 & 0 & 0\end{bmatrix}.$$
 
 For the mixed model, 
 
 $$\mathbf{X} = \begin{bmatrix} 
-1 & 3 \\
-1 & 3 \\
-1 & 3 \\
-1 & 3 \\
-1 & 3 \\
-1 & 6 \\
-1 & 6 \\
-1 & 6 \\
-1 & 6 \\
-1 & 6 \end{bmatrix},$$
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \\
+1 & 0 \end{bmatrix},$$
 $$\mathbf{Z} = \begin{bmatrix} 
 1 & 0 & 0 & 0 & 0 \\
-0 & 1 & 0 & 0 & 0 \\
-0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 0 & 1 \\
+1 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 & 0 \\
 1 & 0 & 0 & 0 & 0 \\
 0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 \\
 0 & 0 & 1 & 0 & 0 \\
-0 & 0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 0 & 1 \end{bmatrix}.$$
+0 & 0 & 1 & 0 & 0 \end{bmatrix}.$$
 ' %}
 
 ### How do we define $$\beta_{0j}$$?
 
-#### Fixed   
+This is a big forking path in statistical modeling. 
+All-fixed models estimate the effects 
+Mixed-effects models indicate *what is similar to what* via random effects. 
 
-So far, we could have defined an all-fixed model. 
 
-$$y_{ij} = \beta_{0j} + x_{ij} \beta_1 + \varepsilon_{ij}, \\ \beta_{0j} = \beta_0 + u_j \\ \varepsilon_{ij} \sim N(0, \sigma^2),$$  
+#### Fixed effects   
+
+So far, we could have defined an all-fixed model.  
+
+$$y_{ij} = \beta_{0j} + x_{ij} \beta_1 + x^2_{ij} \beta_2 + \varepsilon_{ij}, \\ \beta_{0j} = \beta_0 + u_j \\ \varepsilon_{ij} \sim N(0, \sigma^2),$$  
 
 where $$u_j$$ is the effect of the $$j$$th field on the intercept (i.e., on the baseline). 
 In this case, $$u_j$$ is a fixed effect, which means it may be estimated via least squares estimation or maximum likelihood estimation. 
@@ -427,15 +435,15 @@ $$\hat{\boldsymbol{\beta}}_{ML} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\math
 
 which yields the minimum variance unbiased estimate of $$\boldsymbol{\beta}$$. 
 
-#### Random   
+#### Random effects  
 
-We could also assume that the effects of the $$j$$th tree (i.e., $$b_j$$) arise from a random distribution. 
+We could also assume that the effects of the $$j$$th field (i.e., $$u_j$$) arise from a random distribution. 
 The most common assumption (and the default in most statistical software) is that 
 
 $$u_j \sim N(0, \sigma^2_b).$$
 
 Now, we don't estimate the effect, but the variance $$\sigma^2_b$$. 
-Note that there are $$J$$ levels of the random effects, meaning they are **categorical**.  
+Note that there are $$J$$ levels of the random effects, meaning that a random effect is always **categorical**.  
 Also, now 
 
 $$\hat{\boldsymbol{\beta}}_{REML} = (\mathbf{X}^T \mathbf{V}^{-1} \mathbf{X})^{-1}\mathbf{X}^T \mathbf{V}^{-1} \mathbf{y},$$
@@ -623,7 +631,7 @@ Some good references:
 
 {% include figure.html img="day1/emmeans_blocks.jpg" alt="" caption="Figure 5. Results from a designed experiment. Colors indicate different model assumptions." width="100%" id = "applied_ex" %}
 
-### Building the model  
+### Building a statistical model  
 
 1. What is the *experiment blueprint*? (aka design structure)  
 2. What are the treatments?  
