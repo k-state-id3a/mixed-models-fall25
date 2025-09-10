@@ -133,143 +133,101 @@ Important distributions to know are:
 
 -   **For discrete data**: Binomial, Poisson, Negative Binomial.
 
-<table>
-  <thead>
-    <tr style="background-color: #f2f2f2;">
-      <th>Distribution</th>
-      <th>Support</th>
-      <th>Typical Link</th>
-      <th>Mean / Variance</th>
-      <th>Use</th>
-      <th>Why (Link rationale)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Normal -->
-    <tr>
-      <td><strong>Normal</strong></td>
-      <td>\(y \in (-\infty, +\infty)\)</td>
-      <td><strong>Identity</strong><br>\(g(\mu)=\mu\)</td>
-      <td>\(E(y)=\mu\)<br>\(\mathrm{Var}(y)=\sigma^2\)</td>
-      <td>Continuous outcomes with constant variance</td>
-      <td>\(\mu\) can be any real number; no transformation needed</td>
-    </tr>
-
-    <!-- Student t -->
-    <tr>
-      <td><strong>Student t</strong> (df \(v\))</td>
-      <td>\(y \in (-\infty, +\infty)\)</td>
-      <td><strong>Identity</strong><br>\(g(\mu)=\mu\)</td>
-      <td>\(E(y)=\mu \; (v>1)\)<br>\(\mathrm{Var}(y)=\frac{v}{v-2}\sigma^2 \; (v>2)\)</td>
-      <td>Continuous data, heavy tails (robust to outliers)</td>
-      <td>\(\mu\) unrestricted; identity link keeps interpretation simple</td>
-    </tr>
-
-    <!-- Gamma -->
-    <tr>
-      <td><strong>Gamma</strong></td>
-      <td>\(y \in (0, +\infty)\)</td>
-      <td><strong>Log</strong> or <strong>Inverse</strong><br>\(g(\mu)=\log(\mu)\) or \(g(\mu)=1/\mu\)</td>
-      <td>\(E(y)=\mu=\alpha/\beta\)<br>\(\mathrm{Var}(y)=\phi\,\mu^2\) (GLM)</td>
-      <td>Positive, right-skewed continuous data (e.g., times, rates)</td>
-      <td>Ensures \(\mu>0\); log link handles multiplicative effects & heteroscedasticity</td>
-    </tr>
-
-    <!-- Beta -->
-    <tr>
-      <td><strong>Beta</strong></td>
-      <td>\(y \in (0,1)\)</td>
-      <td><strong>Logit</strong> (common)<br>\(g(\mu)=\log\!\big(\frac{\mu}{1-\mu}\big)\)</td>
-      <td>\(E(y)=\mu=\frac{\alpha}{\alpha+\beta}\)<br>\(\mathrm{Var}(y)=\frac{\mu(1-\mu)}{1+\phi}\) (GLM)</td>
-      <td>Proportions/fractions (excluding 0 and 1)</td>
-      <td>Maps \((0,1)\rightarrow(-\infty,+\infty)\); stabilizes modeling on the mean scale</td>
-    </tr>
-
-    <!-- Poisson -->
-    <tr>
-      <td><strong>Poisson</strong></td>
-      <td>\(y \in \{0,1,2,\dots\}\)</td>
-      <td><strong>Log</strong><br>\(g(\mu)=\log(\mu)\)</td>
-      <td>\(E(y)=\lambda\)<br>\(\mathrm{Var}(y)=\lambda\)</td>
-      <td>Counts (events in time/space)</td>
-      <td>Ensures \(\mu>0\); multiplicative effects and rate interpretation</td>
-    </tr>
-
-    <!-- Binomial -->
-    <tr>
-      <td><strong>Binomial</strong></td>
-      <td>\(y \in \{0,1,\dots,n\}\), \(p\in(0,1)\)</td>
-      <td><strong>Logit</strong> (common) or <strong>Probit</strong><br>\(g(\pi)=\log\!\big(\frac{\pi}{1-\pi}\big)\) or \(g(\pi)=\Phi^{-1}(\pi)\)</td>
-      <td>\(E(y)=n\pi\)<br>\(\mathrm{Var}(y)=n\pi(1-\pi)\)</td>
-      <td>Number of successes in \(n\) trials</td>
-      <td>Maps \((0,1)\rightarrow\mathbb{R}\); natural for probabilities and odds ratios</td>
-    </tr>
-  </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
 <body>
-
 <table>
     <tr>
-        <td><strong>Normal distribution</strong>  
+        <td><strong>Normal distribution</strong><br>
         $$y \sim N(\mu, \sigma^2)$$
-        $$E(y) = \mu$$
-        $$Var(y) = \sigma^2$$
-        Support (i.e., possible values for y):
-        $$y \in (-\infty, +\infty)$$</td>
+        $$E(y) = \mu \quad Var(y) = \sigma^2$$
+        Support:<br>
+        $$y \in (-\infty, +\infty)$$
+        <br><br>
+        <em>GLMM characteristics</em><br>
+        • Type: Continuous<br>
+        • Link: Identity — $$\eta = \mu$$<br>
+        • Mean: $$\mu$$<br>
+        • Var: $$\sigma^2$$
+        </td>
         <td><img src="../images/day3/dist1_normal.png" alt="Normal distribution" width="300" height="300"></td>
     </tr>
     <tr>
-        <td><strong>Student t  distribution</strong>  
+        <td><strong>Student t distribution</strong><br>
         $$y \sim t_{\nu}(\mu, \sigma^2)$$
-        $$E(y) = \mu \text{ for } \nu>1 \text{, otherwise undefined}$$
-        $$Var(y) = \frac{\nu}{\nu-2}\sigma^2 \text{ for }
-        \\ \nu>2 \text{, otherwise undefined}$$
-        Support (i.e., possible values for y):
+        $$E(y) = \mu \;\; (\nu>1), \;\; \text{otherwise undefined}$$<br>
+        $$Var(y) = \tfrac{\nu}{\nu-2}\sigma^2 \;\; (\nu>2), \;\; \text{otherwise undefined}$$
+        Support:<br>
         $$y \in (-\infty, +\infty)$$
+        <br><br>
+        <em>GLMM characteristics</em><br>
+        • Type: Continuous<br>
+        • Link: Identity — $$\eta = \mu$$<br>
+        • Mean: $$\mu$$<br>
+        • Var: $$\sigma^2$$
         </td>
-        <td><img src="../images/day3/dist2_t.png" alt="t distribution" width="300" height="300"></td>
+        <td><img src="../images/day3/dist2_t.png" alt="Student t distribution" width="300" height="300"></td>
     </tr>
     <tr>
-        <td><strong>Gamma distribution</strong>  
-        $$y \sim Gamma(\alpha, \beta)$$
-        $$E(y) = \frac{\alpha}{\beta}$$
-        $$Var(y) = \frac{\alpha}{\beta^2}$$
-        Support (i.e., possible values for y):
-        $$y \in (0, +\infty)$$</td>
+        <td><strong>Gamma distribution</strong><br>
+        $$y \sim \text{Gamma}(\alpha, \beta)$$
+        $$E(y) = \tfrac{\alpha}{\beta} \quad Var(y) = \tfrac{\alpha}{\beta^2}$$
+        Support:<br>
+        $$y \in (0, +\infty)$$
+        <br><br>
+        <em>GLMM characteristics</em><br>
+        • Type: Continuous<br>
+        • Link: Log or Inverse — $$\eta = \log(\mu)$$ or $$\eta = \tfrac{1}{\mu}$$<br>
+        • Mean: $$\mu$$<br>
+        • Var: $$\phi\mu^2$$
+        </td>
         <td><img src="../images/day3/dist3_gamma.png" alt="Gamma distribution" width="300" height="300"></td>
     </tr>
     <tr>
-        <td><strong>Beta distribution</strong>  
-        $$y \sim Beta(\alpha, \beta)$$
-        $$E(y) = \frac{\alpha}{\alpha+\beta}$$
-        $$Var(y) = \frac{\alpha \beta }{(\alpha+\beta)^2(\alpha+\beta+1)}$$
-        Support (i.e., possible values for y):
-        $$y \in (0, 1)$$</td>
+        <td><strong>Beta distribution</strong><br>
+        $$y \sim \text{Beta}(\alpha, \beta)$$
+        $$E(y) = \tfrac{\alpha}{\alpha+\beta} \quad Var(y) = \tfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$$
+        Support:<br>
+        $$y \in (0, 1)$$
+        <br><br>
+        <em>GLMM characteristics</em><br>
+        • Type: Proportion<br>
+        • Link: Logit — $$\eta = \log\!\left(\tfrac{\mu}{1-\mu}\right)$$<br>
+        • Mean: $$\mu$$<br>
+        • Var: $$\tfrac{\mu(1-\mu)}{1+\phi}$$
+        </td>
         <td><img src="../images/day3/dist4_beta.png" alt="Beta distribution" width="300" height="300"></td>
     </tr>
     <tr>
-        <td><strong>Poisson distribution</strong>  
-        $$y \sim Pois(\lambda)$$
-        $$E(y) = \lambda$$
-        $$Var(y) = \lambda$$
-        Support (i.e., possible values for y):
-        $$y \in (0, 1, 2, ..., +\infty)$$</td>
+        <td><strong>Poisson distribution</strong><br>
+        $$y \sim \text{Pois}(\lambda)$$
+        $$E(y) = \lambda \quad Var(y) = \lambda$$
+        Support:<br>
+        $$y \in \{0, 1, 2, \dots\}$$
+        <br><br>
+        <em>GLMM characteristics</em><br>
+        • Type: Discrete count<br>
+        • Link: Log — $$\eta = \log(\lambda)$$<br>
+        • Mean: $$\lambda$$<br>
+        • Var: $$\lambda$$
+        </td>
         <td><img src="../images/day3/dist5_poisson.png" alt="Poisson distribution" width="300" height="300"></td>
+    </tr>
+    <tr>
+        <td><strong>Binomial distribution</strong><br>
+        $$y \sim \text{Binomial}(n, p)$$
+        $$E(y) = np \quad Var(y) = np(1-p)$$
+        Support:<br>
+        $$y \in \{0,1,\dots,n\},\; n \geq 1,\; p \in (0,1)$$
+        <br><br>
+        <em>GLMM characteristics</em><br>
+        • Type: Discrete proportion<br>
+        • Link: Logit or Probit — $$\eta = \log\!\left(\tfrac{\pi}{1-\pi}\right)$$ or $$\eta = \Phi^{-1}(\pi)$$<br>
+        • Mean: $$\pi = \tfrac{\mu}{N}$$<br>
+        • Var: $$N\pi(1-\pi)$$
+        </td>
+        <td><img src="../images/day3/dist6_binomial.png" alt="Binomial distribution" width="300" height="300"></td>
     </tr>
 </table>
 </body>
-
 
 ------
 
