@@ -609,7 +609,7 @@ $$ \eta_{ij} = \mu_0 + ex_i + gen_j + (ex*gen)_{ij}$$
 
 3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
 
-<center>**Logit link**</center>
+**Logit link**
 
 $$ g(p) = \eta = logit(p)$$
 
