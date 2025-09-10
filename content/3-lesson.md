@@ -322,7 +322,7 @@ Var: $$N\pi(1-\pi)$$
 2.  Define the linear predictor (fixed and random effects) $$\eta$$.
 3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
 
-## Packages and what are we using them for
+## Packages
 
 ``` r
 library(agridat) # Agricultural datasets
@@ -333,7 +333,233 @@ library(multcomp) # Mean multiple comparisons
 library(DHARMa) # Model check
 ```
 
+## Example I - Disease Severity
 
+In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much an specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
+
+<center>![](images/Rust.jpg){width="14cm"}</center>
+
+**Data**
+
+``` r
+head(d1)
+```
+
+```         
+##   fungicide block severity_o  severity
+## 1         1     1   71.00000 0.7100000
+## 2         1     2   75.33333 0.7533333
+## 3         1     3   84.66667 0.8466667
+## 4         1     4   71.00000 0.7100000
+## 5         2     1   73.83333 0.7383333
+## 6         2     2   60.66667 0.6066667
+```
+
+1.  Define a distribution that matches $$y$$.
+
+$$ y \sim Beta(\mu, \; \phi) $$
+
+-   Why?
+
+    -   Severity is a percentage: 0 - 100%, in proportion: 0 - 1.
+
+    -   The support from the Beta distribution perfectly matches our response variable.
+
+    -   Recall the support for the Beta distribution:
+
+$$
+y \in (0, \; 1)
+$$
+
+2.  Define a linear predictor $$\eta$$.
+
+$$ \eta_{ij} = \mu_0 + t_i + u_j $$
+
+-   Where:
+
+    -   $\mu_0$ represents the overall/gran mean.
+    -   $t_i$ is the parameter for the effect of treatment, in this case, fungicides - **Fixed effect.**
+    -   $u_j$ is the parameter for the effect of block - **Random effect.**
+
+3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
+
+<center>**Logit link**</center>
+
+$$ g(\mu) = \eta = logit(\mu)$$
+
+-   Why?
+
+    -   Logit links $(-\infty, \; +\infty)$ to $(0, \; 1)$, that is our desired scale.
+
+**Model**
+
+$$
+y_{ij}|u_j \sim Beta(\mu_{ij}, \; \phi) \\ logit(\mu_{ij}) = \eta_{ij} = \mu_0 + t_i + u_j \\ u_j \sim N(0, \sigma^2_u)
+$$
+
+**Fitting the model**
+
+``` r
+m1 <- glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), data = d1)
+summary(m1)
+```
+
+```         
+##  Family: beta  ( logit )
+## Formula:          severity ~ fungicide + (1 | block)
+## Data: d1
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    -72.7    -46.5     50.4   -100.7       34 
+## 
+## Random effects:
+## 
+## Conditional model:
+##  Groups Name        Variance  Std.Dev. 
+##  block  (Intercept) 4.615e-10 2.148e-05
+## Number of obs: 48, groups:  block, 4
+## 
+## Dispersion parameter for beta family (): 24.4 
+## 
+## Conditional model:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)   1.0975     0.2260   4.857 1.19e-06 ***
+## fungicide2   -0.5546     0.3050  -1.819 0.068952 .  
+## fungicide3   -0.8135     0.3018  -2.696 0.007020 ** 
+## fungicide4   -0.7500     0.3024  -2.481 0.013118 *  
+## fungicide5   -1.1663     0.3007  -3.878 0.000105 ***
+## fungicide6   -2.7803     0.3478  -7.995 1.30e-15 ***
+## fungicide7   -0.7072     0.3028  -2.335 0.019533 *  
+## fungicide8   -0.9712     0.3008  -3.228 0.001245 ** 
+## fungicide9   -1.6947     0.3063  -5.533 3.14e-08 ***
+## fungicide10  -2.3778     0.3272  -7.267 3.68e-13 ***
+## fungicide11  -3.2339     0.3787  -8.540  < 2e-16 ***
+## fungicide12  -2.8120     0.3497  -8.042 8.85e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+**Checking the model - Residuals**
+
+``` r
+res_sim1 <- simulateResiduals(m1, plot = TRUE)
+```
+
+![](figure/unnamed-chunk-11-1.png){width="14cm"}
+
+**What are we checking here?**
+
+Residuals: "The footprint of the fitted model" - How much model predictions deviate from observations.
+
+$$ \epsilon_i = y_i - \hat{y}_i $$
+
+For general linear mixed models our residuals are assumed to be normally distributed and with constant variance ($$\varepsilon \sim i.i.d. N(0, \; \sigma^2_\varepsilon)$$). In models with different distributional assumptions, residuals do not follow a known distribution, which makes it tricky to check models in a similar way we did before.
+
+**What is each test doing?**
+
+-   QQ-Plot
+
+    -   Compare the quantiles[^1] of two distributions, if they are similar, we expect them to fall on a one to one diagonal line. In this case, in the y-axis we have the quantiles of the simulated residuals and in the x-axis the quantiles of a standard uniform distribution.
+
+    -   Kolmogorov-Smirnov test: Test for uniformity against a uniform distribution - $Uniform(0, \; 1)$.
+
+    -   Dispersion test: Variance in the observations vs. Variance on the simulations.
+
+    -   Outlier test: Residual values of 0 or 1. Test if the number of outliers is appropriate to the size of the data. Does not quantify the amount of outliers.
+
+-   Residual vs Predicted
+
+    -   Show whether we have homocedasticity of the variances (constant variance across predicted values) or not. Usually, if higher or lower predicted values have higher or lower variance, the plot will present a "funnel" shape. Ideally the plot is a random scatter of points.
+
+    -   Fit smoothed splines in three points of the quantile residuals, 0.25, 0.50, and 0.75. Test whether these lines are flat or have trends. For a random scatter, we do not expect to see trends at any of these points, this would indicate heterocedasticity.
+
+    -   It also indicated when outliers are detected by producing a red asterisk.
+
+[^1]: Quantiles divide a dataset into equal-sized subsets, helping to understand more about the distribution of the data.
+
+**ANOVA**
+
+``` r
+Anova(m1)
+```
+
+```         
+## Analysis of Deviance Table (Type II Wald chisquare tests)
+## 
+## Response: severity
+##            Chisq Df Pr(>Chisq)    
+## fungicide 196.07 11  < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+**Post-hoc test - Mean comparisons**
+
+``` r
+emmeans(m1, ~fungicide, type = "response")
+```
+
+```         
+##  fungicide response     SE  df asymp.LCL asymp.UCL
+##  1            0.750 0.0424 Inf    0.6580     0.824
+##  2            0.632 0.0477 Inf    0.5352     0.720
+##  3            0.571 0.0490 Inf    0.4729     0.663
+##  4            0.586 0.0488 Inf    0.4884     0.677
+##  5            0.483 0.0495 Inf    0.3875     0.579
+##  6            0.157 0.0348 Inf    0.0998     0.237
+##  7            0.596 0.0486 Inf    0.4987     0.687
+##  8            0.532 0.0495 Inf    0.4346     0.626
+##  9            0.355 0.0473 Inf    0.2686     0.452
+##  10           0.217 0.0402 Inf    0.1489     0.306
+##  11           0.106 0.0286 Inf    0.0612     0.176
+##  12           0.153 0.0344 Inf    0.0966     0.233
+## 
+## Confidence level used: 0.95 
+## Intervals are back-transformed from the logit scale
+```
+
+### What if we use a less appropriate assumption for severity?
+
+Let's check Gamma!
+
+``` r
+m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log"), data = d1)
+res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
+```
+
+![](figure/unnamed-chunk-14-1.png){width="14cm"}
+
+![](figure/unnamed-chunk-15-1.png){width="14cm"}
+
+**Recall:**
+
+-   Gamma - $$Var(y) = \phi\mu^2$$
+
+-   Beta - $$Var(y) = \frac{\mu(1-\mu)}{1+\phi}$$
+
+**Dispersion on the Beta model**
+
+``` r
+disp1 <- testDispersion(m1)
+```
+
+![](figure/unnamed-chunk-16-1.png){width="14cm"}
+
+**Dispersion on the Gamma model**
+
+``` r
+disp1_2 <- testDispersion(m1_2)
+```
+
+![](figure/unnamed-chunk-17-1.png){width="14cm"}
+
+Signs of underdispersion
+
+**Dispersion:** How spread out the data are around their mean - Relationship between the variance and the mean assumed by the distribution in the GLMM.
+
+-   Underdispersion: The dispersion in the observed data is lower than the one expected by the model
+
+-   Overdispersion: The dispersion in the observed data is higher than the one expected by the model
 
 
 
