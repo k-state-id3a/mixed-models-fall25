@@ -561,7 +561,172 @@ Signs of underdispersion
 
 -   Overdispersion: The dispersion in the observed data is higher than the one expected by the model
 
+## Example 2 - Seed germination
 
+The following data arise from an experiment studying germination of Orobanche seeds [(Crowder, 1978)](https://www.jstor.org/stable/2346223?origin=crossref&seq=1).\
+The data indicate the total number of seeds ($$n$$) and the number of germinated seeds ($$germ$$). The experiment was conducted as a completely randomized design with a 2 x 2 factorial treatment structure for type of extract (bean or cucumber) and extract concentration (o75 and o73).
+
+**Data**
+
+``` r
+head(d2)
+```
+
+```         
+##   plate gen extract germ  n
+## 1    P1 O75    bean   10 39
+## 2    P2 O75    bean   23 62
+## 3    P3 O75    bean   23 81
+## 4    P4 O75    bean   26 51
+## 5    P5 O75    bean   17 39
+## 6    P6 O73    bean    8 16
+```
+
+1.  Define a distribution that matches $$y$$.
+
+$$ y \sim Binomial(n, \; p) $$
+
+-   Why?
+
+    -   We have the number of trials $n$
+
+    -   For each trial we have the number of successes $germ$
+
+    -   Remember the support for the Binomial distribution:
+
+$$ y \in (1, 2, ..., n) $$
+
+2.  Define a linear predictor $$\eta$$.
+
+$$ \eta_{ij} = \mu_0 + ex_i + gen_j + (ex*gen)_{ij}$$
+
+-   Where:
+
+    -   $$\mu_0$$ represents the overall/gran mean.
+    -   $$ex_i$$ is the parameter for the effect of extract - **Fixed effect.**
+    -   $$gen_j$$ is the parameter for the effect of dilution - **Fixed effect.**
+    -   $$(ex*gen)_{ij}$$ is the parameter for the effect of the interaction between the extract and the dilution.
+
+3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
+
+<center>**Logit link**</center>
+
+$$ g(p) = \eta = logit(p)$$
+
+-   Why?
+
+    -   Logit links $$(-\infty, \; +\infty)$$ to $$(0, \; 1)$$, that is our desired scale.
+
+**Model**
+
+$$ y_{ij}|u_j \sim Binomial(n, \; p) \\ logit(p) = \eta_{ij} = \mu_0 + t_i + u_j \\ u_j \sim N(0, \sigma^2_u) $$
+
+**Fitting the model**
+
+``` r
+m2 <- glmmTMB(cbind(germ, n-germ) ~ extract*gen, family = binomial(link = "logit"), data = d2)
+summary(m2)
+```
+
+```         
+##  Family: binomial  ( logit )
+## Formula:          cbind(germ, n - germ) ~ extract * gen
+## Data: d2
+## 
+##      AIC      BIC   logLik deviance df.resid 
+##    117.9    122.1    -54.9    109.9       17 
+## 
+## 
+## Conditional model:
+##                        Estimate Std. Error z value Pr(>|z|)  
+## (Intercept)             -0.4122     0.1842  -2.238   0.0252 *
+## extractcucumber          0.5401     0.2498   2.162   0.0306 *
+## genO75                  -0.1459     0.2232  -0.654   0.5132  
+## extractcucumber:genO75   0.7781     0.3064   2.539   0.0111 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+-   Different ways to fit the model with Binomial distribution - Depends on what you have.
+
+    -   **Important point:** Remember what we are modeling - Probability of success: $$p$$.
+
+    -   For **Binomial distribution:**
+
+        -   **Case 1:** $$y$$ = Counts of success with know trials - Success and Failures = (success, trials - success).
+
+        -   **Case 2:** $$y$$ = Counts of successes with weights - success/trials and weights = trials.
+
+            -   Only if proportions come from counts!
+
+        -   **Case 3:** A special case: $$y$$ = Binary outcomes (0/1 per observation) - Binomial with n = 1 - **Logistic regression**.
+
+    -   For **Beta distribution**:
+
+        -   **Case 4:** $$y$$ = Proportions not from counts (between 0 and 1) - No trial number, proportion only
+
+            -   Do not use Binomial distribution here!
+
+``` r
+# Case 1
+glmmTMB(cbind(germ, n-germ) ~ extract*gen, family = binomial(link = "logit"), data = data)
+
+# Case 2
+glmmTMB(germ/n ~ extract*gen, family = binomial(link = "logit"), weights = n, data = data)
+
+# Case 3 - If germinated = yes (1) / no (0)
+glmmTMB(germinated ~ extract*gen, family = binomial(link = "logit"), data = data)
+
+# Case 4 - From example 1 - Severity: Proportion of area damaged by disease
+glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), data = data)
+```
+
+For the logistic regression:
+
+![](figure/unnamed-chunk-21-1.png){width="14cm"}
+
+**Checking the model**
+
+``` r
+res_sim2 <- simulateResiduals(m2, plot = TRUE)
+```
+
+![](figure/unnamed-chunk-22-1.png){width="14cm"}
+
+**ANOVA**
+
+``` r
+Anova(m2)
+```
+
+```         
+## Analysis of Deviance Table (Type II Wald chisquare tests)
+## 
+## Response: cbind(germ, n - germ)
+##               Chisq Df Pr(>Chisq)    
+## extract     53.3974  1  2.725e-13 ***
+## gen          3.0426  1    0.08111 .  
+## extract:gen  6.4477  1    0.01111 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+**Marginal means**
+
+``` r
+emmeans(m2, ~extract*gen, type = "response")
+```
+
+```         
+##  extract  gen  prob     SE  df asymp.LCL asymp.UCL
+##  bean     O73 0.398 0.0441 Inf     0.316     0.487
+##  cucumber O73 0.532 0.0420 Inf     0.449     0.613
+##  bean     O75 0.364 0.0292 Inf     0.309     0.423
+##  cucumber O75 0.681 0.0271 Inf     0.626     0.732
+## 
+## Confidence level used: 0.95 
+## Intervals are back-transformed from the logit scale
+```
 
 
 
