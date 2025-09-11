@@ -71,9 +71,9 @@ In which:
 
 -   Linear predictor: $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$
 
-    -   $g(\mu) = \eta$ is the link function applied to the expected value.
+    -   $$g(\mu) = \eta$$ is the link function applied to the expected value.
 
-    -   $E(\mathbf{y|u}) = \mu$.
+    -   $$E(\mathbf{y|u}) = \mu$$.
 
 ### Components of GLMMs
 
@@ -167,7 +167,7 @@ Mean: $$\mu$$
 
 Var: $$\sigma^2$$
 
-{% include figure.html img="images/day3/normaldist.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="images/day3/normaldist.png" alt="" caption="" width="80%" %}
 
 #### **Student t distribution**
 
@@ -195,7 +195,7 @@ Mean: $$\mu$$
 
 Var: $$\sigma^2$$
 
-{% include figure.html img="images/day3/tdist.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="images/day3/tdist.png" alt="" caption="" width="80%" %}
 
 #### **Gamma distribution**
 
@@ -224,7 +224,7 @@ Mean: $$\mu$$
 
 Var: $$\phi\mu^2$$
 
-{% include figure.html img="images/day3/gammadist.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="images/day3/gammadist.png" alt="" caption="" width="80%" %}
 
 #### **Beta distribution**
 
@@ -253,7 +253,7 @@ Mean: $$\mu$$
 
 Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
 
-{% include figure.html img="images/day3/betadist.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="images/day3/betadist.png" alt="" caption="" width="80%" %}
 
 #### **Poisson distribution**
 
@@ -284,7 +284,7 @@ Mean: $$\lambda$$
 
 Var: $$\lambda$$
 
-{% include figure.html img="images/day3/poissondist.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="images/day3/poissondist.png" alt="" caption="" width="80%" %}
 
 #### **Binomial distribution**
 
@@ -317,7 +317,7 @@ Mean: $$\pi = \frac{\mu}{N}$$
 
 Var: $$N\pi(1-\pi)$$
 
-{% include figure.html img="images/day3/binomialdist.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="images/day3/binomialdist.png" alt="" caption="" width="80%" %}
 
 ## Checkpoint:
 -   **Distributions beyond the normal**  
@@ -451,7 +451,7 @@ summary(m1)
 res_sim1 <- simulateResiduals(m1, plot = TRUE)
 ```
 
-![](figure/unnamed-chunk-11-1.png){width="14cm"}
+{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
 
 **What are we checking here?**
 
@@ -533,9 +533,9 @@ m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log")
 res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 ```
 
-![](figure/unnamed-chunk-14-1.png){width="14cm"}
+{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
 
-![](figure/unnamed-chunk-15-1.png){width="14cm"}
+{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
 
 **Recall:**
 
@@ -549,7 +549,7 @@ res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 disp1 <- testDispersion(m1)
 ```
 
-![](figure/unnamed-chunk-16-1.png){width="14cm"}
+{% include figure.html img="images/day3/....jpg" alt="" caption="" width="80%" %}
 
 **Dispersion on the Gamma model**
 
@@ -557,7 +557,7 @@ disp1 <- testDispersion(m1)
 disp1_2 <- testDispersion(m1_2)
 ```
 
-![](figure/unnamed-chunk-17-1.png){width="14cm"}
+{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
 
 Signs of underdispersion
 
@@ -689,7 +689,7 @@ glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), 
 
 For the logistic regression:
 
-![](figure/unnamed-chunk-21-1.png){width="14cm"}
+{% include figure.html img="images/day3/" alt="" caption="" width="80%" %}
 
 **Checking the model**
 
@@ -697,7 +697,7 @@ For the logistic regression:
 res_sim2 <- simulateResiduals(m2, plot = TRUE)
 ```
 
-![](figure/unnamed-chunk-22-1.png){width="14cm"}
+{% include figure.html img="images/day3/" alt="" caption="" width="80%" %}
 
 **ANOVA**
 
