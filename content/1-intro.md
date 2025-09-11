@@ -420,7 +420,7 @@ This is a big forking path in statistical modeling.
 All-fixed models estimate the effects 
 Mixed-effects models indicate *what is similar to what* via random effects. 
 
-{% include figure.html img="day1/linearmodel2_b0j.jpg" alt="" caption="Figure 6. Yield response to nitrogen fertilizer. Fitted lines show the responses with different intercepts, $$\beta_{0j}$$" width="75%" id = "quad.reg" %}
+{% include figure.html img="day1/linearmodel2_b0j.jpg" alt="" caption="Figure 6. Yield response to nitrogen fertilizer. Fitted lines show the responses with different intercepts, $\beta_{0j}$" width="75%" id = "quad.reg" %}
 
 #### Fixed effects   
 
