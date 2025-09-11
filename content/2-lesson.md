@@ -6,7 +6,7 @@ topics: Designed Experiments; Randomized Complete Block Designs; Split-Plot-Desi
 
 {% capture text %}
 Mixed-effects models combine fixed effects and random effects. 
-Typically, we can define a mixed-effects model as 
+Typically, we can define a Gaussian mixed-effects model as 
 
 $$\mathbf{y} = \mathbf{X} \boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon}, \\ 
 \begin{bmatrix}\mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \left(
@@ -1289,7 +1289,7 @@ cld(marginal_means_feces,
 
 ## What's next  
 
-- Monday, same time, same place.  
+- Tomorrow, same time, same place.  
 - Non-normal response: proportions, counts, successes.  
 
 Any questions? E-mail me!  

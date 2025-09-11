@@ -113,7 +113,7 @@ This type of notation is called "probability distribution form".
 The probability distribution form makes it easier to switch to other distributions beyond the Normal ([Part e](3-lesson) of this workshop). 
 We can further express this equation using vectors and matrices:  
 
-$$\mathbf{y} \sim N(\boldsymbol{\mu}, \Sigma), \\ \boldsymbol{\mu} = \boldsymbol{1} \boldsymbol{\beta_0} + \mathbf{x} \boldsymbol{\beta_1} = \mathbf{X}\boldsymbol{\beta},$$
+$$\mathbf{y} \sim N(\boldsymbol{\mu}, \Sigma), \\ \boldsymbol{\mu} = \boldsymbol{1} \beta_0 + \mathbf{x} \beta_1 = \mathbf{X}\boldsymbol{\beta},$$
 
 where $$n$$ is the total number of observations, $$p$$ is the total number of parameters, 
 $$\mathbf{y}$$ is an $$n \times 1$$ vector containing all observations, 
