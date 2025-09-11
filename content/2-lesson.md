@@ -98,20 +98,20 @@ $$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}$$
 
 ------
 
-- [Outline for today](#outline-for-today)
+- [Outline for this afternoon](#outline-for-this-afternoon)
 - [Designed experiments](#designed-experiments)
   * [Common types of designed experiments](#common-types-of-designed-experiments)
-    + [Completely Randomized Design (CRD)](#completely-randomized-design--crd-)
-    + [Randomized complete block design (RCBD)](#randomized-complete-block-design--rcbd-)
+    + [Completely Randomized Design (CRD)](#completely-randomized-design-crd-)
+    + [Randomized complete block design (RCBD)](#randomized-complete-block-design-rcbd-)
       - [Discussion: Should blocks be fixed or random?](#discussion--should-blocks-be-fixed-or-random-)
     + [Split-plot design](#split-plot-design)
     + [Repeated measures](#repeated-measures)
 - [Applied examples](#applied-examples)
-- [Applied example I - RCBD](#applied-example-i---rcbd)
-- [Applied example II -- Split-plot design (nested random effects)](#applied-example-ii----split-plot-design--nested-random-effects-)
-- [Applied example III -- repeated measures](#applied-example-iii----repeated-measures)
-- [Applied example IV -- repeated measures with subsampling](#applied-example-iv----repeated-measures-with-subsampling)
-- [What's next](#what-s-next)
+- [Applied example I - RCBD](#applied-example-i-rcbd)
+- [Applied example II -- Split-plot design (nested random effects)](#applied-example-ii-split-plot-design-nested-random-effects-)
+- [Applied example III -- repeated measures](#applied-example-iii-repeated-measures)
+- [Applied example IV -- repeated measures with subsampling](#applied-example-iv-repeated-measures-with-subsampling)
+- [What's next](#whats-next)
 
 ------
 
