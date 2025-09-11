@@ -75,6 +75,7 @@ In which:
 
     -   $$E(\mathbf{y|u}) = \mu$$.
 
+
 ### Components of GLMMs
 
 #### Link Functions
@@ -136,7 +137,6 @@ GLMMs support different distributions from the exponential family. Distributions
 Important distributions to know are:
 
 -   **For continuous data**: Normal, t, Gamma, Beta.
-
 -   **For discrete data**: Binomial, Poisson, Negative Binomial.
 
 #### **Normal distribution**
@@ -318,9 +318,14 @@ Var: $$N\pi(1-\pi)$$
 
 {% include figure.html img="day3/binomialdist.png" alt="" caption="" width="80%" %}
 
+
 ## Checkpoint:
 -   **Distributions beyond the normal**  
 -   **Defining your generalized linear model** 
+
+
+------
+
 
 ## Working with GLMMs
 
@@ -341,7 +346,7 @@ library(DHARMa) # Model check
 
 ## Example I - Disease Severity
 
-In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much an specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
+In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much a specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
 
 {% include figure.html img="day3/Rust.jpg" alt="" caption="" width="80%" %}
 **Data**
@@ -593,24 +598,22 @@ $$ y \sim Binomial(n, \; p) $$
 
 -   Why?
 
-    -   We have the number of trials $n$
-
-    -   For each trial we have the number of successes $germ$
-
+    -   We have the number of trials $$n$$
+    -   For each trial we have the number of successes $$germ$$
     -   Remember the support for the Binomial distribution:
 
 $$ y \in (1, 2, ..., n) $$
 
 2.  Define a linear predictor $$\eta$$.
 
-$$ \eta_{ij} = \mu_0 + ex_i + gen_j + (ex*gen)_{ij}$$
+$$ \eta_{ij} = \mu_0 + ex_i + gen_j + (ex \times gen)_{ij}$$
 
 -   Where:
 
     -   $$\mu_0$$ represents the overall/gran mean.
     -   $$ex_i$$ is the parameter for the effect of extract - **Fixed effect.**
     -   $$gen_j$$ is the parameter for the effect of dilution - **Fixed effect.**
-    -   $$(ex*gen)_{ij}$$ is the parameter for the effect of the interaction between the extract and the dilution.
+    -   $$(ex \times gen)_{ij}$$ is the parameter for the effect of the interaction between the extract and the dilution.
 
 3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
 
@@ -652,24 +655,16 @@ summary(m2)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
--   Different ways to fit the model with Binomial distribution - Depends on what you have.
+-   Different ways to fit the model with Binomial distribution -- depends on what you have.
 
     -   **Important point:** Remember what we are modeling - Probability of success: $$p$$.
-
     -   For **Binomial distribution:**
-
         -   **Case 1:** $$y$$ = Counts of success with know trials - Success and Failures = (success, trials - success).
-
         -   **Case 2:** $$y$$ = Counts of successes with weights - success/trials and weights = trials.
-
             -   Only if proportions come from counts!
-
         -   **Case 3:** A special case: $$y$$ = Binary outcomes (0/1 per observation) - Binomial with n = 1 - **Logistic regression**.
-
     -   For **Beta distribution**:
-
         -   **Case 4:** $$y$$ = Proportions not from counts (between 0 and 1) - No trial number, proportion only
-
             -   Do not use Binomial distribution here!
 
 ``` r
@@ -733,7 +728,9 @@ emmeans(m2, ~extract*gen, type = "response")
 ## Intervals are back-transformed from the logit scale
 ```
 
-# Hierarchical models
+------------
+
+# Workshop wrapup - Hierarchical models
 
 **Why are mixed models sometimes called 'hierarchical' or 'multilevel' models?**
 
@@ -775,15 +772,10 @@ $$
 Where:
 
 -   $$\mu_0$$ is the overall mean.
-
 -   $$f_i$$ is the fixed effect of fungicide applied to the whole plot.
-
 -   $$v_j$$ is the fixed effect of variety applied to the subplot level.
-
 -   $$u_k$$ is the random effect of the block.
-
 -   $$w_l$$ is the random effect of the whole plot level, that comes from $$u_k*f_i$$.
-
 -   The subplot level is nested with residuals, which is parametrized by $$\sigma^2$$.
 
 {% include figure.html img="day3/hierarchical2.jpg" alt="" caption="" width="80%" %}
@@ -823,7 +815,13 @@ responded in which ways.
 
 ## What's next  
 
-- I'll be teaching STAT 720 this summer and STAT 870 this fall. 
+- Check out the books in the [Resources](5-resources) tab. 
+- We will be repeating this workshop in the future! Tell your friends and family!  
+- Claudio will be teaching a workshop on applied Bayesian modeling next Spring (2026).  
+- Josefina will be teaching STAT 720 next Summer (2026) and STAT 870 next Fall. 
 - Feel free to reach out with questions/concerns/more advanced questions.  
-- Please answer this [survey](https://forms.gle/Tm9rnzgSVDcVLAik7) to help me improve future editions of the same workshop/create a follow-up based on demand. 
+- Please answer this [survey]() to help us improve future editions of the same workshop/create a follow-up based on demand. 
 
+------
+
+**References** 
