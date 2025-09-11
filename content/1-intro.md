@@ -72,12 +72,12 @@ Part 3. Generalized linear mixed models (aka non-normal response) applied to des
 
 ### The quadratic regression is a linear model, too 
 
-{% include figure.html img="day1/google.jpg" alt="" caption="Figure 2. Google last Tuesday!" width="75%" id = "google" %}
+{% include figure.html img="day1/linearmodel1.jpg" alt="" caption="Figure 2. Yield response to nitrogen fertilizer." width="75%" id = "quad.reg" %}
 
-{% include figure.html img="day1/linearmodel1.jpg" alt="" caption="Figure 3. Yield response to nitrogen fertilizer." width="75%" id = "quad.reg" %}
-
-One of the most popular models is the intercept-and-slope model, which is sometimes also called linear regression. 
-A quadratic model is also a linear model.
+One of the most popular linear models is the intercept-and-slope model (sometimes also called linear regression), 
+often used to describe the (linear) relationship between two quantitative variables. 
+Quadratic regression is also a linear model, and it's often used to describe relationship between two quantitative variables 
+when it's not exactly linear, but has some type of curvature. 
 
 Most of us learned a way of writing out the statistical model called "model equation form". 
 For a quantitative predictor $$x$$, the model equation form is    
@@ -161,17 +161,17 @@ $$y_{i}$$ is still the observed value for the $$i$$th observation,
 $$\beta_0$$ is the expected value for A (sometimes in designed experiments this level is a control), 
 
 $$x_{1i} = \begin{cases}
-    1, & \text{if } \text{Treatment B} \\
+    1, & \text{if } \text{Treatment is B} \\
     0, & \text{if } \text{else}
 \end{cases}, $$
 $$x_{2i} = \begin{cases}
-    1, & \text{if } \text{Treatment C} \\
+    1, & \text{if } \text{Treatment is C} \\
     0, & \text{if } \text{else}
 \end{cases}, $$
-$$\dots$$
+$$\dots,$$
 
 $$x_{ji} = \begin{cases}
-    1, & \text{if } \text{Treatment J} \\
+    1, & \text{if } \text{Treatment is J} \\
     1, & \text{if } \text{else}
 \end{cases}. $$
 
@@ -219,7 +219,7 @@ $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1)
 
 
 {% endcapture %}
-{% include card.html text=text header="Review" title="What are variance-covariance matrices anyways?"  %}
+{% include card.html text=text header="Review - Variance-covariance" title="What are variance-covariance matrices anyways?"  %}
 
 ## Adding a random effect to the model   
 
@@ -633,6 +633,7 @@ What is behind a random effect:
 - What process is being studied?  
 - How were the levels selected? (randomly, carefully selected)  
 - How many levels does the factor have, vs. how many did we observe?   
+- BLUEs versus BLUPs. 
 
 Read more in in Gelman (2005, page 20). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)]
 
