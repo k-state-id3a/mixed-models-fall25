@@ -166,7 +166,7 @@ Mean: $$\mu$$
 
 Var: $$\sigma^2$$
 
-{% include figure.html img="images/day3/normaldist.png" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/normaldist.png" alt="" caption="" width="80%" %}
 
 #### **Student t distribution**
 
@@ -194,7 +194,7 @@ Mean: $$\mu$$
 
 Var: $$\sigma^2$$
 
-{% include figure.html img="images/day3/tdist.png" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/tdist.png" alt="" caption="" width="80%" %}
 
 #### **Gamma distribution**
 
@@ -223,7 +223,7 @@ Mean: $$\mu$$
 
 Var: $$\phi\mu^2$$
 
-{% include figure.html img="images/day3/gammadist.png" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/gammadist.png" alt="" caption="" width="80%" %}
 
 #### **Beta distribution**
 
@@ -252,7 +252,7 @@ Mean: $$\mu$$
 
 Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
 
-{% include figure.html img="images/day3/betadist.png" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/betadist.png" alt="" caption="" width="80%" %}
 
 #### **Poisson distribution**
 
@@ -283,7 +283,7 @@ Mean: $$\lambda$$
 
 Var: $$\lambda$$
 
-{% include figure.html img="images/day3/poissondist.png" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/poissondist.png" alt="" caption="" width="80%" %}
 
 #### **Binomial distribution**
 
@@ -316,7 +316,7 @@ Mean: $$\pi = \frac{\mu}{N}$$
 
 Var: $$N\pi(1-\pi)$$
 
-{% include figure.html img="images/day3/binomialdist.png" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/binomialdist.png" alt="" caption="" width="80%" %}
 
 ## Checkpoint:
 -   **Distributions beyond the normal**  
@@ -343,7 +343,7 @@ library(DHARMa) # Model check
 
 In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much an specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
 
-{% include figure.html img="images/day3/Rust.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/Rust.jpg" alt="" caption="" width="80%" %}
 **Data**
 
 ``` r
@@ -450,7 +450,7 @@ summary(m1)
 res_sim1 <- simulateResiduals(m1, plot = TRUE)
 ```
 
-{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
 
 **What are we checking here?**
 
@@ -532,9 +532,9 @@ m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log")
 res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 ```
 
-{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
 
-{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
 
 **Recall:**
 
@@ -548,7 +548,7 @@ res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 disp1 <- testDispersion(m1)
 ```
 
-{% include figure.html img="images/day3/....jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/....jpg" alt="" caption="" width="80%" %}
 
 **Dispersion on the Gamma model**
 
@@ -556,7 +556,7 @@ disp1 <- testDispersion(m1)
 disp1_2 <- testDispersion(m1_2)
 ```
 
-{% include figure.html img="images/day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
 
 Signs of underdispersion
 
@@ -688,7 +688,7 @@ glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), 
 
 For the logistic regression:
 
-{% include figure.html img="images/day3/" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/" alt="" caption="" width="80%" %}
 
 **Checking the model**
 
@@ -696,7 +696,7 @@ For the logistic regression:
 res_sim2 <- simulateResiduals(m2, plot = TRUE)
 ```
 
-{% include figure.html img="images/day3/" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/" alt="" caption="" width="80%" %}
 
 **ANOVA**
 
@@ -786,7 +786,7 @@ Where:
 
 -   The subplot level is nested with residuals, which is parametrized by $$\sigma^2$$.
 
-{% include figure.html img="images/day3/hierarchical2.jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/hierarchical2.jpg" alt="" caption="" width="80%" %}
 
 ### Major benefits we get from mixed models   
 
