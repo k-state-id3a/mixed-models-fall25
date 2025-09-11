@@ -550,7 +550,7 @@ $$\tau_i$$ is the main effect of the $$i$$th level of treatment factor 1 (treatm
 $$\alpha_j$$ is the main effect of the $$j$$th level of treatment factor 2 (time), 
 $$(\tau \alpha)_{ij}$$ is their interaction, 
 $$u_k$$ is the random effect of the $$k$$th block, 
-$$v_{ijk}$$ is the random effect of the $$i$$th "miniblock" (whole plot) at the $j$th time, in the $$k$$th block,
+$$v_{ijk}$$ is the random effect of the $$i$$th "miniblock" (whole plot) at the $$j$$th time, in the $$k$$th block,
 and $$\varepsilon_{ijk}$$ is the residual. 
 
 This time, unlike split-plots, $$v_{ijk} \nsim N(0, \sigma^2_v)$$ because 

@@ -4,7 +4,7 @@ nav: Part 1
 topics: Linear models review; Fixed effects vs. random effects
 ---
 
-- [Welcome!](#welcome-)
+- [Welcome!](#welcome)
 - [Housekeeping](#housekeeping)
 - [Outline for today](#outline-for-today)
 - [Linear models review](#linear-models-review)
@@ -14,7 +14,7 @@ topics: Linear models review; Fixed effects vs. random effects
 - [Adding a random effect to the model](#adding-a-random-effect-to-the-model)
   * [The assumption behind independent observations](#the-assumption-behind-independent-observations)
   * [Non-independent observations](#non-independent-observations)
-  * [How do we define $$\beta_{0j}$$?](#how-do-we-define----beta--0j----)
+  * [How do we define $$\beta_{0j}$$?]()
     + [Fixed effects](#fixed-effects)
     + [Random effects](#random-effects)
 - [Generalities on mixed models](#generalities-on-mixed-models)
@@ -25,7 +25,7 @@ topics: Linear models review; Fixed effects vs. random effects
   * [Building a statistical model](#building-a-statistical-model)
 - [Discussions](#discussions)
 - [Summary](#summary)
-- [What's next](#what-s-next)
+- [What's next](#whats-next)
 
 
 ------------------
