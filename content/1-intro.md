@@ -744,6 +744,9 @@ m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 </html>
 
 
+{% include figure.html img="day1/shrinkage.jpg" alt="" caption="Figure 9. Fixed effects versus random effects of blocks. Random effects of blocks arise from a normal distribution." width="100%" id = "paper2" %}
+
+
 --------
 
 
@@ -758,11 +761,11 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
 
 **Example 1:** A study to find out if water capture increased as the result of selection for yield in SX hybrids in the US corn-belt (Reyes et al., 2015). [[link](https://doi.org/10.1093/jxb/erv430)]
 
-{% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 9. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
+{% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
 
 **Example 2:** A study to find out if developmental telomere attrition is a measure of state in birds, and hence should predict state-dependent decisions such as the relative value assigned to immediate versus delayed food rewards (Bateson et al., 2014). [[link](#)]
 
-{% include figure.html img="day1/paper2_bateson.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
+{% include figure.html img="day1/paper2_bateson.jpg" alt="" caption="Figure 11. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
 
 
 ## Summary
