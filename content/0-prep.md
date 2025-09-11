@@ -33,9 +33,9 @@ this is optional, but a good starting point.
         }
     </style>
 </head>
-<body>
-    <pre>
-<code>
+</html>
+
+{% highlight r %}
 install.packages("tidyverse")
 install.packages("glmmTMB")
 install.packages("DHARMa")
@@ -43,10 +43,7 @@ install.packages("car")
 install.packages("emmeans")
 install.packages("multcomp")
 install.packages("agridat")
-</code>
-    </pre>
-</body>
-</html>
+{% endhighlight %}
 
 - **Check out R for Data Science** [(Garrett Grolemund and Hadley Wickham, 2016)](https://r4ds.hadley.nz/) is a free online book that 
 contains basic and advanced information about R programming. 
