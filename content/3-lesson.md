@@ -156,7 +156,7 @@ $$
 y \in (-\infty, \; +\infty)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
 Type of variable: Continuous
 
@@ -184,7 +184,7 @@ $$
 y \in (-\infty, \; +\infty)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
 Type of variable: Continuous
 
@@ -213,7 +213,7 @@ $$
 y \in (0, \; +\infty)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
 Type of variable: Continuous
 
@@ -242,7 +242,7 @@ $$
 y \in (0, \; 1)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
 Type of variable: Proportion
 
@@ -273,7 +273,7 @@ $$
 
 -   Model the number of events occurring in a fixed interval of time/space given a rate of occurrence ($$\lambda$$).
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
 Type of variable: Discrete count
 
@@ -306,7 +306,7 @@ $$
 
 -   Model the number of successes in a fixed number of independent trials ($$n$$) with a given probability of success ($$p$$).
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
 Type of variable: Discrete proportion
 
@@ -321,8 +321,8 @@ Var: $$N\pi(1-\pi)$$
 
 ## Checkpoint:
 -   **Distributions beyond the normal**  
--   **Defining your generalized linear model** 
-
+-   **Defining your generalized linear model**
+-   **Practical example**
 
 ------
 
@@ -455,7 +455,7 @@ summary(m1)
 res_sim1 <- simulateResiduals(m1, plot = TRUE)
 ```
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/residuals_m1.png" alt="" caption="" width="80%" %}
 
 **What are we checking here?**
 
@@ -537,9 +537,9 @@ m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log")
 res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 ```
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/residuals_m1_2.png" alt="" caption="" width="80%" %}
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/multcomp_gammaxbeta.png" alt="" caption="" width="80%" %}
 
 **Recall:**
 
@@ -553,7 +553,7 @@ res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 disp1 <- testDispersion(m1)
 ```
 
-{% include figure.html img="day3/....jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/disp_beta.png" alt="" caption="" width="80%" %}
 
 **Dispersion on the Gamma model**
 
@@ -561,7 +561,7 @@ disp1 <- testDispersion(m1)
 disp1_2 <- testDispersion(m1_2)
 ```
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/disp_gamma.png" alt="" caption="" width="80%" %}
 
 Signs of underdispersion
 
@@ -683,7 +683,7 @@ glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), 
 
 For the logistic regression:
 
-{% include figure.html img="day3/" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/logistic.png" alt="" caption="" width="80%" %}
 
 **Checking the model**
 
@@ -691,7 +691,7 @@ For the logistic regression:
 res_sim2 <- simulateResiduals(m2, plot = TRUE)
 ```
 
-{% include figure.html img="day3/" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/residuals_m2.png" alt="" caption="" width="80%" %}
 
 **ANOVA**
 
@@ -786,13 +786,6 @@ Where:
 - More robust under unbalanced scenarios  
 - Very helpful to handle missing data  
 - No need to average across observations - information is preserved! 
-
-
-
-
-
-
-
 
 >I want to convince the reader of something that appears unreasonable: 
 *multilevel regression deserves to be the default form of regression.* 
