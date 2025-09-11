@@ -8,25 +8,25 @@ topics: Linear models review; Fixed effects vs. random effects
 - [Housekeeping](#housekeeping)
 - [Outline for today](#outline-for-today)
 - [Linear models review](#linear-models-review)
-  * [The famous intercept-and-slope linear model](#the-famous-intercept-and-slope-linear-model)
-  * [Let's fit the same statistical model using distribution notation and matrix notation](#let-s-fit-the-same-statistical-model-using-distribution-notation-and-matrix-notation)
-  * [Whiteboard example - qualitative predictor](#whiteboard-example---qualitative-predictor)
-- [Variance-covariance matrices](#variance-covariance-matrices)
-  * [What does variance even mean?](#what-does-variance-even-mean-)
-  * [On the covariance of two random variables $$y_1$$ and $$y_2$$](#on-the-covariance-of-two-random-variables---y-1---and---y-2--)
+  * [The quadratic regression is a linear model, too](#the-quadratic-regression-is-a-linear-model--too)
+  * [Let's review that simple model using distribution notation and matrix notation](#let-s-review-that-simple-model-using-distribution-notation-and-matrix-notation)
+  * [Linear model with a qualitative predictor](#linear-model-with-a-qualitative-predictor)
 - [Adding a random effect to the model](#adding-a-random-effect-to-the-model)
-  * [Independent observations](#independent-observations)
+  * [The assumption behind independent observations](#the-assumption-behind-independent-observations)
   * [Non-independent observations](#non-independent-observations)
   * [How do we define $$\beta_{0j}$$?](#how-do-we-define----beta--0j----)
-    + [Fixed](#fixed)
-    + [Random](#random)
-- [Generalities -- what are mixed models anyways?](#generalities----what-are-mixed-models-anyways-)
-  * [Random effects](#random-effects)
+    + [Fixed effects](#fixed-effects)
+    + [Random effects](#random-effects)
+- [Generalities on mixed models](#generalities-on-mixed-models)
+  * [Random effects](#random-effects-1)
+  * [Estimation of parameters](#estimation-of-parameters)
   * [Fixed effects versus random effects](#fixed-effects-versus-random-effects)
 - [Applied example](#applied-example)
-  * [Building the model](#building-the-model)
-- [Wrap-up](#wrap-up)
+  * [Building a statistical model](#building-a-statistical-model)
+- [Discussions](#discussions)
+- [Summary](#summary)
 - [What's next](#what-s-next)
+
 
 ------------------
 
@@ -765,7 +765,7 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
 
 **Example 2:** A study to find out if developmental telomere attrition is a measure of state in birds, and hence should predict state-dependent decisions such as the relative value assigned to immediate versus delayed food rewards (Bateson et al., 2014). [[link](#)]
 
-{% include figure.html img="day1/paper2_bateson.jpg" alt="" caption="Figure 11. Section from Materials and Methods section from a peer-reviewed publication." width="90%" id = "paper2" %}
+{% include figure.html img="day1/paper2_bateson.jpg" alt="" caption="Figure 11. Section from Materials and Methods section from a peer-reviewed publication." width="85%" id = "paper2" %}
 
 
 ## Summary
