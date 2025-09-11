@@ -114,8 +114,7 @@ Example of link functions:
       <td>\(g(\mu) = \log(\mu)\)</td>
       <td>Poisson, Gamma dist.</td>
       <td>
-        \(E(\mathbf{y})\) can take any positive values \((\mu > 0)\)<br>
-        Multiplicative effects
+        \(E(\mathbf{y})\) can take any positive values \((\mu > 0)\)
       </td>
     </tr>
   </tbody>
@@ -802,31 +801,6 @@ Where:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% include figure.html img="day3/DHARMa_binomial.png" alt="" caption="" width="80%" %}
-
-
-### Major benefits we get from mixed models   
-
-- Information is **shared** across groups  
-- More robust under unbalanced scenarios  
-- Very helpful to handle missing data  
-- No need to average across observations - information is preserved!  
 
 >I want to convince the reader of something that appears unreasonable: 
 *multilevel regression deserves to be the default form of regression.* 
