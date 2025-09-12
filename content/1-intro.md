@@ -636,7 +636,7 @@ What is behind a random effect:
 - How many levels does the factor have, vs. how many did we observe?   
 - BLUEs versus BLUPs. 
 
-Read more in in Gelman (2005, page 20). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)]
+Read more in in Gelman (2005, page 20). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)], and [Gelman and Hill (2006), page 245](https://sites.stat.columbia.edu/gelman/arm/) 
 
 **Group discussion:** what determines if an effect should be random of fixed? 
 
@@ -819,19 +819,14 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
         <td>The study design (aka structure in the data, or what is similar to what)</td>
     </tr>
     <tr>
-        <th>Assumptions</th>
+        <th>Estimation</th>
         <td>$$\hat{\boldsymbol{\beta}} \sim N \left( \boldsymbol{\beta}, (\mathbf{X}^T \mathbf{V}^{-1} \mathbf{X})^{-1} \right) $$</td>
         <td>$$u_j \sim N(0, \sigma^2_u)$$</td>
     </tr>
     <tr>
         <th>Method of estimation</th>
-        <td>Maximum likelihood, least squares</td>
-        <td>Restricted maximum likelihood (shrinkage)</td>
-    </tr>
-    <tr>
-        <th>Other</th>
-        <td>estimation, BLUEs</td>
-        <td>prediction, BLUPs. Shrinkage.</td>
+        <td>Maximum likelihood, least squares. BLUEs.</td>
+        <td>Restricted maximum likelihood (shrinkage). BLUPs</td>
     </tr>
 </table>
 </body>

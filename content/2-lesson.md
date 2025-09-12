@@ -101,14 +101,14 @@ $$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}$$
 - [Outline for this afternoon](#outline-for-this-afternoon)
 - [Designed experiments](#designed-experiments)
   * [Common types of designed experiments](#common-types-of-designed-experiments)
-    + [Completely Randomized Design (CRD)](#completely-randomized-design-crd-)
-    + [Randomized complete block design (RCBD)](#randomized-complete-block-design-rcbd-)
-      - [Discussion: Should blocks be fixed or random?](#discussion-should-blocks-be-fixed-or-random-)
+    + [Completely Randomized Design (CRD)](#completely-randomized-design-crd)
+    + [Randomized complete block design (RCBD)](#randomized-complete-block-design-rcbd)
+      - [Discussion: Should blocks be fixed or random?](#discussion-should-blocks-be-fixed-or-random)
     + [Split-plot design](#split-plot-design)
     + [Repeated measures](#repeated-measures)
 - [Applied examples](#applied-examples)
 - [Applied example I -- RCBD](#applied-example-i-rcbd)
-- [Applied example II -- Split-plot design (nested random effects)](#applied-example-ii-split-plot-design-nested-random-effects-)
+- [Applied example II -- Split-plot design (nested random effects)](#applied-example-ii-split-plot-design-nested-random-effects)
 - [Applied example III -- repeated measures](#applied-example-iii-repeated-measures)
 - [Applied example IV -- repeated measures with subsampling](#applied-example-iv-repeated-measures-with-subsampling)
 - [What's next](#whats-next)
@@ -323,7 +323,7 @@ $$\Sigma = \begin{bmatrix}
 
 {% include modal.html button="Lab example for RCBD" color="success" id="modal-rcbd-lab" title="Lab example" text=figure_content_rcbd_lab %}
 
-##### Discussion: Should blocks be fixed or random?  
+##### Discussion I: Should blocks be fixed or random?  
 
 This discussion has been very controversial among applied statisticians. 
 
@@ -366,6 +366,11 @@ This discussion has been very controversial among applied statisticians.
 {% include figure.html img="day2/dixon2016.jpg" alt="" caption="Extracted from Dixon (2016)" width="100%" %}
 
 Check out [Dixon (2016).](https://newprairiepress.org/cgi/viewcontent.cgi?article=1474&context=agstatconference) 
+
+##### Discussion II: Should blocks be dropped if not significant?  
+
+- See [Frey et al. (2024)](https://acsess.onlinelibrary.wiley.com/doi/10.1002/agj2.21570)
+
 
 #### Split-plot design    
 
