@@ -171,12 +171,19 @@ Var: $$\sigma^2$$
 #### **Student t distribution**
 
 $$
-y\sim t_v(\mu, \; \sigma^2)
+y\sim t_{\nu}(\mu, \; \sigma^2)
 $$
 
-$$E(y) = \mu for v > 1, otherwise undefined$$
+$$E(y) = \begin{cases}
+    \mu, & \text{if } \nu > 1 \\
+    \text{undefined}, & \text{if } \text{else}
+\end{cases}$$
 
-$$Var(y) = \frac{v}{v-2} \sigma^2, otherwise undefined$$
+$$Var(y) = \begin{cases}
+    \frac{v}{v-2} \sigma^2, & \text{if } \nu > 2 \\
+    \text{undefined}, & \text{if } \text{else}
+\end{cases}$$
+
 
 **Support:**
 
@@ -190,9 +197,9 @@ Type of variable: Continuous
 
 Link: Identity, $$\eta = \mu$$
 
-Mean: $$\mu$$
+Mean: see above. 
 
-Var: $$\sigma^2$$
+Var: see above. 
 
 {% include figure.html img="day3/tdist.png" alt="" caption="" width="80%" %}
 
