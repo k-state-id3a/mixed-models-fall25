@@ -1,10 +1,10 @@
 ---
-title: "Figures Day 1"
+title: "Figures Part 1"
 output: html_document
 date: "2025-03-23"
 ---
 
-This Rmd file shows the code to produce the figures for the first day of the workshop. 
+This Rmd file shows the code to fit the models and produce the figures for the first part of the workshop. 
 
 # Statistical model
 
