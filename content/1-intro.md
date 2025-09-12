@@ -189,7 +189,7 @@ Regardless of the distribution of a random variable $$Y$$, we could calculate it
 The expected value measures the average outcome of $$Y$$. 
 The variance measures the dispersion of $$Y$$, i.e. how far the possible outcomes are spread out from their average. 
 
-{% include figure.html img="day1/normal_univariate.png" alt="Univariate Normal distributions" caption="Figure 4. Normal distributions" width="75%" id = "univariate_normal" %}
+{% include figure.html img="day1/normal_univariate.png" alt="Univariate Normal distributions" caption="Figure 3. Normal distributions" width="75%" id = "univariate_normal" %}
 
 **Discuss in the plot above:**  
 -   Expected value  
@@ -210,7 +210,7 @@ where the means of $$y_1$$ and $$y_2$$ are 10 and 8, respectively, and their cov
 
 $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1) \\ E(y_2) \end{bmatrix} , \begin{bmatrix} Var(y_1) & Cov(y_1, y_2) \\ Cov(y_2,y_2) & Var(y_2) \end{bmatrix} \right).$$
 
-{% include figure.html img="day1/normal_multivariate.jpg" alt="Multivariate Normal distribution" caption="Figure 5. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
+{% include figure.html img="day1/normal_multivariate.jpg" alt="Figure 6. Multivariate Normal distribution" caption="Figure 4. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
 
 **Discuss in the plot above:**  
 -   Expected value  
@@ -420,7 +420,7 @@ This is a big forking path in statistical modeling.
 All-fixed models estimate the effects 
 Mixed-effects models indicate *what is similar to what* via random effects. 
 
-{% include figure.html img="day1/linearmodel2_b0j.jpg" alt="" caption="Figure 6. Yield response to nitrogen fertilizer. Fitted lines show the responses with different intercepts, $\beta_{0j}$." width="75%" id = "quad.reg" %}
+{% include figure.html img="day1/linearmodel2_b0j.jpg" alt="" caption="Figure 6. Yield response to nitrogen fertilizer. Fitted lines show the responses with different intercepts, $$\beta_{0j}$$." width="75%" id = "quad.reg" %}
 
 #### Fixed effects   
 
@@ -444,7 +444,7 @@ We still have $$\boldsymbol{\Sigma} =
 \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\  
 0 & 0 & 0 & 0 & \dots & \sigma_{\varepsilon}^2 \end{bmatrix}$$. 
 
-{% include figure.html img="day1/covmatrix_crd.jpg" alt="" caption="Figure 6. Visual representation of the variance-covariance matrix assuming independent observations. Each tile is an element of the variance-covariance matrix. Tile color indicates said covariance." width="75%" id = "multivariate_normal" %}
+{% include figure.html img="day1/covmatrix_crd.jpg" alt="" caption="Figure 5. Visual representation of the variance-covariance matrix assuming independent observations. Each tile is an element of the variance-covariance matrix. Tile color indicates said covariance." width="75%" id = "multivariate_normal" %}
 
 #### Random effects  
 
