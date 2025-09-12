@@ -820,7 +820,7 @@ responded in which ways.
 - Claudio will be teaching a workshop on applied Bayesian modeling next Spring (2026).  
 - Josefina will be teaching STAT 720 next Summer (2026) and STAT 870 next Fall. 
 - Feel free to reach out with questions/concerns/more advanced questions.  
-- Please answer this [survey]() to help us improve future editions of the same workshop/create a follow-up based on demand. 
+- Please answer this [survey](https://forms.gle/9wBmYvzMC1C3hdmT9) to help us improve future editions of the same workshop/create a follow-up based on demand. 
 
 ------
 

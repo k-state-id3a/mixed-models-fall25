@@ -1291,6 +1291,7 @@ cld(marginal_means_feces,
 
 - Tomorrow, same time, same place.  
 - Non-normal response: proportions, counts, successes.  
+- If you're not coming tomorrow: please answer this [survey](https://forms.gle/9wBmYvzMC1C3hdmT9) to help us improve future editions of the same workshop/create a follow-up based on demand. 
 
 Any questions? E-mail me!  
 
