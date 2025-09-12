@@ -1,0 +1,103 @@
+---
+title: "part3"
+output: html_document
+date: "2025-09-14"
+---
+
+## Library
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(agridat)
+library(glmmTMB)
+library(car)
+library(emmeans)
+library(multcomp)
+library(DHARMa)
+```
+
+## Example I
+
+```{r}
+url <- "https://raw.githubusercontent.com/k-state-id3a/mixed-models-fall25/refs/heads/newpart3/data/example1_part3.csv"
+d1 <- read.csv(url)
+colnames(d1) <- c("fungicide", "block", "severity_o")
+d1 <- transform(d1, fungicide = as.factor(fungicide), block = as.factor(block))
+d1$severity <- d1$severity_o/100
+head(d1)
+```
+
+```{r}
+m1 <- glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), data = d1)
+summary(m1)
+```
+
+```{r}
+res_sim1 <- simulateResiduals(m1, plot = TRUE)
+```
+
+```{r}
+Anova(m1)
+emmeans(m1, ~fungicide, type = "response")
+```
+
+**Beta x Gamma**
+
+```{r}
+m1_2 <- glmmTMB(severity ~ fungicide + (1|block), family = Gamma(link = "log"), data = d1)
+res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
+```
+
+```{r}
+# Mean comparison plot
+means1 <- emmeans(m1, ~fungicide, type = "response")
+means2 <- emmeans(m1_2, ~fungicide, type = "response")
+g1 <- cld(means1, Letters = letters)
+g2 <- cld(means2, Letters = letters)
+
+gd1 <- data.frame(g1)
+gd2 <- data.frame(g2)
+
+gd1$Dist <- "Beta"
+gd2$Dist <- "Gamma"
+comp <- rbind(gd1, gd2)
+
+pos <- position_dodge(width = 0.8)
+
+ggplot(comp, aes(fungicide, response, color = Dist)) +
+  geom_point(position = pos) +
+  geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL), position = pos, width = 0.2) +
+  geom_text(aes(y = asymp.LCL, label = .group), position = pos, vjust = 1, size = 5) +
+  theme_bw(base_size = 24) +
+  scale_color_manual(values = c("Beta" = "#9F3632", "Gamma" = "#2A5783")) +
+  labs(y = "Response", x = "Fungicide")
+```
+
+```{r}
+disp1 <- testDispersion(m1)
+disp1_2 <- testDispersion(m1_2)
+```
+
+## Example II
+
+```{r}
+d2 <- crowder.seeds
+d2$gen <- as.factor(d2$gen)
+d2$extract <- as.factor(d2$extract)
+head(d2)
+```
+
+```{r}
+m2 <- glmmTMB(cbind(germ, n-germ) ~ extract*gen, family = binomial(link = "logit"), data = d2)
+summary(m2)
+```
+
+```{r}
+res_sim2 <- simulateResiduals(m2, plot = TRUE)
+```
+
+```{r}
+Anova(m2)
+emmeans(m2, ~extract*gen, type = "response")
+```
