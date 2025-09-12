@@ -66,7 +66,7 @@ It is **not expected** that you walk out of this workshop as a math notation wiz
 | Variable | Scalar | Vector | Matrix |
 |------------------|------------------|------------------|------------------|
 | Response variable | $$y$$ (e.g., $$y = 4$$) | $$\mathbf{y} \equiv (y_1, y_2, ..., y_n)'$$ | $$\mathbf{y}_{n\times1}$$ |
-| Predictor variable | $$x_{1 i}$$, $$x_{2 i}$$, etc. | $$\mathbf{x}_1 \equiv (x_{1,1}, x_{1, 2}, ..., x_{1, n})$$ $$\mathbf{x}_2 \equiv (x_{2,1}, x_{2, 2}, ..., x_{2, n})$$ | $$\mathbf{X}_{n\times p}$$ |
+| Predictor variable | $$x_{1 i}$$, $$x_{2 i}$$, etc. | $$\mathbf{x}_1 \equiv (x_{1,1}, x_{1, 2}, ..., x_{1, n})'$$ $$\mathbf{x}_2 \equiv (x_{2,1}, x_{2, 2}, ..., x_{2, n})'$$ | $$\mathbf{X}_{n\times p}$$ |
 | Effect parameters | $$\beta_0$$, $$\beta_1$$, etc. | $$\boldsymbol{\beta} \equiv (\beta_0, \beta_1, ..., \beta_p)'$$ | $$\boldsymbol{\beta}_{p\times1}$$ |
 | Variance | $$\sigma^2$$ |  | $$\Sigma$$ (very often we assume $$\Sigma = \sigma^2 \mathbf{I}$$ ) |
 
