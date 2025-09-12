@@ -6,9 +6,9 @@ date: "2025-03-23"
 
 This Rmd file shows the code to produce the figures for the first day of the workshop. 
 
-## Statistical model
+# Statistical model
 
-### Model 1
+## Model 1
 
 ```{r}
 library(lme4)
@@ -35,7 +35,7 @@ getME(m2, "theta")
 getME(m2, "b")
 ```
 
-### Model 2 
+## Model 2 
 
 ```{r}
 url <- "https://raw.githubusercontent.com/k-state-id3a/mixed-models-fall25/refs/heads/newpart3/data/cochrancox_kfert.csv"
@@ -51,7 +51,7 @@ m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 ```
 
 
-## Figures
+# Figures
 
 ```{r}
 library(tidyverse)
@@ -59,7 +59,7 @@ library(MASS)
 library(latex2exp)
 ```
 
-### Figure 1 - attendees 
+## Figure 1 - attendees 
 
 ```{r }
 d <- read.csv("mixedmodels.csv") %>% 
@@ -118,7 +118,7 @@ d %>%
 # ggsave("mixed-models-fall25/images/day1/attendees.jpg")
 ```
 
-### Figure 2 -- scatterplot 
+## Figure 2 -- scatterplot 
 
 ```{r}
 df_n_ss$yhat <- predict(m1)
@@ -143,7 +143,7 @@ df_n_ss %>%
 # ggsave("mixed-models-fall25/images/day1/linearmodel1.jpg", width = 7, height = 5)
 ```
 
-### Figure 3 -- scatterplot quadratic model 2 (with location-specific intercepts)
+## Figure 3 -- scatterplot quadratic model 2 (with location-specific intercepts)
 
 ```{r}
 df_fig$yhat.mixed <- predict(m2, newdata = df_fig)
@@ -169,7 +169,7 @@ df_n_ss %>%
 ```
 
 
-### Figure 4 -- Normal distributions 
+## Figure 4 -- Normal distributions 
 
 
 ```{r echo=FALSE, fig.width=10, message=FALSE, warning=FALSE, fig.align='center'}
@@ -196,7 +196,7 @@ legend("topleft", inset=.05, title="Distributions",
 # dev.off()
 ```
 
-### Figure 5 -- Multivariate normal distribution  
+## Figure 5 -- Multivariate normal distribution  
 
 ```{r}
 set.seed(42)
@@ -217,7 +217,7 @@ lines(7 + 2 * dnorm(sort(dat[which(dat[,2]>8),2]), 8, 1),
 dev.off()
 ```
 
-### Figure 6 -- Visual representation of the variance-covariance matrix assuming independent observations 
+## Figure 6 -- Visual representation of the variance-covariance matrix assuming independent observations 
 
 ```{r}
 diag(sigma(m)^2, nrow = nrow(df_n_ss)) %>% 
@@ -239,7 +239,7 @@ diag(sigma(m)^2, nrow = nrow(df_n_ss)) %>%
 # ggsave("mixed-models-fall25/images/day1/covmatrix_crd.jpg", width = 7, height = 5)
 ```
 
-### Figure 7 -- Visual representation of the variance-covariance matrix from a mixed model
+## Figure 7 -- Visual representation of the variance-covariance matrix from a mixed model
 
 ```{r}
 Z <-  getME(m2, "Z") 
@@ -275,7 +275,7 @@ Z %*% G %*% t(Z) %>%
 # ggsave("mixed-models-fall25/images/day1/covmatrix_rcbd.jpg", width = 7, height = 5)
 ```
 
-### Figure 8 -- RCBD blocks fixed/random
+## Figure 8 -- RCBD blocks fixed/random
 
 
 ```{r}
@@ -311,6 +311,9 @@ as.data.frame(mg_means_fixed$emmeans) %>%
 # ggsave("mixed-models-fall25/images/day1/emmeans_blocks.jpg", width = 6, height = 4)
 ```
 
+
+## Figure 9 -- shrinkage: blocks fixed/random
+
 ```{r}
 data.frame(b0_j = c(as.vector(getME(m2, "b")), as.data.frame(emmeans(m2_fixed, ~sy, at = list(Total_N = 0)))$emmean - mean(as.data.frame(emmeans(m2_fixed, ~sy, at = list(Total_N = 0)))$emmean)), 
            model = rep(c("random", "fixed"), each = 5)) %>% 
@@ -329,6 +332,5 @@ data.frame(b0_j = c(as.vector(getME(m2, "b")), as.data.frame(emmeans(m2_fixed, ~
   geom_point(bins = 20, aes(fill = model), shape=25, size =3, alpha = .8)+
   coord_cartesian(xlim = c(-1750, 1750))
 
-ggsave("mixed-models-fall25/images/day1/shrinkage.jpg", width = 6, height = 2.5)
-
+# ggsave("mixed-models-fall25/images/day1/shrinkage.jpg", width = 6, height = 2.5)
 ```
