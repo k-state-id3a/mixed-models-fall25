@@ -157,13 +157,11 @@ $$
 
 **Characteristics of the distribution**
 
-Type of variable: Continuous
-
-Link: Identity, $$\eta = \mu$$
-
-Mean: $$\mu$$
-
-Var: $$\sigma^2$$
+- Type of variable: Continuous
+- Link: Identity, $$\eta = \mu$$
+- If $$y \sim N(\mu, \psi)$$:
+  - Mean: $$\mu$$
+  - Var: $$\sigma^2$$
 
 {% include figure.html img="day3/normaldist.png" alt="" caption="" width="80%" %}
 
@@ -192,13 +190,11 @@ $$
 
 **Characteristics of the distribution**
 
-Type of variable: Continuous
-
-Link: Identity, $$\eta = \mu$$
-
-Mean: see above. 
-
-Var: see above. 
+- Type of variable: Continuous
+- Link: Identity, $$\eta = \mu$$
+- If $$y \sim t_{\nu}(\mu, \psi)$$:
+  - Mean: $$\mu$$. 
+  - Var: $$\sigma^2$$. 
 
 {% include figure.html img="day3/tdist.png" alt="" caption="" width="80%" %}
 
