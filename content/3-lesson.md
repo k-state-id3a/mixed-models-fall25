@@ -69,7 +69,7 @@ $$
 
 Where:
 
-- $$\mathbf{y|u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
+- $$\mathbf{y} \vert {u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
 - $$\boldsymbol{\mu}$$ is the expected value of $$y$$, 
 - $$\phi$$ is the dispersion parameter of the distribution, 
 - the linear predictor of $$\mu$$ is $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$, where $$g(\cdot)$$ is the link function that is applied to the expected value.
@@ -385,7 +385,7 @@ $$ \eta_{ij} = \mu_0 + t_i + u_j $$
     -   $$t_i$$ is the parameter for the effect of treatment, in this case, fungicides - **Fixed effect.**
     -   $$u_j$$ is the parameter for the effect of block - **Random effect.**
 
-3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
+3.  Define the link function that connects $$E(y)$$ of the assumed distribution and the linear predictor $$\eta$$.
 
 **Logit link**
 
