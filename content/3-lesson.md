@@ -69,8 +69,8 @@ $$
 
 Where:
 
-- $$\mathbf{y} \vert {u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
-- $$\boldsymbol{\mu}$$ is the expected value of $$y$$, 
+- $$\mathbf{y} \vert mathbf{u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
+- $$\boldsymbol{\mu}$$ is the expected value of $$\mathbf{y}$$, 
 - $$\phi$$ is the dispersion parameter of the distribution, 
 - the linear predictor of $$\mu$$ is $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$, where $$g(\cdot)$$ is the link function that is applied to the expected value.
 
@@ -159,9 +159,7 @@ $$
 
 - Type of variable: Continuous
 - Link: Identity, $$\eta = \mu$$
-- If $$y \sim N(\mu, \psi)$$:
-  - Mean: $$\mu$$
-  - Var: $$\sigma^2$$
+- Mean and variance unrelated. 
 
 {% include figure.html img="day3/normaldist.png" alt="" caption="" width="80%" %}
 
@@ -192,9 +190,7 @@ $$
 
 - Type of variable: Continuous
 - Link: Identity, $$\eta = \mu$$
-- If $$y \sim t_{\nu}(\mu, \psi)$$:
-  - Mean: $$\mu$$. 
-  - Var: $$\sigma^2$$. 
+- Mean and variance unrelated. 
 
 {% include figure.html img="day3/tdist.png" alt="" caption="" width="80%" %}
 
@@ -219,7 +215,7 @@ $$
 
 - Type of variable: Continuous
 - Link: Log or Inverse, $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
-- If $$y \sim Gamma(\mu, \psi)$$:
+- If $$y \sim Gamma(\mu, \phi)$$, the relationship between the mean and the variance is:
   - Mean: $$\mu$$
   - Var: $$\phi\mu^2$$
 
@@ -246,7 +242,7 @@ $$
 
 - Type of variable: Proportion
 - Link: Logit, $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
-- If $$y \sim Beta(\mu, \psi)$$:
+- If $$y \sim Beta(\mu, \phi)$$:
   - Mean: $$\mu$$
   - Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
 
@@ -275,7 +271,7 @@ $$
 
 - Type of variable: Discrete count
 - Link: Log, $$\eta = log(\lambda)$$
-- If $$y \sim Pois(\mu, \psi)$$:
+- If $$y \sim Pois(\mu, \phi)$$:
   - Mean: $$\lambda$$
   - Var: $$\lambda$$
 
@@ -306,7 +302,7 @@ $$
 
 - Type of variable: Discrete proportion
 - Link: Logit or probit, $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
-- If $$y \sim Binomial(\mu, \psi)$$:
+- If $$y \sim Binomial(\mu, \phi)$$:
   - Mean: $$\pi = \frac{\mu}{N}$$
   - Var: $$N\pi(1-\pi)$$
 
