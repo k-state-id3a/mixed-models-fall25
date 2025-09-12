@@ -23,7 +23,7 @@ topics: Non-normal data; Wrap-up
 Remember that for a **LMMs**, assuming $$\mathbf{y}$$ arises from a normal distribution, we have:
 
 $$
-\mathbf{y} ={X}\boldsymbol{\beta} + Zu + \boldsymbol{\varepsilon} \\ \mathbf{\begin{bmatrix} \mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \begin{pmatrix}  \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} \mathbf{G} \; 0 \\ 0 \; \mathbf{R} \end{bmatrix} \end{pmatrix}}
+\mathbf{y} =\mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon} \\ \mathbf{\begin{bmatrix} \mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \begin{pmatrix}  \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} \mathbf{G} \; 0 \\ 0 \; \mathbf{R} \end{bmatrix} \end{pmatrix}}
 $$
 
 In which:
@@ -64,7 +64,7 @@ $$
 For **GLMMs** the structure changes based on the distribution we will assume for $$\mathbf{y}$$, but is very similar to the last notation presented. A generic definition would be:
 
 $$
-\mathbf{y|u} \sim P(\mu, \; \phi)
+\mathbf{y|u} \sim P(\boldsymbol{\mu}, \; \phi)
 $$
 
 In which:
@@ -73,7 +73,7 @@ In which:
 
     -   $$g(\mu) = \eta$$ is the link function applied to the expected value.
 
-    -   $$E(\mathbf{y|u}) = \mu$$.
+    -   $$ E ( \mathbf{y} \vert \mathbf{u}) = \boldsymbol{\mu}$$.
 
 
 ### Components of GLMMs
@@ -102,20 +102,20 @@ Example of link functions:
       <td><strong>Identity Link</strong></td>
       <td>\(g(\mu) = \mu\)</td>
       <td>Normal dist.</td>
-      <td>\(E(\mathbf{y})\) can take any real value \((-\infty, \; +\infty)\)</td>
+      <td>\(E(y)\) can take any real value \((-\infty, \; +\infty)\)</td>
     </tr>
     <tr>
       <td><strong>Logit Link</strong></td>
       <td>\(g(\mu) = \log\left(\frac{\mu}{1-\mu}\right)\)</td>
       <td>Logistic, Beta, Binomial dist.</td>
-      <td>\(E(\mathbf{y})\) can take any values between 0 and 1. Maps \((0, \; 1) \rightarrow (-\infty, \; +\infty)\)</td>
+      <td>\(E(y)\) can take any values between 0 and 1. Maps \((0, \; 1) \rightarrow (-\infty, \; +\infty)\)</td>
     </tr>
     <tr>
       <td><strong>Log Link</strong></td>
       <td>\(g(\mu) = \log(\mu)\)</td>
       <td>Poisson, Gamma dist.</td>
       <td>
-        \(E(\mathbf{y})\) can take any positive values \((\mu > 0)\)
+        \(E(y)\) can take any positive values \((\mu > 0)\)
       </td>
     </tr>
   </tbody>
@@ -160,7 +160,7 @@ $$
 
 Type of variable: Continuous
 
-Link: Identity - $$\eta = \mu$$
+Link: Identity, $$\eta = \mu$$
 
 Mean: $$\mu$$
 
@@ -188,7 +188,7 @@ $$
 
 Type of variable: Continuous
 
-Link: Identity - $$\eta = \mu$$
+Link: Identity, $$\eta = \mu$$
 
 Mean: $$\mu$$
 
@@ -217,7 +217,7 @@ $$
 
 Type of variable: Continuous
 
-Link: Log or Inverse - $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
+Link: Log or Inverse, $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
 
 Mean: $$\mu$$
 
@@ -246,7 +246,7 @@ $$
 
 Type of variable: Proportion
 
-Link: Logit - $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
+Link: Logit, $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
 
 Mean: $$\mu$$
 
@@ -277,7 +277,7 @@ $$
 
 Type of variable: Discrete count
 
-Link: Log - $$\eta = log(\lambda)$$
+Link: Log, $$\eta = log(\lambda)$$
 
 Mean: $$\lambda$$
 
@@ -310,7 +310,7 @@ $$
 
 Type of variable: Discrete proportion
 
-Link: Logit or probit - $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
+Link: Logit or probit, $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
 
 Mean: $$\pi = \frac{\mu}{N}$$
 
