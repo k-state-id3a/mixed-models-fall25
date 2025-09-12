@@ -67,13 +67,12 @@ $$
 \mathbf{y|u} \sim P(\boldsymbol{\mu}, \; \phi)
 $$
 
-In which:
+Where:
 
--   Linear predictor: $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$
-
-    -   $$g(\mu) = \eta$$ is the link function applied to the expected value.
-
-    -   $$ E ( \mathbf{y} \vert \mathbf{u}) = \boldsymbol{\mu}$$.
+- $$\mathbf{y|u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
+- $$\boldsymbol{\mu}$$ is the expected value of $$y$$, 
+- $$\phi$$ is the dispersion parameter of the distribution, 
+- the linear predictor of $$\mu$$ is $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$, where $$g(\cdot)$$ is the link function that is applied to the expected value.
 
 
 ### Components of GLMMs
@@ -222,13 +221,11 @@ $$
 
 **Characteristics of the distribution**
 
-Type of variable: Continuous
-
-Link: Log or Inverse, $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
-
-Mean: $$\mu$$
-
-Var: $$\phi\mu^2$$
+- Type of variable: Continuous
+- Link: Log or Inverse, $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
+- If $$y \sim Gamma(\mu, \psi)$$:
+  - Mean: $$\mu$$
+  - Var: $$\phi\mu^2$$
 
 {% include figure.html img="day3/gammadist.png" alt="" caption="" width="80%" %}
 
@@ -251,13 +248,11 @@ $$
 
 **Characteristics of the distribution**
 
-Type of variable: Proportion
-
-Link: Logit, $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
-
-Mean: $$\mu$$
-
-Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
+- Type of variable: Proportion
+- Link: Logit, $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
+- If $$y \sim Beta(\mu, \psi)$$:
+  - Mean: $$\mu$$
+  - Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
 
 {% include figure.html img="day3/betadist.png" alt="" caption="" width="80%" %}
 
@@ -282,13 +277,11 @@ $$
 
 **Characteristics of the distribution**
 
-Type of variable: Discrete count
-
-Link: Log, $$\eta = log(\lambda)$$
-
-Mean: $$\lambda$$
-
-Var: $$\lambda$$
+- Type of variable: Discrete count
+- Link: Log, $$\eta = log(\lambda)$$
+- If $$y \sim Pois(\mu, \psi)$$:
+  - Mean: $$\lambda$$
+  - Var: $$\lambda$$
 
 {% include figure.html img="day3/poissondist.png" alt="" caption="" width="80%" %}
 
@@ -315,13 +308,11 @@ $$
 
 **Characteristics of the distribution**
 
-Type of variable: Discrete proportion
-
-Link: Logit or probit, $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
-
-Mean: $$\pi = \frac{\mu}{N}$$
-
-Var: $$N\pi(1-\pi)$$
+- Type of variable: Discrete proportion
+- Link: Logit or probit, $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
+- If $$y \sim Binomial(\mu, \psi)$$:
+  - Mean: $$\pi = \frac{\mu}{N}$$
+  - Var: $$N\pi(1-\pi)$$
 
 {% include figure.html img="day3/binomialdist.png" alt="" caption="" width="80%" %}
 
