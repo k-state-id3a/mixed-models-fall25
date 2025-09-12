@@ -1,7 +1,7 @@
 ---
-title: "Figures Part 1"
+title: "Part 1"
 output: html_document
-date: "2025-03-23"
+date: "2025-09-13"
 ---
 
 This Rmd file shows the code to fit the models and produce the figures for the first part of the workshop. 
