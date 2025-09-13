@@ -23,7 +23,7 @@ topics: Non-normal data; Wrap-up
 Remember that for a **LMMs**, assuming $$\mathbf{y}$$ arises from a normal distribution, we have:
 
 $$
-\mathbf{y} ={X}\boldsymbol{\beta} + Zu + \boldsymbol{\varepsilon} \\ \mathbf{\begin{bmatrix} \mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \begin{pmatrix}  \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} \mathbf{G} \; 0 \\ 0 \; \mathbf{R} \end{bmatrix} \end{pmatrix}}
+\mathbf{y} =\mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\mathbf{u} + \boldsymbol{\varepsilon} \\ \mathbf{\begin{bmatrix} \mathbf{u} \\ \boldsymbol{\varepsilon} \end{bmatrix} \sim \begin{pmatrix}  \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \begin{bmatrix} \mathbf{G} \; 0 \\ 0 \; \mathbf{R} \end{bmatrix} \end{pmatrix}}
 $$
 
 In which:
@@ -64,16 +64,16 @@ $$
 For **GLMMs** the structure changes based on the distribution we will assume for $$\mathbf{y}$$, but is very similar to the last notation presented. A generic definition would be:
 
 $$
-\mathbf{y|u} \sim P(\mu, \; \phi)
+\mathbf{y|u} \sim P(\boldsymbol{\mu}, \; \phi)
 $$
 
-In which:
+Where:
 
--   Linear predictor: $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$
+- $$\mathbf{y} \vert mathbf{u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
+- $$\boldsymbol{\mu}$$ is the expected value of $$\mathbf{y}$$, 
+- $$\phi$$ is the dispersion parameter of the distribution, 
+- the linear predictor of $$\mu$$ is $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$, where $$g(\cdot)$$ is the link function that is applied to the expected value.
 
-    -   $$g(\mu) = \eta$$ is the link function applied to the expected value.
-
-    -   $$E(\mathbf{y|u}) = \mu$$.
 
 ### Components of GLMMs
 
@@ -101,20 +101,20 @@ Example of link functions:
       <td><strong>Identity Link</strong></td>
       <td>\(g(\mu) = \mu\)</td>
       <td>Normal dist.</td>
-      <td>\(E(\mathbf{y})\) can take any real value \((-\infty, \; +\infty)\)</td>
+      <td>\(E(y)\) can take any real value \((-\infty, \; +\infty)\)</td>
     </tr>
     <tr>
       <td><strong>Logit Link</strong></td>
       <td>\(g(\mu) = \log\left(\frac{\mu}{1-\mu}\right)\)</td>
       <td>Logistic, Beta, Binomial dist.</td>
-      <td>\(E(\mathbf{y})\) can take any values between 0 and 1. Maps \((0, \; 1) \rightarrow (-\infty, \; +\infty)\)</td>
+      <td>\(E(y)\) can take any values between 0 and 1. Maps \((0, \; 1) \rightarrow (-\infty, \; +\infty)\)</td>
     </tr>
     <tr>
       <td><strong>Log Link</strong></td>
       <td>\(g(\mu) = \log(\mu)\)</td>
       <td>Poisson, Gamma dist.</td>
       <td>
-        \(E(\mathbf{y})\) can take any positive values \((\mu > 0)\)
+        \(E(y)\) can take any positive values \((\mu > 0)\)
       </td>
     </tr>
   </tbody>
@@ -136,7 +136,6 @@ GLMMs support different distributions from the exponential family. Distributions
 Important distributions to know are:
 
 -   **For continuous data**: Normal, t, Gamma, Beta.
-
 -   **For discrete data**: Binomial, Poisson, Negative Binomial.
 
 #### **Normal distribution**
@@ -156,27 +155,30 @@ $$
 y \in (-\infty, \; +\infty)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
-Type of variable: Continuous
-
-Link: Identity - $$\eta = \mu$$
-
-Mean: $$\mu$$
-
-Var: $$\sigma^2$$
+- Type of variable: Continuous
+- Link: Identity, $$\eta = \mu$$
+- Mean and variance unrelated. 
 
 {% include figure.html img="day3/normaldist.png" alt="" caption="" width="80%" %}
 
 #### **Student t distribution**
 
 $$
-y\sim t_v(\mu, \; \sigma^2)
+y\sim t_{\nu}(\mu, \; \sigma^2)
 $$
 
-$$E(y) = \mu for v > 1, otherwise undefined$$
+$$E(y) = \begin{cases}
+    \mu, & \text{if } \nu > 1 \\
+    \text{undefined}, & \text{if } \text{else}
+\end{cases}$$
 
-$$Var(y) = \frac{v}{v-2} \sigma^2, otherwise undefined$$
+$$Var(y) = \begin{cases}
+    \frac{v}{v-2} \sigma^2, & \text{if } \nu > 2 \\
+    \text{undefined}, & \text{if } \text{else}
+\end{cases}$$
+
 
 **Support:**
 
@@ -184,15 +186,11 @@ $$
 y \in (-\infty, \; +\infty)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
-Type of variable: Continuous
-
-Link: Identity - $$\eta = \mu$$
-
-Mean: $$\mu$$
-
-Var: $$\sigma^2$$
+- Type of variable: Continuous
+- Link: Identity, $$\eta = \mu$$
+- Mean and variance unrelated. 
 
 {% include figure.html img="day3/tdist.png" alt="" caption="" width="80%" %}
 
@@ -213,15 +211,13 @@ $$
 y \in (0, \; +\infty)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
-Type of variable: Continuous
-
-Link: Log or Inverse - $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
-
-Mean: $$\mu$$
-
-Var: $$\phi\mu^2$$
+- Type of variable: Continuous
+- Link: Log or Inverse, $$\eta = log(\mu)$$ or $$\eta = \frac{1}{\mu}$$
+- If $$y \sim Gamma(\mu, \phi)$$, the relationship between the mean and the variance is:
+  - Mean: $$\mu$$
+  - Var: $$\phi\mu^2$$
 
 {% include figure.html img="day3/gammadist.png" alt="" caption="" width="80%" %}
 
@@ -242,15 +238,13 @@ $$
 y \in (0, \; 1)
 $$
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
-Type of variable: Proportion
-
-Link: Logit - $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
-
-Mean: $$\mu$$
-
-Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
+- Type of variable: Proportion
+- Link: Logit, $$\eta = logit(\mu) = log(\frac{\mu}{1-\mu})$$
+- If $$y \sim Beta(\mu, \phi)$$:
+  - Mean: $$\mu$$
+  - Var: $$\frac{\mu(1-\mu)}{1+\phi}$$
 
 {% include figure.html img="day3/betadist.png" alt="" caption="" width="80%" %}
 
@@ -273,15 +267,13 @@ $$
 
 -   Model the number of events occurring in a fixed interval of time/space given a rate of occurrence ($$\lambda$$).
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
-Type of variable: Discrete count
-
-Link: Log - $$\eta = log(\lambda)$$
-
-Mean: $$\lambda$$
-
-Var: $$\lambda$$
+- Type of variable: Discrete count
+- Link: Log, $$\eta = log(\lambda)$$
+- If $$y \sim Pois(\mu, \phi)$$:
+  - Mean: $$\lambda$$
+  - Var: $$\lambda$$
 
 {% include figure.html img="day3/poissondist.png" alt="" caption="" width="80%" %}
 
@@ -306,21 +298,24 @@ $$
 
 -   Model the number of successes in a fixed number of independent trials ($$n$$) with a given probability of success ($$p$$).
 
-**GLMM characteristics**
+**Characteristics of the distribution**
 
-Type of variable: Discrete proportion
-
-Link: Logit or probit - $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
-
-Mean: $$\pi = \frac{\mu}{N}$$
-
-Var: $$N\pi(1-\pi)$$
+- Type of variable: Discrete proportion
+- Link: Logit or probit, $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
+- If $$y \sim Binomial(\mu, \phi)$$:
+  - Mean: $$\pi = \frac{\mu}{N}$$
+  - Var: $$N\pi(1-\pi)$$
 
 {% include figure.html img="day3/binomialdist.png" alt="" caption="" width="80%" %}
 
+
 ## Checkpoint:
 -   **Distributions beyond the normal**  
--   **Defining your generalized linear model** 
+-   **Defining your generalized linear model**
+-   **Practical example**
+
+------
+
 
 ## Working with GLMMs
 
@@ -341,7 +336,7 @@ library(DHARMa) # Model check
 
 ## Example I - Disease Severity
 
-In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much an specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
+In this example we will evaluate disease severity. The data arises from a randomized complete block design experiment (RCBD) to test fungicide efficacy against yellow rust on wheat. The main response variable is disease severity. Severity refers to how much a specific organ is affected by a given disease. In this case it refers to the leaf area covered by yellow rust lesions, also know as pustules.
 
 {% include figure.html img="day3/Rust.jpg" alt="" caption="" width="80%" %}
 **Data**
@@ -386,7 +381,7 @@ $$ \eta_{ij} = \mu_0 + t_i + u_j $$
     -   $$t_i$$ is the parameter for the effect of treatment, in this case, fungicides - **Fixed effect.**
     -   $$u_j$$ is the parameter for the effect of block - **Random effect.**
 
-3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
+3.  Define the link function that connects $$E(y)$$ of the assumed distribution and the linear predictor $$\eta$$.
 
 **Logit link**
 
@@ -450,7 +445,7 @@ summary(m1)
 res_sim1 <- simulateResiduals(m1, plot = TRUE)
 ```
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/residuals_m1.png" alt="" caption="" width="80%" %}
 
 **What are we checking here?**
 
@@ -532,9 +527,9 @@ m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log")
 res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 ```
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/residuals_m1_2.png" alt="" caption="" width="80%" %}
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/multcomp_gammaxbeta.png" alt="" caption="" width="80%" %}
 
 **Recall:**
 
@@ -548,7 +543,7 @@ res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 disp1 <- testDispersion(m1)
 ```
 
-{% include figure.html img="day3/....jpg" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/disp_beta.png" alt="" caption="" width="80%" %}
 
 **Dispersion on the Gamma model**
 
@@ -556,7 +551,7 @@ disp1 <- testDispersion(m1)
 disp1_2 <- testDispersion(m1_2)
 ```
 
-{% include figure.html img="day3/..." alt="" caption="" width="80%" %}
+{% include figure.html img="day3/disp_gamma.png" alt="" caption="" width="80%" %}
 
 Signs of underdispersion
 
@@ -593,24 +588,22 @@ $$ y \sim Binomial(n, \; p) $$
 
 -   Why?
 
-    -   We have the number of trials $n$
-
-    -   For each trial we have the number of successes $germ$
-
+    -   We have the number of trials $$n$$
+    -   For each trial we have the number of successes $$germ$$
     -   Remember the support for the Binomial distribution:
 
 $$ y \in (1, 2, ..., n) $$
 
 2.  Define a linear predictor $$\eta$$.
 
-$$ \eta_{ij} = \mu_0 + ex_i + gen_j + (ex*gen)_{ij}$$
+$$ \eta_{ij} = \mu_0 + ex_i + gen_j + (ex \times gen)_{ij}$$
 
 -   Where:
 
     -   $$\mu_0$$ represents the overall/gran mean.
     -   $$ex_i$$ is the parameter for the effect of extract - **Fixed effect.**
     -   $$gen_j$$ is the parameter for the effect of dilution - **Fixed effect.**
-    -   $$(ex*gen)_{ij}$$ is the parameter for the effect of the interaction between the extract and the dilution.
+    -   $$(ex \times gen)_{ij}$$ is the parameter for the effect of the interaction between the extract and the dilution.
 
 3.  Define the link function that connects $$E(y)$$ of the assume distribution and the linear predictor $$\eta$$.
 
@@ -652,24 +645,16 @@ summary(m2)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
--   Different ways to fit the model with Binomial distribution - Depends on what you have.
+-   Different ways to fit the model with Binomial distribution -- depends on what you have.
 
     -   **Important point:** Remember what we are modeling - Probability of success: $$p$$.
-
     -   For **Binomial distribution:**
-
         -   **Case 1:** $$y$$ = Counts of success with know trials - Success and Failures = (success, trials - success).
-
         -   **Case 2:** $$y$$ = Counts of successes with weights - success/trials and weights = trials.
-
             -   Only if proportions come from counts!
-
         -   **Case 3:** A special case: $$y$$ = Binary outcomes (0/1 per observation) - Binomial with n = 1 - **Logistic regression**.
-
     -   For **Beta distribution**:
-
         -   **Case 4:** $$y$$ = Proportions not from counts (between 0 and 1) - No trial number, proportion only
-
             -   Do not use Binomial distribution here!
 
 ``` r
@@ -688,7 +673,7 @@ glmmTMB(severity ~ fungicide + (1|block), family = beta_family(link = "logit"), 
 
 For the logistic regression:
 
-{% include figure.html img="day3/" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/logistic.png" alt="" caption="" width="80%" %}
 
 **Checking the model**
 
@@ -696,7 +681,7 @@ For the logistic regression:
 res_sim2 <- simulateResiduals(m2, plot = TRUE)
 ```
 
-{% include figure.html img="day3/" alt="" caption="" width="80%" %}
+{% include figure.html img="day3/residuals_m2.png" alt="" caption="" width="80%" %}
 
 **ANOVA**
 
@@ -733,7 +718,9 @@ emmeans(m2, ~extract*gen, type = "response")
 ## Intervals are back-transformed from the logit scale
 ```
 
-# Hierarchical models
+------------
+
+# Workshop wrapup - Hierarchical models
 
 **Why are mixed models sometimes called 'hierarchical' or 'multilevel' models?**
 
@@ -775,15 +762,10 @@ $$
 Where:
 
 -   $$\mu_0$$ is the overall mean.
-
 -   $$f_i$$ is the fixed effect of fungicide applied to the whole plot.
-
 -   $$v_j$$ is the fixed effect of variety applied to the subplot level.
-
 -   $$u_k$$ is the random effect of the block.
-
 -   $$w_l$$ is the random effect of the whole plot level, that comes from $$u_k*f_i$$.
-
 -   The subplot level is nested with residuals, which is parametrized by $$\sigma^2$$.
 
 {% include figure.html img="day3/hierarchical2.jpg" alt="" caption="" width="80%" %}
@@ -794,13 +776,6 @@ Where:
 - More robust under unbalanced scenarios  
 - Very helpful to handle missing data  
 - No need to average across observations - information is preserved! 
-
-
-
-
-
-
-
 
 >I want to convince the reader of something that appears unreasonable: 
 *multilevel regression deserves to be the default form of regression.* 
@@ -823,7 +798,13 @@ responded in which ways.
 
 ## What's next  
 
-- I'll be teaching STAT 720 this summer and STAT 870 this fall. 
+- Check out the books in the [Resources](5-resources) tab. 
+- We will be repeating this workshop in the future! Tell your friends and family!  
+- Claudio will be teaching a workshop on applied Bayesian modeling next Spring (2026).  
+- Josefina will be teaching STAT 720 next Summer (2026) and STAT 870 next Fall. 
 - Feel free to reach out with questions/concerns/more advanced questions.  
-- Please answer this [survey](https://forms.gle/Tm9rnzgSVDcVLAik7) to help me improve future editions of the same workshop/create a follow-up based on demand. 
+- Please answer this [survey](https://forms.gle/9wBmYvzMC1C3hdmT9) to help us improve future editions of the same workshop/create a follow-up based on demand. 
 
+------
+
+**References** 

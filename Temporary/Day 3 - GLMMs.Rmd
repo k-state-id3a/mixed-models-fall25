@@ -445,8 +445,14 @@ summary(m1)
 
 **Checking the model - Residuals**
 
-```{r, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
+```{r, warning=FALSE, message=FALSE}
 res_sim1 <- simulateResiduals(m1, plot = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, eval=}
+png("residuals_m1.png", width = 1200, height = 900, res = 150)
+simulateResiduals(m1, plot = TRUE)
+dev.off()
 ```
 
 **What are we checking here?**
@@ -500,7 +506,11 @@ m1_2 <- glmmTMB(severity_o ~ fungicide + (1|block), family = Gamma(link = "log")
 res_sim1_2 <- simulateResiduals(m1_2, plot = TRUE)
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
+```{r, eval=FALSE, echo=FALSE, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
+png("residuals_m1_2.png", width = 1200, height = 900, res = 150)
+simulateResiduals(m1_2, plot = TRUE)
+dev.off()
+
 means1 <- emmeans(m1, ~fungicide, type = "response")
 means2 <- emmeans(m1_2, ~fungicide, type = "response")
 g1 <- cld(means1, Letters = letters)
@@ -512,13 +522,25 @@ gd2 <- data.frame(g2)
 comp <- rbind(gd1, gd2)
 comp$id <- ifelse(comp$response > 1, "Gamma", "Beta")
 
-ggplot(comp, aes(fungicide, response)) +
+mcomp <- ggplot(comp, aes(fungicide, response)) +
   geom_point() +
   geom_errorbar(aes(ymin = asymp.LCL, ymax = asymp.UCL)) +
   facet_wrap(~id, scales = "free_y") +
-  geom_text(aes(y = asymp.LCL, label = .group), vjust = 1) +
+  geom_text(aes(y = asymp.LCL, label = .group), vjust = 1, size = 5) +
   theme_bw(base_size = 18) +
+  theme(
+  strip.text = element_text(size = 14),
+  axis.text  = element_text(size = 12),
+  axis.title = element_text(size = 14),
+  legend.text = element_text(size = 12),
+  legend.title = element_text(size = 13)) +
   labs(y = "Response", x = "Fungicide")
+
+ggsave("multcomp_gammaxbeta.png", plot = mcomp, width = 8, height = 5, dpi = 150)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+mcomp
 ```
 
 **Recall:**
@@ -537,6 +559,16 @@ disp1 <- testDispersion(m1)
 
 ```{r, warning=FALSE, message=FALSE, fig.width=12, fig.height=8}
 disp1_2 <- testDispersion(m1_2)
+```
+
+```{r, warning=FALSE, message=FALSE, eval=FALSE, echo=FALSE}
+png("disp_beta.png", width = 1200, height = 900, res = 150)
+testDispersion(m1)
+dev.off()
+
+png("disp_gamma.png", width = 1200, height = 900, res = 150)
+testDispersion(m1_2)
+dev.off()
 ```
 
 Signs of undersdispersion
@@ -649,6 +681,12 @@ plot(x, dbinom(x, 1, 0.6), main = "x ~ Binom(1, 0.6)", type = "h", lwd = 6, ylab
 
 ```{r, warning=FALSE, message=FALSE, fig.width=20, fig.height=8}
 res_sim2 <- simulateResiduals(m2, plot = TRUE)
+```
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE, eval=FALSE}
+png("residuals_m2.png", width = 1200, height = 900, res = 150)
+simulateResiduals(m2, plot = TRUE)
+dev.off()
 ```
 
 **ANOVA**

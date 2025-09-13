@@ -4,29 +4,29 @@ nav: Part 1
 topics: Linear models review; Fixed effects vs. random effects
 ---
 
-- [Welcome!](#welcome-)
+- [Welcome!](#welcome)
 - [Housekeeping](#housekeeping)
 - [Outline for today](#outline-for-today)
 - [Linear models review](#linear-models-review)
-  * [The famous intercept-and-slope linear model](#the-famous-intercept-and-slope-linear-model)
-  * [Let's fit the same statistical model using distribution notation and matrix notation](#let-s-fit-the-same-statistical-model-using-distribution-notation-and-matrix-notation)
-  * [Whiteboard example - qualitative predictor](#whiteboard-example---qualitative-predictor)
-- [Variance-covariance matrices](#variance-covariance-matrices)
-  * [What does variance even mean?](#what-does-variance-even-mean-)
-  * [On the covariance of two random variables $$y_1$$ and $$y_2$$](#on-the-covariance-of-two-random-variables---y-1---and---y-2--)
+  * [The quadratic regression is a linear model, too](#the-quadratic-regression-is-a-linear-model--too)
+  * [Let's review that simple model using distribution notation and matrix notation](#let-s-review-that-simple-model-using-distribution-notation-and-matrix-notation)
+  * [Linear model with a qualitative predictor](#linear-model-with-a-qualitative-predictor)
 - [Adding a random effect to the model](#adding-a-random-effect-to-the-model)
-  * [Independent observations](#independent-observations)
+  * [The assumption behind independent observations](#the-assumption-behind-independent-observations)
   * [Non-independent observations](#non-independent-observations)
-  * [How do we define $$\beta_{0j}$$?](#how-do-we-define----beta--0j----)
-    + [Fixed](#fixed)
-    + [Random](#random)
-- [Generalities -- what are mixed models anyways?](#generalities----what-are-mixed-models-anyways-)
-  * [Random effects](#random-effects)
+  * [How do we define $$\beta_{0j}$$?]()
+    + [Fixed effects](#fixed-effects)
+    + [Random effects](#random-effects)
+- [Generalities on mixed models](#generalities-on-mixed-models)
+  * [Random effects](#random-effects-1)
+  * [Estimation of parameters](#estimation-of-parameters)
   * [Fixed effects versus random effects](#fixed-effects-versus-random-effects)
 - [Applied example](#applied-example)
-  * [Building the model](#building-the-model)
-- [Wrap-up](#wrap-up)
-- [What's next](#what-s-next)
+  * [Building a statistical model](#building-a-statistical-model)
+- [Discussions](#discussions)
+- [Summary](#summary)
+- [What's next](#whats-next)
+
 
 ------------------
 
@@ -72,12 +72,12 @@ Part 3. Generalized linear mixed models (aka non-normal response) applied to des
 
 ### The quadratic regression is a linear model, too 
 
-{% include figure.html img="day1/google.jpg" alt="" caption="Figure 2. Google last Tuesday!" width="75%" id = "google" %}
+{% include figure.html img="day1/linearmodel1.jpg" alt="" caption="Figure 2. Yield response to nitrogen fertilizer." width="75%" id = "quad.reg" %}
 
-{% include figure.html img="day1/linearmodel1.jpg" alt="" caption="Figure 3. Yield response to nitrogen fertilizer." width="75%" id = "quad.reg" %}
-
-One of the most popular models is the intercept-and-slope model, which is sometimes also called linear regression. 
-A quadratic model is also a linear model.
+One of the most popular linear models is the intercept-and-slope model (sometimes also called linear regression), 
+often used to describe the (linear) relationship between two quantitative variables. 
+Quadratic regression is also a linear model, and it's often used to describe relationship between two quantitative variables 
+when it's not exactly linear, but has some type of curvature. 
 
 Most of us learned a way of writing out the statistical model called "model equation form". 
 For a quantitative predictor $$x$$, the model equation form is    
@@ -161,17 +161,17 @@ $$y_{i}$$ is still the observed value for the $$i$$th observation,
 $$\beta_0$$ is the expected value for A (sometimes in designed experiments this level is a control), 
 
 $$x_{1i} = \begin{cases}
-    1, & \text{if } \text{Treatment B} \\
+    1, & \text{if } \text{Treatment is B} \\
     0, & \text{if } \text{else}
 \end{cases}, $$
 $$x_{2i} = \begin{cases}
-    1, & \text{if } \text{Treatment C} \\
+    1, & \text{if } \text{Treatment is C} \\
     0, & \text{if } \text{else}
 \end{cases}, $$
-$$\dots$$
+$$\dots,$$
 
 $$x_{ji} = \begin{cases}
-    1, & \text{if } \text{Treatment J} \\
+    1, & \text{if } \text{Treatment is J} \\
     1, & \text{if } \text{else}
 \end{cases}. $$
 
@@ -189,7 +189,7 @@ Regardless of the distribution of a random variable $$Y$$, we could calculate it
 The expected value measures the average outcome of $$Y$$. 
 The variance measures the dispersion of $$Y$$, i.e. how far the possible outcomes are spread out from their average. 
 
-{% include figure.html img="day1/normal_univariate.png" alt="Univariate Normal distributions" caption="Figure 4. Normal distributions" width="75%" id = "univariate_normal" %}
+{% include figure.html img="day1/normal_univariate.png" alt="Univariate Normal distributions" caption="Figure 3. Normal distributions" width="75%" id = "univariate_normal" %}
 
 **Discuss in the plot above:**  
 -   Expected value  
@@ -210,7 +210,7 @@ where the means of $$y_1$$ and $$y_2$$ are 10 and 8, respectively, and their cov
 
 $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1) \\ E(y_2) \end{bmatrix} , \begin{bmatrix} Var(y_1) & Cov(y_1, y_2) \\ Cov(y_2,y_2) & Var(y_2) \end{bmatrix} \right).$$
 
-{% include figure.html img="day1/normal_multivariate.jpg" alt="Multivariate Normal distribution" caption="Figure 5. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
+{% include figure.html img="day1/normal_multivariate.jpg" alt="Figure 6. Multivariate Normal distribution" caption="Figure 4. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
 
 **Discuss in the plot above:**  
 -   Expected value  
@@ -219,7 +219,7 @@ $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1)
 
 
 {% endcapture %}
-{% include card.html text=text header="Review" title="What are variance-covariance matrices anyways?"  %}
+{% include card.html text=text header="Review - Variance-covariance" title="What are variance-covariance matrices anyways?"  %}
 
 ## Adding a random effect to the model   
 
@@ -420,6 +420,7 @@ This is a big forking path in statistical modeling.
 All-fixed models estimate the effects 
 Mixed-effects models indicate *what is similar to what* via random effects. 
 
+{% include figure.html img="day1/linearmodel2_b0j.jpg" alt="" caption="Figure 6. Yield response to nitrogen fertilizer. Fitted lines show the responses with different intercepts, $$\beta_{0j}$$." width="75%" id = "quad.reg" %}
 
 #### Fixed effects   
 
@@ -443,7 +444,7 @@ We still have $$\boldsymbol{\Sigma} =
 \vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\  
 0 & 0 & 0 & 0 & \dots & \sigma_{\varepsilon}^2 \end{bmatrix}$$. 
 
-{% include figure.html img="day1/covmatrix_crd.jpg" alt="" caption="Figure 6. Visual representation of the variance-covariance matrix assuming independent observations. Each tile is an element of the variance-covariance matrix. Tile color indicates said covariance." width="75%" id = "multivariate_normal" %}
+{% include figure.html img="day1/covmatrix_crd.jpg" alt="" caption="Figure 5. Visual representation of the variance-covariance matrix assuming independent observations. Each tile is an element of the variance-covariance matrix. Tile color indicates said covariance." width="75%" id = "multivariate_normal" %}
 
 #### Random effects  
 
@@ -633,8 +634,9 @@ What is behind a random effect:
 - What process is being studied?  
 - How were the levels selected? (randomly, carefully selected)  
 - How many levels does the factor have, vs. how many did we observe?   
+- BLUEs versus BLUPs. 
 
-Read more in in Gelman (2005, page 20). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)]
+Read more in in Gelman (2005, page 20). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)], and [Gelman and Hill (2006), page 245](https://sites.stat.columbia.edu/gelman/arm/) 
 
 **Group discussion:** what determines if an effect should be random of fixed? 
 
@@ -742,6 +744,9 @@ m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
 </html>
 
 
+{% include figure.html img="day1/shrinkage.jpg" alt="" caption="Figure 9. Fixed effects versus random effects of blocks. Random effects of blocks arise from a normal distribution." width="100%" id = "paper2" %}
+
+
 --------
 
 
@@ -756,11 +761,11 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
 
 **Example 1:** A study to find out if water capture increased as the result of selection for yield in SX hybrids in the US corn-belt (Reyes et al., 2015). [[link](https://doi.org/10.1093/jxb/erv430)]
 
-{% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 9. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
+{% include figure.html img="day1/paper1_reyes.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="80%" id = "paper2" %}
 
 **Example 2:** A study to find out if developmental telomere attrition is a measure of state in birds, and hence should predict state-dependent decisions such as the relative value assigned to immediate versus delayed food rewards (Bateson et al., 2014). [[link](#)]
 
-{% include figure.html img="day1/paper2_bateson.jpg" alt="" caption="Figure 10. Section from Materials and Methods section from a peer-reviewed publication." width="100%" id = "paper2" %}
+{% include figure.html img="day1/paper2_bateson.jpg" alt="" caption="Figure 11. Section from Materials and Methods section from a peer-reviewed publication." width="85%" id = "paper2" %}
 
 
 ## Summary
@@ -814,19 +819,14 @@ Now we know what we mean when we say "factor A was considered fixed and factor B
         <td>The study design (aka structure in the data, or what is similar to what)</td>
     </tr>
     <tr>
-        <th>Assumptions</th>
+        <th>Estimation</th>
         <td>$$\hat{\boldsymbol{\beta}} \sim N \left( \boldsymbol{\beta}, (\mathbf{X}^T \mathbf{V}^{-1} \mathbf{X})^{-1} \right) $$</td>
         <td>$$u_j \sim N(0, \sigma^2_u)$$</td>
     </tr>
     <tr>
         <th>Method of estimation</th>
-        <td>Maximum likelihood, least squares</td>
-        <td>Restricted maximum likelihood (shrinkage)</td>
-    </tr>
-    <tr>
-        <th>Other</th>
-        <td>estimation, BLUEs</td>
-        <td>prediction, BLUPs. Shrinkage.</td>
+        <td>Maximum likelihood, least squares. BLUEs.</td>
+        <td>Restricted maximum likelihood (shrinkage). BLUPs</td>
     </tr>
 </table>
 </body>

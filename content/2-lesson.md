@@ -98,20 +98,20 @@ $$Var(\mathbf{y}) = \mathbf{Z}\mathbf{G}\mathbf{Z}' + \mathbf{R}$$
 
 ------
 
-- [Outline for today](#outline-for-today)
+- [Outline for this afternoon](#outline-for-this-afternoon)
 - [Designed experiments](#designed-experiments)
   * [Common types of designed experiments](#common-types-of-designed-experiments)
-    + [Completely Randomized Design (CRD)](#completely-randomized-design--crd-)
-    + [Randomized complete block design (RCBD)](#randomized-complete-block-design--rcbd-)
-      - [Discussion: Should blocks be fixed or random?](#discussion--should-blocks-be-fixed-or-random-)
+    + [Completely Randomized Design (CRD)](#completely-randomized-design-crd)
+    + [Randomized complete block design (RCBD)](#randomized-complete-block-design-rcbd)
+      - [Discussion: Should blocks be fixed or random?](#discussion-should-blocks-be-fixed-or-random)
     + [Split-plot design](#split-plot-design)
     + [Repeated measures](#repeated-measures)
 - [Applied examples](#applied-examples)
-- [Applied example I - RCBD](#applied-example-i---rcbd)
-- [Applied example II -- Split-plot design (nested random effects)](#applied-example-ii----split-plot-design--nested-random-effects-)
-- [Applied example III -- repeated measures](#applied-example-iii----repeated-measures)
-- [Applied example IV -- repeated measures with subsampling](#applied-example-iv----repeated-measures-with-subsampling)
-- [What's next](#what-s-next)
+- [Applied example I -- RCBD](#applied-example-i-rcbd)
+- [Applied example II -- Split-plot design (nested random effects)](#applied-example-ii-split-plot-design-nested-random-effects)
+- [Applied example III -- repeated measures](#applied-example-iii-repeated-measures)
+- [Applied example IV -- repeated measures with subsampling](#applied-example-iv-repeated-measures-with-subsampling)
+- [What's next](#whats-next)
 
 ------
 
@@ -323,7 +323,7 @@ $$\Sigma = \begin{bmatrix}
 
 {% include modal.html button="Lab example for RCBD" color="success" id="modal-rcbd-lab" title="Lab example" text=figure_content_rcbd_lab %}
 
-##### Discussion: Should blocks be fixed or random?  
+##### Discussion I: Should blocks be fixed or random?  
 
 This discussion has been very controversial among applied statisticians. 
 
@@ -366,6 +366,11 @@ This discussion has been very controversial among applied statisticians.
 {% include figure.html img="day2/dixon2016.jpg" alt="" caption="Extracted from Dixon (2016)" width="100%" %}
 
 Check out [Dixon (2016).](https://newprairiepress.org/cgi/viewcontent.cgi?article=1474&context=agstatconference) 
+
+##### Discussion II: Should blocks be dropped if not significant?  
+
+- See [Frey et al. (2024)](https://acsess.onlinelibrary.wiley.com/doi/10.1002/agj2.21570)
+
 
 #### Split-plot design    
 
@@ -550,7 +555,7 @@ $$\tau_i$$ is the main effect of the $$i$$th level of treatment factor 1 (treatm
 $$\alpha_j$$ is the main effect of the $$j$$th level of treatment factor 2 (time), 
 $$(\tau \alpha)_{ij}$$ is their interaction, 
 $$u_k$$ is the random effect of the $$k$$th block, 
-$$v_{ijk}$$ is the random effect of the $$i$$th "miniblock" (whole plot) at the $j$th time, in the $$k$$th block,
+$$v_{ijk}$$ is the random effect of the $$i$$th "miniblock" (whole plot) at the $$j$$th time, in the $$k$$th block,
 and $$\varepsilon_{ijk}$$ is the residual. 
 
 This time, unlike split-plots, $$v_{ijk} \nsim N(0, \sigma^2_v)$$ because 
@@ -1291,6 +1296,9 @@ cld(marginal_means_feces,
 
 - Tomorrow, same time, same place.  
 - Non-normal response: proportions, counts, successes.  
+- If you're not coming tomorrow: please answer this [survey](https://forms.gle/9wBmYvzMC1C3hdmT9) to help us improve future editions of the same workshop/create a follow-up based on demand. 
+
+{% include figure.html img="day3/multcomp_gammaxbeta.png" alt="" caption="" width="80%" %}
 
 Any questions? E-mail me!  
 
