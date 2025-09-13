@@ -210,7 +210,7 @@ where the means of $$y_1$$ and $$y_2$$ are 10 and 8, respectively, and their cov
 
 $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1) \\ E(y_2) \end{bmatrix} , \begin{bmatrix} Var(y_1) & Cov(y_1, y_2) \\ Cov(y_2,y_2) & Var(y_2) \end{bmatrix} \right).$$
 
-{% include figure.html img="day1/normal_multivariate.jpg" alt="Figure 6. Multivariate Normal distribution" caption="Figure 4. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
+{% include figure.html img="day1/normal_multivariate.jpg" alt="Figure 4. Multivariate Normal distribution" caption="Figure 4. Multivariate Normal distribution showing the correlation between two random normal variables." width="75%" id = "multivariate_normal" %}
 
 **Discuss in the plot above:**  
 -   Expected value  
@@ -221,7 +221,7 @@ $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1)
 {% include figure.html img="day1/normal_multivariate_0cov.jpg" alt="" caption="Multivariate Normal distribution with zero covariance." width="100%" %}
 {% endcapture %}
 
-{% include modal.html button="Figure 6 with zero covariance" color="success" id="fig-mvn" title="Zero covariance" text=figure_mvn %}
+{% include modal.html button="Figure 4 with zero covariance" color="success" id="fig-mvn" title="Zero covariance" text=figure_mvn %}
 
 
 {% endcapture %}
