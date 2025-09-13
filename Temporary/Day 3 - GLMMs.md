@@ -728,8 +728,6 @@ emmeans(m2, ~extract*gen, type = "response")
 
 What is an hierarchical model?
 
-<center>"Data depend on parameters, that might depend on hyper parameters"</center>
-
 $$ y_{ij}|u_j \sim N(\mu_{ij}, \; \sigma^2) \\ \mu_{ij} = \eta_{ij} = \mu_0 + t_i + u_j \\ u_j \sim N(0, \sigma^2_u) $$
 
 **Data model:** The conditional distribution we are assuming for $y$.
