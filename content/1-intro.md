@@ -217,6 +217,12 @@ $$\begin{bmatrix}y_1 \\ y_2 \end{bmatrix} \sim MVN \left( \begin{bmatrix} E(y_1)
 -   Variance  
 -   Covariance 
 
+{% capture figure_mvn %}
+{% include figure.html img="day1/normal_multivariate_0cov.jpg" alt="" caption="Multivariate Normal distribution with zero covariance." width="100%" %}
+{% endcapture %}
+
+{% include modal.html button="Figure 6 with zero covariance" color="success" id="fig-mvn" title="Zero covariance" text=figure_mvn %}
+
 
 {% endcapture %}
 {% include card.html text=text header="Review - Variance-covariance" title="What are variance-covariance matrices anyways?"  %}

@@ -217,6 +217,27 @@ lines(7 + 2 * dnorm(sort(dat[which(dat[,2]>8),2]), 8, 1),
 dev.off()
 ```
 
+## Figure from the button -- Multivariate normal distribution with zero covariance  
+
+```{r}
+set.seed(42)
+dat <- mgcv::rmvn(1000, c(10, 8), matrix(c(1, 0, 0, 1), 2, 2))
+
+png(filename="../images/day1/normal_multivariate_0cov.jpg")
+plot(dat[,1], dat[,2], xlab = TeX("$y_1$"), ylab = TeX("$y_2$"), main = "")
+segments(x0 = 10, y0 = 4.5, x1 = 10, y1 = 8, col = "tomato", lwd = 3)
+segments(x0 = 6.5, y0 = 8, x1 = 10, y1 = 8, col = "darkgreen", lwd = 3)
+lines(sort(dat[,1]), 5 + 5*dnorm(sort(dat[,1]), 10, 1), lty = 2, lwd=3, 
+      col= "tomato")
+lines(7 + 2 * dnorm(sort(dat[which(dat[,2]<8),2]), 8, 1), 
+      sort(dat[which(dat[,2]<8),2]),
+      lty = 3, lwd=3, col= "darkgreen")
+lines(7 + 2 * dnorm(sort(dat[which(dat[,2]>8),2]), 8, 1), 
+      sort(dat[which(dat[,2]>8),2]),
+      lty = 3, lwd=3, col= "darkgreen")
+dev.off()
+```
+
 ## Figure 6 -- Visual representation of the variance-covariance matrix assuming independent observations 
 
 ```{r}
