@@ -69,7 +69,7 @@ $$
 
 Where:
 
-- $$\mathbf{y} \vert mathbf{u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
+- $$\mathbf{y} \vert \mathbf{u}$$ is the conditional distribution of the data $$y$$, given any random effect $$u$$, 
 - $$\boldsymbol{\mu}$$ is the expected value of $$\mathbf{y}$$, 
 - $$\phi$$ is the dispersion parameter of the distribution, 
 - the linear predictor of $$\mu$$ is $$g(\mu) = \eta = \mathbf{X}\boldsymbol{\beta} + Zu$$, where $$g(\cdot)$$ is the link function that is applied to the expected value.
