@@ -1137,7 +1137,7 @@ cld(marginal_means_temp,
 
 ## Applied example IV -- repeated measures with subsampling    
 
-For this last example, one of our attendees kidly shared his data with us. 
+For this last example, one of our attendees kindly shared his data with us. 
 The data were generated from an experiment that was studying the effect of different feed additives
 in swine production. 
 A total of 300 pigs were used in this study, with dietary treatment applied to pen in a 
@@ -1150,10 +1150,10 @@ drying oven at 55 C for 48 hours to determine fecal dry matter.
 $$y_{ijklm} = \mu + \tau_i + \alpha_j + (\tau \alpha)_{ij} + u_{k} + v_{l \vert k} + w_{ijklm} + \varepsilon_{ijklm},\\
 u_{k} \sim N(0, \sigma^2_u), \\
 v_{l \vert k} \sim N(0, \sigma^2_v),\\
-\varepsilon_{ijkl} \sim N(0, \sigma^2),$$
+\varepsilon_{ijklm} \sim N(0, \sigma^2),$$
 
-where $$y_{ijkl}$$ is the observed fecal dry matter for the $$i$$th feed treatment, in $$j$$th room ($$\sim$$ block) 
-$$k$$th pen, and $$l$$th pig, 
+where $$y_{ijklm}$$ is the observed fecal dry matter for the $$i$$th feed treatment, in $$j$$th day, $$k$$th room ($$\sim$$ block) 
+$$l$$th pen, and $$m$$th pig, 
 $$\mu$$ is the overall mean, 
 $$\tau_i$$ is the (fixed) effect of the $$i$$th feed treatment, 
 $$\alpha_j$$ is the (fixed) effect of the $$j$$th day, 

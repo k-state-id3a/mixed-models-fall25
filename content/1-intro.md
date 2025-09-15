@@ -104,13 +104,13 @@ Let's review the assumptions we make in this model (which is the default model i
 
 ### Let's review that simple model using distribution notation and matrix notation
 
-There are other ways of writing out the statistical model above besides the model equation form. 
+There are other ways of writing out the statistical model above, besides the model equation form. 
 Instead of focusing on the distribution of the residuals, we can focus on the distribution of the data $$y$$:  
 
 $$y_{i} \sim N(\mu_i, \sigma^2), \\ \mu_i = \beta_0 + x_{i} \beta_1 + x_{i}^2 \beta_2.$$
 
 This type of notation is called "probability distribution form". 
-The probability distribution form makes it easier to switch to other distributions beyond the Normal ([Part e](3-lesson) of this workshop). 
+The probability distribution form makes it easier to switch to other distributions beyond the Normal ([Part 3](3-lesson) of this workshop). 
 We can further express this equation using vectors and matrices:  
 
 $$\mathbf{y} \sim N(\boldsymbol{\mu}, \Sigma), \\ \boldsymbol{\mu} = \boldsymbol{1} \beta_0 + \mathbf{x} \beta_1 = \mathbf{X}\boldsymbol{\beta},$$
@@ -430,7 +430,7 @@ Mixed-effects models indicate *what is similar to what* via random effects.
 
 #### Fixed effects   
 
-So far, we could have defined an all-fixed model.  
+So far, we could have defined an all-fixed model,  
 
 $$y_{ij} = \beta_{0j} + x_{ij} \beta_1 + x^2_{ij} \beta_2 + \varepsilon_{ij}, \\ \beta_{0j} = \beta_0 + u_j \\ \varepsilon_{ij} \sim N(0, \sigma^2),$$  
 
@@ -642,7 +642,7 @@ What is behind a random effect:
 - How many levels does the factor have, vs. how many did we observe?   
 - BLUEs versus BLUPs. 
 
-Read more in in Gelman (2005, page 20). "Analysis of variance—why it is more important than ever". [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)], and [Gelman and Hill (2006), page 245](https://sites.stat.columbia.edu/gelman/arm/) 
+Read more in in Gelman (2005, page 20), "Analysis of variance—why it is more important than ever" [[link](https://projecteuclid.org/journals/annals-of-statistics/volume-33/issue-1/Analysis-of-variancewhy-it-is-more-important-than-ever/10.1214/009053604000001048.full)], and [Gelman and Hill (2006), page 245](https://sites.stat.columbia.edu/gelman/arm/). 
 
 **Group discussion:** what determines if an effect should be random of fixed? 
 
