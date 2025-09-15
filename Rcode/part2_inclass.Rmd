@@ -1,0 +1,130 @@
+---
+title: "Part 2"
+output: html_document
+date: "2025-09-13"
+---
+```{r}
+knitr::opts_chunk$set(fig.width=8, fig.height=4) 
+```
+
+## Library  
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(agridat)
+library(lme4)
+library(tidyverse)
+library(glmmTMB)
+library(DHARMa)
+library(emmeans)
+library(multcomp)
+```
+
+
+## Example I  -- RCBD
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+dat <- omer.sorghum
+dat <- dat %>% filter(env == "E3")
+
+dat %>% 
+  ggplot(aes(gen, yield))+
+  geom_boxplot()
+```
+
+```{r}
+dat
+
+m1 <- lmer(yield ~ 1 + gen + (1|rep), data = dat)
+plot(m1)
+DHARMa::simulateResiduals(m1, plot = T)
+```
+
+```{r}
+emmeans(m1, ~ gen, contr = list(c(1, -1, rep(0, 16))))
+```
+
+```{r}
+m1
+getOption("contrasts")
+emmeans(m1, ~ gen)
+```
+
+
+## Example II -- split plot 
+
+```{r}
+dat <- yates.oats
+dat$nf <- factor(dat$nitro)
+n_distinct(dat$block)
+n_distinct(dat$gen)
+n_distinct(dat$nitro)
+
+(m_splitplot <- lmer(yield ~ gen+ nf +gen:nf+
+                      (1|block)+ (1|block:gen), 
+                     data = dat))
+  
+simulateResiduals(m_splitplot, plot = TRUE)
+```
+
+```{r}
+car::Anova(m_splitplot, test.statistic = "F")
+```
+
+```{r}
+emmeans(m_splitplot, ~gen, contr = list(c(1, -1, 0)))
+```
+
+```{r}
+emmeans(m_splitplot, ~nf, contr = list(c(1, -1, 0, 0)))
+
+```
+
+```{r}
+
+(m_splitplot_wrong <- lmer(yield ~ gen+ nf +gen:nf+
+                      (1|block), 
+                     data = dat))
+
+emmeans(m_splitplot_wrong, ~gen, contr = list(c(1, -1, 0)))
+
+```
+
+```{r}
+getME(m_splitplot, "Z")
+```
+
+
+### Example III -- repeated measures 
+
+```{r}
+url <- "https://raw.githubusercontent.com/k-state-id3a/mixed-models-fall25/refs/heads/newpart3/data/temperature_2.csv"
+
+dd_temp <- read.csv(url)
+
+dd_temp$Pig <- as.factor(dd_temp$Pig)
+dd_temp$Treatment <- as.factor(dd_temp$Treatment)
+dd_temp$Pen <- as.factor(dd_temp$Pen)
+dd_temp$Time <- as.factor(dd_temp$Time)
+dd_temp$Temperature_F <- (dd_temp$Temperature_C *9/5) + 32
+
+dd_temp %>% 
+  ggplot(aes(Time, Temperature_C))+
+  geom_point()+
+  facet_wrap(~Treatment)
+```
+
+
+```{r}
+m_repeated <- glmmTMB(Temperature_F ~
+                        Treatment * Time +
+                        us(1 + Time |Pen),
+              family = gaussian(link = "identity"),
+              data = dd_temp)
+
+DHARMa::simulateResiduals(m_repeated, plot = T)
+```
+
+```{r}
+emmeans(m_repeated, ~ Treatment, at = list(c("Time" = 12)))
+```
+
+

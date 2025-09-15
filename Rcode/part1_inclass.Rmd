@@ -1,0 +1,61 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Library 
+
+```{r}
+library(lme4)
+library(tidyverse)
+library(emmeans)
+library(latex2exp)
+```
+
+# Data
+
+```{r}
+url <- "https://raw.githubusercontent.com/k-state-id3a/mixed-models-fall25/refs/heads/newpart3/data/cochrancox_kfert.csv"
+df <- read.csv(url)
+
+df$rep <- as.factor(df$rep)
+df$K2O_lbac <- as.factor(df$K2O_lbac)
+```
+
+# Model Fitting
+
+```{r}
+m_fixed <- lm(yield ~ K2O_lbac + rep, data = df)
+sigma(m_fixed)^2
+```
+
+```{r}
+model.matrix(m_fixed)
+```
+
+
+```{r}
+m_random <- lmer(yield ~ K2O_lbac + (1|rep), data = df)
+
+VarCorr(m_random)
+0.20901^2 
+```
+
+```{r}
+getME(m_random, "X")
+getME(m_random, "Z")
+as.data.frame(emmeans(m_fixed, ~rep))$emmean - mean(as.data.frame(emmeans(m_fixed, ~rep))$emmean)
+getME(m_random, "b")
+```
+
+## Marginal means
+
+```{r}
+(mg_means_fixed <- emmeans(m_fixed, ~K2O_lbac, contr = list(c(1, 0, 0, 0, -1))))
+```
+
+
+```{r}
+(mg_means_random <- emmeans(m_random, ~K2O_lbac, contr = list(c(1, 0, 0, 0, -1))))
+```
+
