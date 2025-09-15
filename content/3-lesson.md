@@ -15,7 +15,7 @@ topics: Non-normal data; Wrap-up
 
 ## What are GLMMs
 
--   Generalized Linear Models are models in which we can assume different distributions for our data beyond the Normal distribution. 
+-   Generalized Linear Models are models in which we can assume different distributions (from the exponential family) for our data beyond the Normal distribution.
 -   Similar to general linear models, GLMs can also have random effects, thus, Generalized Linear Mixed Models - GLMMs.
 
 ### The structure of a GLMM
@@ -271,7 +271,7 @@ $$
 
 - Type of variable: Discrete count
 - Link: Log, $$\eta = log(\lambda)$$
-- If $$y \sim Pois(\mu, \phi)$$:
+- If $$y \sim Pois(\lambda)$$:
   - Mean: $$\lambda$$
   - Var: $$\lambda$$
 
@@ -300,11 +300,11 @@ $$
 
 **Characteristics of the distribution**
 
-- Type of variable: Discrete proportion
-- Link: Logit or probit, $$\eta = log(\frac{\pi}{1-\pi})$$ or $$\eta = \Phi^{-1}(\pi)$$
-- If $$y \sim Binomial(\mu, \phi)$$:
-  - Mean: $$\pi = \frac{\mu}{N}$$
-  - Var: $$N\pi(1-\pi)$$
+- Type of variable: Discrete or discrete proportion
+- Link: Logit or probit, $$\eta = log(\frac{p}{1-p})$$ or $$\eta = \Phi^{-1}(p)$$
+- If $$y \sim Binomial(n, p)$$:
+  - Mean: $$np$$
+  - Var: $$np(1-p)$$
 
 {% include figure.html img="day3/binomialdist.png" alt="" caption="" width="80%" %}
 
@@ -617,7 +617,7 @@ $$ g(p) = \eta = logit(p)$$
 
 **Model**
 
-$$ y_{ij}|u_j \sim Binomial(n, \; p) \\ logit(p) = \eta_{ij} = \mu_0 + t_i + u_j \\ u_j \sim N(0, \sigma^2_u) $$
+$$ y_{ij} \sim Binomial(n, \; p) \\ logit(p) = \eta_{ij} = \mu_0 + ex_i + gen_j + (ex \times gen)_{ij} $$
 
 **Fitting the model**
 
@@ -649,7 +649,7 @@ summary(m2)
 
     -   **Important point:** Remember what we are modeling - Probability of success: $$p$$.
     -   For **Binomial distribution:**
-        -   **Case 1:** $$y$$ = Counts of success with know trials - Success and Failures = (success, trials - success).
+        -   **Case 1:** $$y$$ = Counts of success with known trials - Success and Failures = (success, trials - success).
         -   **Case 2:** $$y$$ = Counts of successes with weights - success/trials and weights = trials.
             -   Only if proportions come from counts!
         -   **Case 3:** A special case: $$y$$ = Binary outcomes (0/1 per observation) - Binomial with n = 1 - **Logistic regression**.
