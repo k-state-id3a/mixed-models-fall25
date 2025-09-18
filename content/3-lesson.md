@@ -303,7 +303,7 @@ $$
 - Type of variable: Discrete or discrete proportion
 - Link: Logit or probit, $$\eta = log(\frac{p}{1-p})$$ or $$\eta = \Phi^{-1}(p)$$
 - If $$y \sim Binomial(n, p)$$:
-  - Mean: $$np$$
+  - Mean: $$p = (np)/n$$
   - Var: $$np(1-p)$$
 
 {% include figure.html img="day3/binomialdist.png" alt="" caption="" width="80%" %}
